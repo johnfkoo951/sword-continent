@@ -770,6 +770,27 @@
       text-overflow: ellipsis;
     }
 
+    /* 👥 v4.8 인게임 멀티 버튼 — 상점 옆 슬림 알약 (겹침 0 유지: 같은 줄) */
+    .mp-open-btn {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      padding: 3px 8px;
+      border-radius: 10px;
+      border: 1.5px solid rgba(56, 189, 248, 0.9);
+      background: linear-gradient(135deg, #0ea5e9, #2563eb);
+      color: #fff;
+      font-family: inherit;
+      font-size: clamp(8.5px, 2.3vw, 12px);
+      font-weight: 900;
+      line-height: 1.15;
+      white-space: nowrap;
+      cursor: pointer;
+      box-shadow: 0 0 12px rgba(14, 165, 233, 0.55);
+    }
+    .mp-open-btn:active { filter: brightness(1.2); }
+
     /* 👥 v4.7 가족 5인 원터치 역할 버튼 */
     .mp-role-row { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0 2px; }
     .mp-role {
@@ -1133,11 +1154,15 @@
       </div>
 
       <div class="hud-right">
-        <button id="shopOpenBtn" class="shop-open-btn">
-          <span class="hud-ico">🛒</span>
-          <span class="shop-label-full">상점 (11대 스킨 &amp; 무기 &amp; 스킬)</span>
-          <span class="shop-label-short">상점</span>
-        </button>
+        <!-- 🛒 상점 + 👥 v4.8 멀티 (한 줄에 나란히) -->
+        <div class="hud-row" style="gap: 4px; flex-wrap: nowrap;">
+          <button id="shopOpenBtn" class="shop-open-btn">
+            <span class="hud-ico">🛒</span>
+            <span class="shop-label-full">상점 (11대 스킨 &amp; 무기 &amp; 스킬)</span>
+            <span class="shop-label-short">상점</span>
+          </button>
+          <button id="mpOpenBtn" class="mp-open-btn"><span class="hud-ico">👥</span><span>멀티</span></button>
+        </div>
 
         <!-- 🎥 카메라 컨트롤 (상점 아래 슬림 알약 줄) -->
         <div class="top-controls">
@@ -1219,14 +1244,16 @@
       </div>
     </div>
 
-    <!-- START MODAL -->
-    <div id="startModal" class="modal-overlay">
+    <!-- 👥 MULTIPLAYER MODAL (v4.8: 게임은 자동 시작 — 이 창은 👥 멀티 버튼으로만 연다) -->
+    <div id="startModal" class="modal-overlay" style="display: none;">
       <div class="modal-card">
+        <button id="startModalCloseBtn" aria-label="닫기" style="position: absolute; top: 6px; right: 8px; background: transparent; border: none; color: #94a3b8; font-size: 20px; line-height: 1; padding: 4px 6px; cursor: pointer; z-index: 2;">✕</button>
         <div style="font-size: 32px; text-align: center;">🗡️ 🏰 👑</div>
         <h1 style="font-size: 20px; font-weight: 900; color: #ffea00; text-align: center;">THE SWORD CONTINENT<br><span style="font-size: 14px; color: #38bdf8;">26스테이지 대원정 & 왕국 성채 & 스파이·도우미</span></h1>
-        <div style="text-align:center; font-size: 10px; font-weight: 800; color: #94a3b8; margin-top: 2px; letter-spacing: 0.3px;">v4.7 · 👥 가족 최대 5명 멀티 (나·아빠·엄마·삼촌·형) + 📱 UI 겹침 0</div>
+        <div style="text-align:center; font-size: 10px; font-weight: 800; color: #94a3b8; margin-top: 2px; letter-spacing: 0.3px;">v4.8 · 🚀 열면 바로 입장 + 👥 가족 최대 5명 멀티 (나·아빠·엄마·삼촌·형)</div>
         
         <div style="background: rgba(0,0,0,0.35); padding: 10px; border-radius: 12px; font-size: 11.5px; line-height: 1.6; color: #cbd5e1;">
+          🚀 <b>v4.8 바로 입장</b>: 링크를 열면 팝업 없이 즉시 3D 왕국 필드에서 시작!<br>
           🗺️ <b>5대 판타지 왕국 & 26스테이지 대원정 오픈!</b><br>
           • 🏰 <b>직접 걸어 들어가는 3D 왕국 대성채</b>: 성문 열고 내부 알현실 광장과 옥좌까지 진입 가능!<br>
           • 🤝 <b>도우미 냥냥이</b>: 상시 비행 동행, 자동 사탕 자석 파밍 & 엄호 버블 사격!<br>
@@ -1237,7 +1264,10 @@
         </div>
 
         
-        <button id="startGameBtn" onclick="startGameSolo()" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #0ea5e9, #2563eb); border: none; border-radius: 12px; color: #fff; font-size: 16px; font-weight: 900; cursor: pointer; box-shadow: 0 0 20px rgba(14, 165, 233, 0.6); margin-bottom: 8px;">🚀 솔로 모드 출격!!</button>
+        <div style="text-align: center; font-size: 11px; font-weight: 800; color: #7dd3fc; background: rgba(14, 165, 233, 0.14); border: 1px dashed rgba(56, 189, 248, 0.55); border-radius: 10px; padding: 7px 9px; line-height: 1.45;">
+          🚀 <b>이미 게임 안에 있어요!</b> 이 창은 가족 멀티 전용 창이에요.<br>
+          <span style="color: #94a3b8; font-weight: 700;">혼자 할 땐 ✕ 닫으면 그대로 계속 플레이!</span>
+        </div>
 
         <div style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid #38bdf8; border-radius: 14px; padding: 10px; margin-top: 4px;">
           <div style="font-size: 13px; font-weight: 900; color: #38bdf8; margin-bottom: 2px;">👥 가족 5인 실시간 멀티 (최대 5명!)</div>
@@ -1356,11 +1386,19 @@
     const AudioEngine = {
       ctx: null,
       init() {
-        if (!this.ctx) {
-          const AC = window.AudioContext || window.webkitAudioContext;
-          this.ctx = new AC();
-        }
-        if (this.ctx.state === 'suspended') this.ctx.resume();
+        // 🚀 v4.8: 자동 입장이라 페이지 열 때 오디오를 먼저 만들 수 있다.
+        //   브라우저가 아직 허용하지 않아도 오류 없이 넘기고, 첫 터치에서 켜진다.
+        try {
+          if (!this.ctx) {
+            const AC = window.AudioContext || window.webkitAudioContext;
+            if (!AC) return;
+            this.ctx = new AC();
+          }
+          if (this.ctx.state === 'suspended') {
+            const p = this.ctx.resume();
+            if (p && typeof p.catch === 'function') p.catch(() => {});
+          }
+        } catch (e) { /* 무음으로 계속 진행 */ }
       },
       playPunch() {
         if (!this.ctx) return;
@@ -5499,6 +5537,31 @@
       showFloat(`⚔️ 방 ${MP.roomCode} 들어왔어! 같이 싸우자~ (${mpCount()}/${MP_MAX}명)`);
     });
 
+    // =====================================================================
+    // 👥 v4.8 — 인게임 어디서든 여는 가족 5인 멀티 창 (태용이: "바로 들어가게 해")
+    //   상단 [👥 멀티] 버튼 / ✕ 버튼 / 바깥 터치로 열고 닫는다.
+    // =====================================================================
+    window.openMPModal = function () {
+      if (!state.started) startGameSolo();
+      const m = document.getElementById('startModal');
+      if (m) m.style.display = 'flex';
+    };
+    window.closeMPModal = function () {
+      if (!state.started) startGameSolo();
+      const m = document.getElementById('startModal');
+      if (m) m.style.display = 'none';
+    };
+    bindAction('mpOpenBtn', () => openMPModal());
+    bindAction('startModalCloseBtn', () => closeMPModal());
+    (function mpModalBackdropClose() {
+      const m = document.getElementById('startModal');
+      if (!m) return;
+      m.addEventListener('click', function (e) {
+        // 카드 바깥(어두운 배경)을 직접 눌렀을 때만 닫는다
+        if (e.target === m) closeMPModal();
+      });
+    })();
+
 
     function showFloat(msg) {
       const el = document.getElementById('floatingText');
@@ -8095,6 +8158,14 @@
       const b = document.getElementById('diffBtn' + diffLevel);
       return { level: diffLevel, cfg: diffCfg(), btn: b ? b.textContent : '', active: b ? b.classList.contains('active') : false };
     };
+    // 원격 패킷을 직접 넣어보는 검증 훅 (다른 가족 화면에서 좀비가 어떻게 보이는지)
+    window.__v47Feed = function (msg) {
+      if (!state.started) startGameSolo();
+      MP.enabled = true;
+      handleMPMessage(msg);
+      mpRefreshRoster();
+      return window.__v47State();
+    };
     window.__v47Zombie = function (overlord) {
       if (!state.started) startGameSolo();
       zombieRise();
@@ -8211,6 +8282,53 @@
       AudioEngine.init();
       AudioEngine.playDragonBreath();
       return '화염 브레스 발사';
+    };
+
+    // =====================================================================
+    // 🚀 v4.8 즉시 입장 — 팝업 없이 링크 열자마자 3D 왕국 필드에서 시작
+    //   (태용이: "바로 들어가게 해" · v4.7까지는 #startModal 이 화면을 가렸다)
+    // =====================================================================
+    (function instantEnter() {
+      let tries = 0;
+      function boot() {
+        const modal = document.getElementById('startModal');
+        if (state.started) { if (modal) modal.style.display = 'none'; return; }
+        if (!window.THREE) {
+          if (tries++ < 60) { setTimeout(boot, 50); return; }
+          // three.js 가 끝내 안 오면 최소한 멀티 창(수동 버튼)이라도 보여준다
+          if (modal) modal.style.display = 'flex';
+          if (window.__scErrors) window.__scErrors.push('instantEnter: THREE unavailable');
+          return;
+        }
+        try {
+          startGameSolo();
+        } catch (err) {
+          if (window.__scErrors) window.__scErrors.push('instantEnter: ' + String((err && err.message) || err));
+          if (modal) modal.style.display = 'flex';
+          return;
+        }
+        if (modal) modal.style.display = 'none';
+      }
+      boot();
+    })();
+
+    // 🔊 자동 입장이라 첫 제스처에서 오디오 잠금을 풀어준다
+    ['pointerdown', 'touchstart', 'keydown'].forEach(function (ev) {
+      window.addEventListener(ev, function () { try { AudioEngine.init(); } catch (e) {} }, { once: true, passive: true });
+    });
+
+    // 🧪 v4.8 검증 훅 — 즉시 입장 상태 확인
+    window.__v48State = function () {
+      const modal = document.getElementById('startModal');
+      const btn = document.getElementById('mpOpenBtn');
+      return {
+        started: state.started,
+        stage: state.currentStageIndex + 1,
+        modalShown: modal ? getComputedStyle(modal).display !== 'none' : false,
+        mpBtnShown: btn ? getComputedStyle(btn).display !== 'none' : false,
+        playerBuilt: !!playerMesh,
+        errors: (window.__scErrors || []).slice()
+      };
     };
 
     requestAnimationFrame(animate);
