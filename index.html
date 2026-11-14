@@ -6039,8 +6039,8 @@
         targetPos: new THREE.Vector3((+info.x) || 0, ((+info.y) || 1.8) - 1.8, (+info.z) || 0),
         yaw: (+info.yaw) || 0,
         hp: (typeof info.hp === 'number') ? info.hp : 100,
-        isZombie: !!info.isZombie,
-        isOverlord: !!info.isOverlord,
+        isZombie: false,
+        isOverlord: false,
         crown: null,
         sprite: null,
         bodyMats: [],
@@ -6060,6 +6060,8 @@
       peer.mesh.rotation.y = peer.yaw;
       scene.add(peer.mesh);
       MP.remotePlayers.set(id, peer);
+      // 이미 좀비/권력자 상태로 입장한 친구도 바로 그 모습으로
+      if (info.isZombie || info.isOverlord) mpPeerZombie(peer, !!info.isZombie, !!info.isOverlord);
       mpRefreshRoster();
       return peer;
     }
