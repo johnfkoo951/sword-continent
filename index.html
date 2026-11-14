@@ -836,7 +836,7 @@
       <div class="modal-card">
         <div style="font-size: 32px; text-align: center;">🗡️ 🏰 👑</div>
         <h1 style="font-size: 20px; font-weight: 900; color: #ffea00; text-align: center;">THE SWORD CONTINENT<br><span style="font-size: 14px; color: #38bdf8;">26스테이지 대원정 & 왕국 성채 & 스파이·도우미</span></h1>
-        <div style="text-align:center; font-size: 10px; font-weight: 800; color: #94a3b8; margin-top: 2px; letter-spacing: 0.3px;">v4.4 · 🐉 왕드래곤 대군주 강림 업데이트</div>
+        <div style="text-align:center; font-size: 10px; font-weight: 800; color: #94a3b8; margin-top: 2px; letter-spacing: 0.3px;">v4.5 · 🐉 왕드래곤 3D 리모델링(날카로운 제왕룡) 업데이트</div>
         
         <div style="background: rgba(0,0,0,0.35); padding: 10px; border-radius: 12px; font-size: 11.5px; line-height: 1.6; color: #cbd5e1;">
           🗺️ <b>5대 판타지 왕국 & 26스테이지 대원정 오픈!</b><br>
@@ -845,7 +845,7 @@
           • 🕵️‍♂️ <b>그림자 시크릿 스파이</b>: 4초 투명 은신 & 등 뒤 백스탭 5배 크리티컬!<br>
           • 🔮 <b>좀비슈터 전설 스킬 상점</b>: 메테오·레이저·블리자드 얼음 동결 구매!<br>
           • 👑 <b>26스테이지 왕을 죽이면 끝!!</b>: 대검왕 격파 시 대망의 엔딩 연출!<br>
-          • 🐉 <b>v4.4 왕드래곤 강림</b>: 몹 50마리 처치 → 전설의 피리 🪈 → 거대 3D 왕드래곤과 최종 결전!
+          • 🐉 <b>v4.5 왕드래곤 리모델링</b>: 몹 50마리 처치 → 전설의 피리 🪈 → 어느 스테이지에서든 거대 3D 왕드래곤 강림! 15·20·26 보스도 진짜 용!
         </div>
 
         
@@ -1286,6 +1286,31 @@
     // ==========================================
     // ⚔️ 26 STAGES & 5 GRAND REALMS
     // ==========================================
+    // 🐉 v4.5: 스테이지 보스로 등장하는 새 3D 드래곤 변형 (크기·색·이름 차별화)
+    const DRAGON_BOSS_VARIANTS = {
+      15: { opts: { scale: 0.66, hover: 3.6, crown: false,
+        body: 0x1d4a66, bodyHot: 0x2f7ba3, bodyDark: 0x102638, belly: 0x152e3f,
+        gold: 0xcfe9ff, goldDeep: 0x7fb2d4, horn: 0xdbe9f5, steel: 0x18384c,
+        membraneA: 0x1c5578, membraneB: 0x0d2b42,
+        eye: 0xa8ecff, eyeCore: 0xffffff, glow: 'rgba(150,225,255,0.6)',
+        mouthFire: 0x7fd4ff, light: 0x44aadd, light2: 0x88ccff,
+        phaseText: '❄️ 냉기 브레스 · 얼음 파동 · 꼬리 강타 주의!!' } },
+      20: { opts: { scale: 0.84, hover: 4.2, crown: false,
+        body: 0x2a1013, bodyHot: 0x44171b, bodyDark: 0x180709, belly: 0x1e0a0c,
+        gold: 0xff7a1f, goldDeep: 0x9c3d05, horn: 0x0f0709, steel: 0x21100f,
+        membraneA: 0xff5a00, membraneB: 0x8a1a00,
+        eye: 0xff5522, eyeCore: 0xffd9a0, glow: 'rgba(255,110,30,0.65)',
+        mouthFire: 0xff4400, light: 0xff3300, light2: 0xff6a00,
+        phaseText: '🔥 화염 브레스 · 용암 파동 · 꼬리 강타 주의!!' } },
+      26: { opts: { scale: 1.02, hover: 4.6, crown: true,
+        body: 0x5c0710, bodyHot: 0x8e1019, bodyDark: 0x36050a, belly: 0x2a070b,
+        gold: 0xffd24a, goldDeep: 0xc08a12, horn: 0x120a0d, steel: 0x2a1015,
+        membraneA: 0x7a0a18, membraneB: 0x3a0509,
+        eye: 0xffdd33, eyeCore: 0xfffbe0, glow: 'rgba(255,200,60,0.7)',
+        mouthFire: 0xff6a00, light: 0xff4411, light2: 0xffaa33,
+        phaseText: '🐉 화염 브레스 · 화염 파동 · 꼬리 강타 주의!!' } }
+    };
+
     const STAGES = [
       // 🌿 풀 왕국 (Green Realm) - Stages 1~5
       { stage: 1, realm: 'green', name: '그린하트 대평원 입구', goalKills: 10, isBoss: false, bossHp: 0 },
@@ -1313,7 +1338,7 @@
       { stage: 17, realm: 'fire', name: '몰튼홀드 흑요석 성채 외곽', goalKills: 26, isBoss: false, bossHp: 0 },
       { stage: 18, realm: 'fire', name: '인페르노 용암 분화구 성문', goalKills: 30, isBoss: false, bossHp: 0 },
       { stage: 19, realm: 'fire', name: '불타는 헬파이어 대성채 회랑', goalKills: 34, isBoss: false, bossHp: 0 },
-      { stage: 20, realm: 'fire', name: '👑 [불왕국 보스] 인페르노 볼케이노 타이탄', goalKills: 1, isBoss: true, bossHp: 8000 },
+      { stage: 20, realm: 'fire', name: '👑 [불왕국 보스] 심연의 마왕 대검룡', goalKills: 1, isBoss: true, bossHp: 8000 },
 
       // ⚡ 천공 뇌신 왕국 (Sky Realm) - Stages 21~25
       { stage: 21, realm: 'sky', name: '천공 썬더클라우드 번개 제단', goalKills: 26, isBoss: false, bossHp: 0 },
@@ -1323,7 +1348,7 @@
       { stage: 25, realm: 'sky', name: '👑 [천공왕국 보스] 천공의 번개 대군주', goalKills: 1, isBoss: true, bossHp: 11000 },
 
       // 👑 FINAL STAGE 26: 소드 대륙 최종 결전
-      { stage: 26, realm: 'sky', name: '👑 [FINAL 26] 소드 대륙 지배자 파멸의 신 대검제', goalKills: 1, isBoss: true, bossHp: 16000 }
+      { stage: 26, realm: 'sky', name: '👑 [FINAL 26] 왕드래곤 대군주 · 소드 대륙의 지배자', goalKills: 1, isBoss: true, bossHp: 16000 }
     ];
 
     // ==========================================
@@ -2190,260 +2215,667 @@
     }
 
     // =====================================================================
-    // 🐉 v4.4 KING DRAGON — 거대 3D 왕드래곤 모델·연출 빌더 (태용이 기획)
+    // 🐉 v4.5 KING DRAGON — 날카롭고 웅장한 판타지 제왕 드래곤 (태용이 "이거 드래곤 멋지게")
     // =====================================================================
-    function _boneBetween(a, b, radius, mat) {
-      const dir = new THREE.Vector3().subVectors(b, a);
-      const len = Math.max(0.01, dir.length());
-      const geo = new THREE.CylinderGeometry(radius * 0.62, radius, len, 6);
-      const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.copy(a).add(b).multiplyScalar(0.5);
-      mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
-      return mesh;
-    }
+    /* =====================================================================
+       🐉 v4.5 KING DRAGON — 날카롭고 웅장한 판타지 제왕 드래곤 (태용이 "이거 드래곤 멋지게")
+       - 둥근 공 탈피: 각진 두개골 + 길게 뻗은 주둥이 + 째진 눈 + 뿔 3쌍 + 등 가시
+       - 다관절 박쥐 날개(4갈래 날개 손가락 + 톱니 막) · S자 목 · 창날 꼬리
+       ===================================================================== */
 
-    function _wingMembrane(pts, mat) {
-      const verts = [];
-      for (let i = 1; i < pts.length - 1; i++) {
-        verts.push(pts[0].x, pts[0].y, pts[0].z);
-        verts.push(pts[i].x, pts[i].y, pts[i].z);
-        verts.push(pts[i + 1].x, pts[i + 1].y, pts[i + 1].z);
-      }
+    // ---------- 저수준 지오메트리 헬퍼 ----------
+    function _kd4Hexa(pts, mat) {
+      const idx = [
+        0, 3, 2, 0, 2, 1,
+        4, 5, 6, 4, 6, 7,
+        0, 1, 5, 0, 5, 4,
+        3, 2, 6, 3, 6, 7,
+        0, 4, 7, 0, 7, 3,
+        1, 2, 6, 1, 6, 5
+      ];
+      const pos = [];
+      idx.forEach(i => pos.push(pts[i].x, pts[i].y, pts[i].z));
       const geo = new THREE.BufferGeometry();
-      geo.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
       geo.computeVertexNormals();
       return new THREE.Mesh(geo, mat);
     }
 
-    // 🐉 왕드래곤: 붉은 비늘 몸통 + 황금 왕관 + 거대한 펄럭이는 양 날개
-    function buildKingDragon() {
+    function _kd4BoxLike(w0, h0, w1, h1, len, mat, opts) {
+      const o = opts || {};
+      const y0 = o.y0 || 0, y1 = (o.y1 !== undefined) ? o.y1 : 0;
+      const p = [
+        new THREE.Vector3(-w0, y0 - h0, 0), new THREE.Vector3(w0, y0 - h0, 0),
+        new THREE.Vector3(w1, y1 - h1, len), new THREE.Vector3(-w1, y1 - h1, len),
+        new THREE.Vector3(-w0, y0 + h0, 0), new THREE.Vector3(w0, y0 + h0, 0),
+        new THREE.Vector3(w1, y1 + h1, len), new THREE.Vector3(-w1, y1 + h1, len)
+      ];
+      return _kd4Hexa(p, mat);
+    }
+
+    function _kd4Blade(len, width, thick, mat, segs, curve) {
+      // 뾰족한 칼날형 가시 (+y 방향으로 자람, curve만큼 +z로 휨)
+      const n = segs || 4;
+      const bend = curve || 0;
+      const rings = [];
+      for (let i = 0; i <= n; i++) {
+        const t = i / n;
+        const w = width * (1 - t) * (1 - t * 0.3);
+        const th = thick * (1 - t * 0.95);
+        const y = len * t;
+        const z = Math.sin(t * Math.PI * 0.5) * bend * len;
+        rings.push([
+          new THREE.Vector3(-w, y, -th + z), new THREE.Vector3(w, y, -th + z),
+          new THREE.Vector3(w, y, th + z), new THREE.Vector3(-w, y, th + z)
+        ]);
+      }
+      const pos = [];
+      const tri = (a, b, c) => pos.push(a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z);
+      for (let i = 0; i < n; i++) {
+        const A = rings[i], B = rings[i + 1];
+        for (let k = 0; k < 4; k++) {
+          const k2 = (k + 1) % 4;
+          tri(A[k], A[k2], B[k2]);
+          tri(A[k], B[k2], B[k]);
+        }
+      }
+      const r0 = rings[0];
+      tri(r0[0], r0[2], r0[1]); tri(r0[0], r0[3], r0[2]);
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+      geo.computeVertexNormals();
+      return new THREE.Mesh(geo, mat);
+    }
+
+    function _kd4Tube(pts, radii, radial, scaleXs, scaleYs, mat, capEnd, capStart) {
+      const rings = [];
+      for (let i = 0; i < pts.length; i++) {
+        const p = pts[i];
+        const prev = pts[Math.max(0, i - 1)], next = pts[Math.min(pts.length - 1, i + 1)];
+        const tan = new THREE.Vector3().subVectors(next, prev).normalize();
+        const side = new THREE.Vector3(1, 0, 0);
+        side.sub(tan.clone().multiplyScalar(side.dot(tan))).normalize();
+        const up = new THREE.Vector3().crossVectors(tan, side).normalize();
+        const sx = scaleXs ? scaleXs[i] : 1;
+        const sy = scaleYs ? scaleYs[i] : 1;
+        const ring = [];
+        for (let k = 0; k < radial; k++) {
+          const a = (k / radial) * Math.PI * 2;
+          ring.push(new THREE.Vector3().copy(p)
+            .addScaledVector(side, Math.cos(a) * radii[i] * sx)
+            .addScaledVector(up, Math.sin(a) * radii[i] * sy));
+        }
+        rings.push(ring);
+      }
+      const pos = [];
+      const tri = (a, b, c) => pos.push(a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z);
+      for (let i = 0; i < rings.length - 1; i++) {
+        const A = rings[i], B = rings[i + 1];
+        for (let k = 0; k < radial; k++) {
+          const k2 = (k + 1) % radial;
+          tri(A[k], B[k2], B[k]);
+          tri(A[k], A[k2], B[k2]);
+        }
+      }
+      if (capStart !== false) {
+        const C = pts[0], A = rings[0];
+        for (let k = 0; k < radial; k++) tri(C, A[k], A[(k + 1) % radial]);
+      }
+      if (capEnd !== false) {
+        const n = rings.length - 1;
+        const C = pts[n], A = rings[n];
+        for (let k = 0; k < radial; k++) tri(C, A[(k + 1) % radial], A[k]);
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+      geo.computeVertexNormals();
+      return new THREE.Mesh(geo, mat);
+    }
+
+    function _kd4Seg(parent, from, to, r0, r1, mat, radial) {
+      const dir = new THREE.Vector3().subVectors(to, from);
+      const len = Math.max(0.02, dir.length());
+      const geo = new THREE.CylinderGeometry(r1, r0, len, radial || 6, 1);
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.copy(from).add(to).multiplyScalar(0.5);
+      mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
+      parent.add(mesh);
+      return mesh;
+    }
+
+    function _kd4Aim(obj, dir, upHint) {
+      // +z를 dir로, upHint를 +y로 맞춘 일관된 회전 (마디 비틀림 방지)
+      const z = dir.clone().normalize();
+      let up = (upHint || new THREE.Vector3(0, 1, 0)).clone();
+      let x = new THREE.Vector3().crossVectors(up, z);
+      if (x.lengthSq() < 1e-6) { x.set(1, 0, 0); }
+      x.normalize();
+      const y = new THREE.Vector3().crossVectors(z, x).normalize();
+      const m = new THREE.Matrix4().makeBasis(x, y, z);
+      obj.quaternion.setFromRotationMatrix(m);
+      return obj;
+    }
+
+    function _kd4Horn(parent, base, pts, radii, matDark, matGold, radial) {
       const g = new THREE.Group();
+      g.position.copy(base);
+      parent.add(g);
+      let prev = new THREE.Vector3(0, 0, 0);
+      for (let i = 0; i < pts.length; i++) {
+        const p = pts[i].clone().sub(base);
+        const mat = (i >= Math.floor(pts.length * 0.55)) ? matGold : matDark;
+        _kd4Seg(g, prev, p, radii[i], radii[i + 1], mat, radial || 5);
+        prev = p;
+      }
+      return g;
+    }
 
-      const scaleMat = new THREE.MeshStandardMaterial({ color: 0xa8171f, metalness: 0.45, roughness: 0.38, emissive: 0x4d0308, emissiveIntensity: 0.8 });
-      const scaleMat2 = new THREE.MeshStandardMaterial({ color: 0x6e0b12, metalness: 0.5, roughness: 0.5, emissive: 0x360205, emissiveIntensity: 0.7 });
-      const goldMat = new THREE.MeshStandardMaterial({ color: 0xffc300, metalness: 0.95, roughness: 0.2, emissive: 0xff8a00, emissiveIntensity: 0.5 });
-      const boneMat = new THREE.MeshStandardMaterial({ color: 0x3a0f10, metalness: 0.35, roughness: 0.7 });
-      const membraneMat = new THREE.MeshStandardMaterial({ color: 0xff5f1f, metalness: 0.1, roughness: 0.55, emissive: 0xff3300, emissiveIntensity: 0.85, transparent: true, opacity: 0.88, side: THREE.DoubleSide });
-      const toothMat = new THREE.MeshStandardMaterial({ color: 0xfff4d6, roughness: 0.4 });
-      const eyeCoreMat = new THREE.MeshBasicMaterial({ color: 0xfff6b0 });
-      const eyeGlowMat = new THREE.MeshBasicMaterial({ color: 0xffcc33, transparent: true, opacity: 0.4 });
+    function _kd4GlowSprite(color, size, alpha) {
+      const cv = document.createElement('canvas');
+      cv.width = cv.height = 64;
+      const c = cv.getContext('2d');
+      const grd = c.createRadialGradient(32, 32, 0, 32, 32, 32);
+      grd.addColorStop(0, 'rgba(255,255,255,1)');
+      grd.addColorStop(0.3, color);
+      grd.addColorStop(1, 'rgba(0,0,0,0)');
+      c.fillStyle = grd;
+      c.fillRect(0, 0, 64, 64);
+      const tex = new THREE.CanvasTexture(cv);
+      const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: (alpha === undefined ? 0.9 : alpha), blending: THREE.AdditiveBlending, depthWrite: false }));
+      sp.scale.set(size, size, 1);
+      return sp;
+    }
 
-      // ---------- 1. 몸통 (거대한 붉은 비늘) ----------
+    // =====================================================================
+    // 🐉 v4.5 왕드래곤 빌더
+    // =====================================================================
+    function buildKingDragon(opts) {
+      // 🐉 v4.5: 보스별 색/크기 변형 (불 피리 왕드래곤 / 얼음 프로스트 / 용암 대검룡 / 최종 대군주)
+      const O = Object.assign({
+        scale: 0.78,
+        body: 0x6e0a13, bodyHot: 0xa3161f, bodyDark: 0x4a0710, belly: 0x330b12,
+        gold: 0xffc233, goldDeep: 0xb8790c, horn: 0x140b0e, steel: 0x2a1015,
+        membraneA: 0x6f0b16, membraneB: 0x35050b,
+        eye: 0xffd24a, eyeCore: 0xfff7d0, glow: 'rgba(255,180,50,0.6)',
+        crown: true, hover: 4.0, mouthFire: 0xff7a10
+      }, opts || {});
+      const g = new THREE.Group();
+      const dim = (c, k) => new THREE.Color(c).multiplyScalar(k).getHex();
+
+      // ---------- 재질 ----------
+      const mk = (o) => new THREE.MeshStandardMaterial(Object.assign({ flatShading: true }, o));
+      const scaleDark = mk({ color: O.bodyDark, metalness: 0.6, roughness: 0.42, emissive: dim(O.bodyDark, 0.5), emissiveIntensity: 0.5, side: THREE.DoubleSide });
+      const scaleMid = mk({ color: O.body, metalness: 0.55, roughness: 0.34, emissive: dim(O.body, 0.5), emissiveIntensity: 0.7, side: THREE.DoubleSide });
+      const scaleHot = mk({ color: O.bodyHot, metalness: 0.5, roughness: 0.3, emissive: dim(O.bodyHot, 0.55), emissiveIntensity: 1.0, side: THREE.DoubleSide });
+      const scaleBelly = mk({ color: O.belly, metalness: 0.45, roughness: 0.6, emissive: dim(O.belly, 0.5), emissiveIntensity: 0.45, side: THREE.DoubleSide });
+      const hornMat = mk({ color: O.horn, metalness: 0.75, roughness: 0.3, emissive: 0x140204, emissiveIntensity: 0.4 });
+      const gold = mk({ color: O.gold, metalness: 1.0, roughness: 0.22, emissive: dim(O.gold, 0.55), emissiveIntensity: 0.7 });
+      const goldDeep = mk({ color: O.goldDeep, metalness: 1.0, roughness: 0.34, emissive: dim(O.goldDeep, 0.5), emissiveIntensity: 0.45 });
+      const steel = mk({ color: O.steel, metalness: 0.85, roughness: 0.45, emissive: dim(O.steel, 0.5), emissiveIntensity: 0.3 });
+      const tooth = mk({ color: 0xf8f0da, metalness: 0.12, roughness: 0.36, emissive: 0x3a2a10, emissiveIntensity: 0.3 });
+      const eyeMat = new THREE.MeshBasicMaterial({ color: O.eye });
+      const eyeCore = new THREE.MeshBasicMaterial({ color: O.eyeCore });
+      const pupilMat = new THREE.MeshBasicMaterial({ color: 0x17020a });
+      const memA = mk({ color: O.membraneA, metalness: 0.2, roughness: 0.6, emissive: dim(O.membraneA, 0.55), emissiveIntensity: 0.8, transparent: true, opacity: 0.97, side: THREE.DoubleSide });
+      const memB = mk({ color: O.membraneB, metalness: 0.28, roughness: 0.58, emissive: dim(O.membraneB, 0.5), emissiveIntensity: 0.7, transparent: true, opacity: 0.97, side: THREE.DoubleSide });
+      const glowEdge = new THREE.MeshBasicMaterial({ color: 0xffa300, transparent: true, opacity: 0.6 });
+
+      // ============================================================
+      // 1. 몸통 — 넓은 가슴 · 잘록한 허리 · 각진 비늘 몸
+      // ============================================================
       const body = new THREE.Group();
       g.add(body);
 
-      const torso = new THREE.Mesh(new THREE.SphereGeometry(3.4, 18, 14), scaleMat);
-      torso.scale.set(1.15, 1.05, 1.75);
-      body.add(torso);
+      const spinePts = [
+        new THREE.Vector3(0, -1.15, -4.4),
+        new THREE.Vector3(0, -0.4, -2.8),
+        new THREE.Vector3(0, 0.3, -1.2),
+        new THREE.Vector3(0, 0.85, 0.6),
+        new THREE.Vector3(0, 1.25, 2.3),
+        new THREE.Vector3(0, 1.5, 3.7),
+        new THREE.Vector3(0, 1.6, 4.65)
+      ];
+      const spineR = [1.7, 2.35, 1.95, 2.35, 2.9, 2.45, 1.85];
+      const spineSX = [1.02, 1.12, 0.94, 1.04, 1.18, 1.12, 1.02];
+      const spineSY = [0.94, 1.0, 0.86, 0.98, 1.06, 1.04, 1.0];
+      body.add(_kd4Tube(spinePts, spineR, 10, spineSX, spineSY, scaleMid));
 
-      const chest = new THREE.Mesh(new THREE.SphereGeometry(2.9, 16, 12), scaleMat);
-      chest.position.set(0, 0.55, 3.4);
-      chest.scale.set(1.05, 1.02, 1.15);
-      body.add(chest);
+      // 등 척추 가시 — 목 뒤에서 꼬리까지 이어지는 날카로운 능선
+      const backSpine = [
+        [-4.6, 1.35, 0.95], [-3.7, 1.85, 1.15], [-2.8, 2.15, 1.3], [-1.9, 2.35, 1.45],
+        [-1.0, 2.55, 1.6], [-0.1, 2.8, 1.7], [0.8, 3.0, 1.62], [1.7, 3.15, 1.45],
+        [2.6, 3.25, 1.2], [3.5, 3.28, 0.9]
+      ];
+      backSpine.forEach(([z, y, h], i) => {
+        const sp = _kd4Blade(h, 0.5, 0.17, scaleDark, 3, -0.3);
+        sp.position.set(0, y - h * 0.1, z);
+        sp.rotation.x = -0.34;
+        body.add(sp);
+        const tip = _kd4Blade(h * 0.45, 0.22, 0.08, gold, 2, -0.3);
+        tip.position.set(0, y - h * 0.1 + h * 0.58, z + h * 0.16);
+        tip.rotation.x = -0.34;
+        body.add(tip);
+      });
 
-      // 가슴 황금 문장 (태용 대영웅의 마크)
-      const emblem = new THREE.Mesh(new THREE.OctahedronGeometry(0.95), goldMat);
-      emblem.position.set(0, 0.9, 6.35);
-      emblem.scale.set(1.0, 1.25, 0.5);
+      // 가슴 판금 — 겹겹이 포개진 각진 비늘 갑옷 (몸 곡면을 따라)
+      const chestPlates = [
+        { y: 2.55, z: 5.25, w: 1.6, h: 0.44, tilt: 0.35 },
+        { y: 1.75, z: 5.75, w: 1.95, h: 0.46, tilt: 0.16 },
+        { y: 0.95, z: 5.92, w: 2.05, h: 0.46, tilt: 0.02 },
+        { y: 0.15, z: 5.72, w: 1.9, h: 0.44, tilt: -0.14 },
+        { y: -0.65, z: 5.20, w: 1.6, h: 0.42, tilt: -0.32 }
+      ];
+      chestPlates.forEach((p, i) => {
+        const pl = _kd4BoxLike(p.w, p.h, p.w * 0.94, p.h * 0.92, 0.5, steel, { y0: 0, y1: 0.02 });
+        pl.position.set(0, p.y, p.z - 0.2);
+        pl.rotation.x = Math.PI / 2 + p.tilt;
+        body.add(pl);
+        const rim = _kd4BoxLike(p.w * 1.03, 0.045, p.w * 0.97, 0.04, 0.54, goldDeep, { y0: -p.h - 0.015, y1: -p.h });
+        rim.position.copy(pl.position);
+        rim.rotation.copy(pl.rotation);
+        body.add(rim);
+      });
+      // 가슴 중앙 황금 문장
+      const emblem = new THREE.Mesh(new THREE.OctahedronGeometry(0.8), gold);
+      emblem.position.set(0, 1.75, 6.15);
+      emblem.scale.set(0.9, 1.35, 0.4);
+      emblem.rotation.set(0.1, 0, Math.PI / 4);
       body.add(emblem);
-      const emblemRing = new THREE.Mesh(new THREE.TorusGeometry(1.35, 0.12, 6, 20), goldMat);
-      emblemRing.position.set(0, 0.9, 6.3);
+      const emblemRing = new THREE.Mesh(new THREE.TorusGeometry(1.02, 0.09, 4, 12), gold);
+      emblemRing.position.set(0, 1.75, 6.1);
+      emblemRing.rotation.x = 0.1;
       body.add(emblemRing);
 
-      const hips = new THREE.Mesh(new THREE.SphereGeometry(2.5, 16, 12), scaleMat2);
-      hips.position.set(0, 0.15, -3.9);
-      hips.scale.set(1.0, 0.95, 1.1);
-      body.add(hips);
-
-      // 황금 배 판금 (가슴 ~ 배)
-      for (let i = 0; i < 7; i++) {
-        const plate = new THREE.Mesh(new THREE.BoxGeometry(3.4 - i * 0.12, 0.32, 1.15), goldMat);
-        plate.position.set(0, -2.05 + Math.abs(i - 3) * 0.12, 4.4 - i * 1.25);
-        body.add(plate);
+      // 배 비늘판 (아래쪽 — 몸에 붙은 어두운 판 + 금빛 테)
+      for (let i = 0; i < 6; i++) {
+        const t = i / 5;
+        const w = 1.5 - t * 0.55;
+        const pl = _kd4BoxLike(w, 0.12, w * 0.96, 0.11, 0.78, scaleBelly, { y0: 0, y1: 0 });
+        pl.position.set(0, -1.95 + t * 0.42, 3.3 - t * 6.9);
+        pl.rotation.x = 1.15;
+        body.add(pl);
+        const rim = _kd4BoxLike(w * 1.03, 0.05, w * 0.99, 0.04, 0.8, goldDeep, { y0: -0.14, y1: -0.13 });
+        rim.position.copy(pl.position);
+        rim.rotation.copy(pl.rotation);
+        body.add(rim);
       }
 
-      // 등 위 황금 비늘 가시 (척추)
-      for (let i = 0; i < 12; i++) {
-        const sp = new THREE.Mesh(new THREE.ConeGeometry(0.44, 1.9 - i * 0.03, 4), goldMat);
-        sp.position.set(0, 3.1 - Math.abs(i - 5.5) * 0.1, 5.0 - i * 0.9);
-        sp.rotation.x = -0.22;
-        body.add(sp);
-      }
-
-      // 옆구리 비늘판 (금빛 포인트)
+      // 옆구리 비늘판
       [-1, 1].forEach(sx => {
         for (let i = 0; i < 6; i++) {
-          const sc = new THREE.Mesh(new THREE.SphereGeometry(0.5, 8, 6), goldMat);
-          sc.position.set(sx * (3.2 - i * 0.06), 0.2 + Math.sin(i) * 0.5, 3.0 - i * 1.2);
-          sc.scale.set(0.5, 0.5, 1.0);
-          body.add(sc);
+          const t = i / 5;
+          const pl = _kd4BoxLike(0.22, 0.46, 0.19, 0.38, 0.8, i % 2 ? scaleHot : scaleMid, { y0: 0, y1: 0.05 });
+          pl.position.set(sx * (2.05 - t * 0.45), 0.4 + Math.sin(t * 2.6) * 0.68, 3.4 - t * 6.6);
+          pl.rotation.set(-0.1, sx * 1.28, sx * 0.14);
+          body.add(pl);
         }
       });
 
-      // ---------- 2. 목 (마디별로 꿈틀거림) ----------
-      const neckSegs = [];
-      let neckParent = new THREE.Group();
-      neckParent.position.set(0, 2.3, 4.5);
-      neckParent.rotation.x = 0.45; // 목을 앞으로 길게 숙여 사낭스럽게
-      body.add(neckParent);
-      neckSegs.push(neckParent);
+      // 어깨 갑옷 (날개 뿌리)
+      [-1, 1].forEach(sx => {
+        const pauld = new THREE.Group();
+        pauld.position.set(sx * 2.3, 2.5, 1.9);
+        body.add(pauld);
+        for (let i = 0; i < 3; i++) {
+          const pl = _kd4BoxLike(0.85 - i * 0.14, 0.34, 0.68 - i * 0.12, 0.26, 1.35, steel, { y0: 0, y1: 0 });
+          pl.position.set(sx * (0.05 + i * 0.3), 0.3 - i * 0.48, 0.4 - i * 0.26);
+          pl.rotation.set(0.3, sx * 0.5, sx * -0.7);
+          pauld.add(pl);
+          const rim = _kd4BoxLike(0.88 - i * 0.14, 0.09, 0.7 - i * 0.12, 0.07, 1.35, gold, { y0: -0.36, y1: -0.32 });
+          rim.position.copy(pl.position);
+          rim.rotation.copy(pl.rotation);
+          pauld.add(rim);
+        }
+        for (let i = 0; i < 3; i++) {
+          const sp = _kd4Blade(1.45 - i * 0.3, 0.22, 0.09, gold, 3, -0.32);
+          sp.position.set(sx * (0.3 + i * 0.4), 0.24, -0.2 - i * 0.28);
+          sp.rotation.set(-0.55, 0, sx * -1.15);
+          pauld.add(sp);
+        }
+      });
 
-      for (let i = 0; i < 5; i++) {
-        const seg = new THREE.Group();
-        seg.position.set(0, 0.98, 0.92);
-        const vert = new THREE.Mesh(new THREE.SphereGeometry(1.62 - i * 0.15, 14, 10), i % 2 ? scaleMat2 : scaleMat);
-        vert.scale.set(1.0, 1.0, 1.2);
-        seg.add(vert);
-        const nsp = new THREE.Mesh(new THREE.ConeGeometry(0.3, 1.15 - i * 0.08, 4), goldMat);
-        nsp.position.set(0, 1.35 - i * 0.08, -0.25);
-        nsp.rotation.x = -0.3;
-        seg.add(nsp);
-        neckParent.add(seg);
-        neckSegs.push(seg);
-        neckParent = seg;
-      }
+      // ============================================================
+      // 2. 목 — S자로 굽은 굵은 목 (마디별 애니메이션)
+      // ============================================================
+      const neckRoot = new THREE.Group();
+      neckRoot.position.set(0, 1.3, 4.6);
+      body.add(neckRoot);
 
-      // ---------- 3. 머리 (뿔·빛나는 눈·이빨) ----------
+      const neckSegs = [neckRoot];
+      // 전역(몸통) 좌표 기준 방향 — 어깨에서 앞으로 비스듬히 솟구쳐 S자로 머리를 내민다
+      const neckDirs = [
+        new THREE.Vector3(0, 1, 0.95),
+        new THREE.Vector3(0, 1, 0.70),
+        new THREE.Vector3(0, 1, 0.38),
+        new THREE.Vector3(0, 1, 0.02),
+        new THREE.Vector3(0, 1, -0.30),
+        new THREE.Vector3(0, 0.98, -0.18),
+        new THREE.Vector3(0, 0.85, 0.42),
+        new THREE.Vector3(0, 0.34, 0.94)
+      ];
+      const neckLens = [0.86, 0.83, 0.8, 0.76, 0.72, 0.72, 0.68, 0.64];
+      const neckRad = [1.52, 1.4, 1.29, 1.18, 1.08, 1.0, 0.94, 0.88, 0.84];
+
+      let nParent = neckRoot;
+      let nQuat = new THREE.Quaternion();
+      neckDirs.forEach((gd, i) => {
+        const s = new THREE.Group();
+        const inv = nQuat.clone().invert();
+        const localDir = gd.clone().normalize().applyQuaternion(inv);
+        const localUp = new THREE.Vector3(0, 1, 0).applyQuaternion(inv);
+        _kd4Aim(s, localDir, localUp);
+        s.userData.baseQuat = s.quaternion.clone();
+        nQuat.multiply(s.quaternion.clone());
+        const len = neckLens[i];
+        const oh = len * 0.16;             // 마디 이음새 겹침
+        const geo = new THREE.CylinderGeometry(neckRad[i + 1], neckRad[i], len + oh * 2, 10, 1);
+        const mesh = new THREE.Mesh(geo, scaleMid);
+        mesh.rotation.x = Math.PI / 2;
+        mesh.position.set(0, 0, len / 2);
+        s.add(mesh);
+        // 목덜미 가시 (등 쪽 = 로컬 +y)
+        const h = 1.35 - i * 0.13;
+        const sp = _kd4Blade(h, 0.4, 0.13, scaleDark, 3, -0.4);
+        sp.position.set(0, neckRad[i] * 0.88, len * 0.5);
+        sp.rotation.x = -0.55;
+        s.add(sp);
+        const tip = _kd4Blade(h * 0.44, 0.17, 0.07, gold, 2, -0.4);
+        tip.position.set(0, neckRad[i] * 0.88 + h * 0.6, len * 0.5 + h * 0.26);
+        tip.rotation.x = -0.55;
+        s.add(tip);
+        if (i === 2 || i === 5) {
+          const ring = new THREE.Mesh(new THREE.TorusGeometry(neckRad[i] * 1.06, 0.12, 4, 10), gold);
+          ring.rotation.x = Math.PI / 2;
+          s.add(ring);
+        }
+        nParent.add(s);
+        const nxt = new THREE.Group();
+        nxt.position.set(0, 0, len);
+        s.add(nxt);
+        nParent = nxt;
+        neckSegs.push(s);
+      });
+
+      // 목 아래 갑옷 고리 (어깨~목 이음새를 감싸는 판금)
+      (function () {
+        const gEng = new THREE.Group();
+        gEng.position.set(0, 0.55, 0.15);
+        neckRoot.add(gEng);
+        for (let i = 0; i < 8; i++) {
+          const a = (i / 8) * Math.PI * 2 + Math.PI / 8;
+          const pl = _kd4BoxLike(0.38, 0.36, 0.34, 0.3, 0.55, steel, { y0: 0, y1: 0 });
+          pl.position.set(Math.cos(a) * 1.16, Math.sin(a) * 1.16, -0.2);
+          pl.rotation.set(-0.3, -a + Math.PI / 2, 0);
+          gEng.add(pl);
+        }
+      })();
+
+      // ============================================================
+      // 3. 머리 — 길쭉한 각진 용 두개골 · 날카로운 주둥이 · 째진 눈
+      // ============================================================
       const head = new THREE.Group();
-      head.position.set(0, 0.85, 1.0);
-      head.rotation.x = 0.22;
-      neckParent.add(head);
+      head.position.set(0, 0.05, 0.25);
+      head.rotation.x = 0.42;
+      head.scale.setScalar(1.5);
+      nParent.add(head);
 
-      const skull = new THREE.Mesh(new THREE.SphereGeometry(2.05, 16, 12), scaleMat);
-      skull.scale.set(1.0, 0.92, 1.25);
-      head.add(skull);
+      const V = (x, y, z) => new THREE.Vector3(x, y, z);
+      const ang = (mat, pts) => head.add(_kd4Hexa(pts, mat));
 
-      const snout = new THREE.Mesh(new THREE.BoxGeometry(1.85, 1.25, 2.1), scaleMat);
-      snout.position.set(0, -0.42, 1.85);
-      head.add(snout);
+      // 두개골 — 뒤가 넓고 앞으로 갈수록 좁아지는 각진 프리즘
+      ang(scaleHot, [
+        V(-0.88, -0.62, -1.95), V(0.88, -0.62, -1.95), V(1.02, -0.52, 0.35), V(-1.02, -0.52, 0.35),
+        V(-0.82, 0.78, -1.95), V(0.82, 0.78, -1.95), V(1.0, 0.84, 0.35), V(-1.0, 0.84, 0.35)
+      ]);
 
-      const noseTip = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.7, 0.55), scaleMat2);
-      noseTip.position.set(0, -0.2, 2.9);
-      head.add(noseTip);
+      // 눈두덩 선반 — 눈 위로 불쑥 튀어나온 각진 눈썹 (정면에서 찌푸린 미간)
+      ang(scaleDark, [
+        V(-1.06, 0.30, 0.15), V(1.06, 0.30, 0.15), V(0.9, 0.02, 1.15), V(-0.9, 0.02, 1.15),
+        V(-1.02, 0.86, 0.15), V(1.02, 0.86, 0.15), V(0.86, 0.46, 1.15), V(-0.86, 0.46, 1.15)
+      ]);
+      // 미간 돌기 (V자 이마)
+      ang(scaleHot, [
+        V(-0.3, 0.72, -0.35), V(0.3, 0.72, -0.35), V(0.14, 0.52, 0.9), V(-0.14, 0.52, 0.9),
+        V(-0.24, 1.0, -0.35), V(0.24, 1.0, -0.35), V(0.1, 0.7, 0.9), V(-0.1, 0.7, 0.9)
+      ]);
 
-      // 코뿔
-      const noseHorn = new THREE.Mesh(new THREE.ConeGeometry(0.3, 1.15, 5), goldMat);
-      noseHorn.position.set(0, 0.65, 2.75);
-      noseHorn.rotation.x = -0.5;
-      head.add(noseHorn);
+      // 주둥이 — 길고 납작하게 뻗은 각진 위턱
+      ang(scaleMid, [
+        V(-0.7, -0.54, 0.95), V(0.7, -0.54, 0.95), V(0.2, -0.82, 3.3), V(-0.2, -0.82, 3.3),
+        V(-0.7, 0.26, 0.95), V(0.7, 0.26, 0.95), V(0.2, -0.44, 3.3), V(-0.2, -0.44, 3.3)
+      ]);
+      // 콧등 능선 (날카로운 마루)
+      ang(scaleHot, [
+        V(-0.2, 0.06, 1.0), V(0.2, 0.06, 1.0), V(0.08, -0.36, 3.34), V(-0.08, -0.36, 3.34),
+        V(-0.16, 0.3, 1.0), V(0.16, 0.3, 1.0), V(0.06, -0.24, 3.34), V(-0.06, -0.24, 3.34)
+      ]);
+      // 주둥이 끝 + 콧구멍
+      ang(scaleDark, [
+        V(-0.19, -0.84, 3.28), V(0.19, -0.84, 3.28), V(0.11, -0.8, 3.5), V(-0.11, -0.8, 3.5),
+        V(-0.2, -0.44, 3.28), V(0.2, -0.44, 3.28), V(0.12, -0.52, 3.48), V(-0.12, -0.52, 3.48)
+      ]);
+      [-1, 1].forEach(sx => {
+        ang(hornMat, [
+          V(sx * 0.1, -0.62, 3.36), V(sx * 0.22, -0.64, 3.36), V(sx * 0.18, -0.66, 3.54), V(sx * 0.08, -0.64, 3.54),
+          V(sx * 0.1, -0.5, 3.36), V(sx * 0.22, -0.52, 3.36), V(sx * 0.18, -0.56, 3.54), V(sx * 0.08, -0.54, 3.54)
+        ]);
+        // 콧등 가시 (작게 앞으로)
+        const nh = _kd4Blade(0.55, 0.1, 0.07, goldDeep, 3, 0.3);
+        nh.position.set(sx * 0.22, 0.16, 2.35);
+        nh.rotation.set(0.85, 0, sx * -0.2);
+        head.add(nh);
+      });
+
+      // 눈 — 눈두덩 그늘 아래 째진 황금 눈
+      const eyes = [];
+      [-1, 1].forEach(sx => {
+        // 눈두덩 그늘
+        ang(new THREE.MeshBasicMaterial({ color: 0x1d0208 }), [
+          V(sx * 0.62, 0.02, 0.62), V(sx * 1.03, 0.06, 0.52), V(sx * 0.95, 0.12, 1.1), V(sx * 0.6, 0.1, 1.06),
+          V(sx * 0.62, 0.3, 0.62), V(sx * 1.03, 0.28, 0.52), V(sx * 0.95, 0.34, 1.1), V(sx * 0.6, 0.32, 1.06)
+        ]);
+        const eyeGeo = new THREE.SphereGeometry(0.5, 10, 8);
+        const eye = new THREE.Mesh(eyeGeo, eyeMat);
+        eye.scale.set(1.0, 0.22, 0.17);
+        eye.position.set(sx * 0.85, 0.18, 0.86);
+        eye.rotation.set(0, sx * 0.55, sx * 0.42);
+        head.add(eye);
+        const core = new THREE.Mesh(eyeGeo, eyeCore);
+        core.scale.set(0.45, 0.07, 0.07);
+        core.position.copy(eye.position);
+        core.rotation.copy(eye.rotation);
+        head.add(core);
+        eye.userData.baseScale = eye.scale.clone();
+        eyes.push(eye);
+        const pup = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.14, 0.05), pupilMat);
+        pup.position.set(sx * 0.9, 0.185, 0.9);
+        pup.rotation.set(0, sx * 0.55, sx * 0.42);
+        head.add(pup);
+        const glow = _kd4GlowSprite(O.glow, 0.8, 0.5);
+        glow.position.set(sx * 0.88, 0.19, 0.9);
+        head.add(glow);
+        // 광대 뼈 (각진 판) + 광대 가시
+        ang(steel, [
+          V(sx * 0.9, -0.5, -0.7), V(sx * 1.22, -0.34, -0.95), V(sx * 1.02, -0.18, 0.5), V(sx * 0.86, -0.3, 0.45),
+          V(sx * 0.9, -0.1, -0.7), V(sx * 1.26, 0.0, -0.95), V(sx * 1.04, 0.06, 0.5), V(sx * 0.86, 0.0, 0.45)
+        ]);
+        for (let i = 0; i < 2; i++) {
+          const cs = _kd4Blade(1.0 - i * 0.28, 0.14, 0.08, i === 0 ? gold : hornMat, 3, -0.35);
+          cs.position.set(sx * 1.1, -0.2 - i * 0.22, -0.9 - i * 0.1);
+          cs.rotation.set(-1.35 - i * 0.1, 0, sx * -0.85);
+          head.add(cs);
+        }
+      });
 
       // 위턱 이빨
-      for (let i = -2; i <= 2; i++) {
-        const tooth = new THREE.Mesh(new THREE.ConeGeometry(0.12, 0.55, 4), toothMat);
-        tooth.position.set(i * 0.36, -1.0, 2.6 + Math.abs(i) * 0.07);
-        tooth.rotation.x = Math.PI;
-        head.add(tooth);
-      }
+      [-1, 1].forEach(sx => {
+        const xs = [0.58, 0.5, 0.4, 0.3];
+        for (let i = 0; i < 4; i++) {
+          const len = i === 0 ? 0.6 : 0.4;
+          const tt = new THREE.Mesh(new THREE.ConeGeometry(0.075, len, 4), tooth);
+          tt.position.set(sx * xs[i], -0.78 - i * 0.03, 1.2 + i * 0.6);
+          tt.rotation.set(Math.PI, 0, sx * 0.04);
+          head.add(tt);
+        }
+        const fang = new THREE.Mesh(new THREE.ConeGeometry(0.085, 0.85, 4), tooth);
+        fang.position.set(sx * 0.54, -1.0, 1.6);
+        fang.rotation.set(Math.PI - 0.12, 0, sx * 0.12);
+        head.add(fang);
+      });
 
-      // 아래턱 (브레스 때 벌림)
+      // 아래턱 — 각진 얇은 턱 (브레스 때 벌어진다)
       const jawPivot = new THREE.Group();
-      jawPivot.position.set(0, -0.85, 1.15);
+      jawPivot.position.set(0, -0.66, 0.55);
       head.add(jawPivot);
-      const jaw = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.45, 2.1), scaleMat2);
-      jaw.position.set(0, -0.24, 0.85);
-      jawPivot.add(jaw);
-      for (let i = -2; i <= 2; i++) {
-        const tooth = new THREE.Mesh(new THREE.ConeGeometry(0.1, 0.44, 4), toothMat);
-        tooth.position.set(i * 0.33, 0.06, 1.55);
-        jawPivot.add(tooth);
-      }
-      const mouthGlow = new THREE.Mesh(new THREE.SphereGeometry(0.45, 10, 8), new THREE.MeshBasicMaterial({ color: 0xff7a00 }));
-      mouthGlow.position.set(0, -0.2, 1.55);
+      jawPivot.add(_kd4Hexa([
+        V(-0.62, -0.3, -0.35), V(0.62, -0.3, -0.35), V(0.19, -0.56, 2.9), V(-0.19, -0.56, 2.9),
+        V(-0.62, 0.02, -0.35), V(0.62, 0.02, -0.35), V(0.19, -0.3, 2.9), V(-0.19, -0.3, 2.9)
+      ], scaleDark));
+      // 아래 이빨
+      [-1, 1].forEach(sx => {
+        for (let i = 0; i < 4; i++) {
+          const tt = new THREE.Mesh(new THREE.ConeGeometry(0.062, i === 0 ? 0.45 : 0.34, 4), tooth);
+          tt.position.set(sx * (0.54 - i * 0.09), -0.12, 0.6 + i * 0.52);
+          jawPivot.add(tt);
+        }
+        // 턱수염 가시
+        for (let i = 0; i < 2; i++) {
+          const b = _kd4Blade(0.7 - i * 0.18, 0.12, 0.07, goldDeep, 3, -0.25);
+          b.position.set(sx * 0.2, -0.34, 1.75 - i * 0.5);
+          b.rotation.set(2.5, 0, sx * 0.3);
+          jawPivot.add(b);
+        }
+      });
+      const mouthGlow = new THREE.Mesh(new THREE.SphereGeometry(0.34, 8, 6), new THREE.MeshBasicMaterial({ color: O.mouthFire }));
+      mouthGlow.position.set(0, -0.1, 0.95);
       mouthGlow.visible = false;
       jawPivot.add(mouthGlow);
       const mouthAnchor = new THREE.Object3D();
-      mouthAnchor.position.set(0, -0.2, 2.5);
+      mouthAnchor.position.set(0, -0.06, 3.2);
       jawPivot.add(mouthAnchor);
 
-      // 빛나는 눈 (붉은 안광 + 황금 눈동자) — 두개골 표면에 붙임
-      const eyes = [];
-      [-0.98, 0.98].forEach(ex => {
-        const socket = new THREE.Mesh(new THREE.SphereGeometry(0.52, 10, 8), new THREE.MeshBasicMaterial({ color: 0x8b0000 }));
-        socket.position.set(ex, 0.42, 1.95);
-        head.add(socket);
-        const eye = new THREE.Mesh(new THREE.SphereGeometry(0.38, 10, 8), eyeCoreMat);
-        eye.position.set(ex, 0.42, 2.18);
-        head.add(eye);
-        eyes.push(eye);
-        const glow = new THREE.Mesh(new THREE.SphereGeometry(0.58, 8, 8), eyeGlowMat);
-        glow.position.copy(eye.position);
-        head.add(glow);
-        // 세로 동공 (맹수 눈)
-        const pupil = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.4, 0.08), new THREE.MeshBasicMaterial({ color: 0x1a0000 }));
-        pupil.position.set(ex, 0.42, 2.52);
-        head.add(pupil);
-        // 눈썹 뿔
-        const brow = new THREE.Mesh(new THREE.ConeGeometry(0.22, 1.2, 4), goldMat);
-        brow.position.set(ex, 1.2, 1.95);
-        brow.rotation.set(-1.5, 0, ex > 0 ? -0.4 : 0.4);
-        head.add(brow);
+      // 주 뿔 2쌍 — 뒤로 웅장하게 휘어 오른다
+      [-1, 1].forEach(sx => {
+        _kd4Horn(head,
+          new THREE.Vector3(sx * 0.7, 0.72, -1.15),
+          [new THREE.Vector3(sx * 1.15, 1.7, -2.3), new THREE.Vector3(sx * 1.4, 2.75, -3.9),
+           new THREE.Vector3(sx * 1.32, 3.5, -5.4), new THREE.Vector3(sx * 0.95, 3.8, -6.7)],
+          [0.52, 0.4, 0.25, 0.13, 0.02], hornMat, gold, 5);
+        _kd4Horn(head,
+          new THREE.Vector3(sx * 1.02, -0.22, -1.25),
+          [new THREE.Vector3(sx * 1.75, 0.3, -2.35), new THREE.Vector3(sx * 2.1, 0.72, -3.35)],
+          [0.28, 0.17, 0.02], hornMat, gold, 5);
+        // 이마 뿔
+        const fh = _kd4Blade(0.85, 0.13, 0.09, gold, 3, -0.35);
+        fh.position.set(sx * 0.34, 0.86, 0.35);
+        fh.rotation.set(-0.95, 0, sx * -0.16);
+        head.add(fh);
       });
 
-      // 거대한 두 쌍의 뿔
-      [-0.88, 0.88].forEach(hx => {
-        const horn = new THREE.Mesh(new THREE.ConeGeometry(0.45, 4.2, 7), goldMat);
-        horn.position.set(hx, 1.45, -0.5);
-        horn.rotation.set(-1.05, 0, hx > 0 ? -0.28 : 0.28);
-        head.add(horn);
-        const horn2 = new THREE.Mesh(new THREE.ConeGeometry(0.24, 2.2, 6), goldMat);
-        horn2.position.set(hx * 1.6, 0.8, -1.25);
-        horn2.rotation.set(-1.35, 0, hx > 0 ? -0.55 : 0.55);
-        head.add(horn2);
-      });
+      // 얼굴 조명 (어두운 성채에서 눈·이빨·뿔이 살아나게)
+      const faceLight = new THREE.PointLight(0xff8833, 0.85, 22);
+      faceLight.position.set(0, 0.1, 2.2);
+      head.add(faceLight);
 
-      // ---------- 4. 황금 왕관 (대군주의 상징) ----------
+      // 머리 위 왕관 — 이마 위에 위엄 있게 얹힌 뾰족 황금관
       const crown = new THREE.Group();
-      crown.position.set(0, 1.68, 0.15);
+      crown.position.set(0, 0.88, -0.5);
       crown.rotation.x = -0.12;
-      const band = new THREE.Mesh(new THREE.CylinderGeometry(1.38, 1.3, 0.62, 12, 1, true), goldMat);
-      crown.add(band);
+      if (O.crown) head.add(crown);
+      const bandR = 0.8;
       for (let i = 0; i < 8; i++) {
         const a = (i / 8) * Math.PI * 2;
-        const spike = new THREE.Mesh(new THREE.ConeGeometry(0.22, 1.15, 5), goldMat);
-        spike.position.set(Math.cos(a) * 1.18, 0.68, Math.sin(a) * 1.18);
-        crown.add(spike);
+        const bx = Math.cos(a) * bandR, bz = Math.sin(a) * bandR * 0.8;
+        const plate = _kd4BoxLike(0.3, 0.22, 0.28, 0.17, 0.12, i % 2 ? gold : goldDeep, { y0: 0, y1: 0 });
+        plate.position.set(bx, -0.02, bz);
+        plate.rotation.y = -a;
+        crown.add(plate);
+        const tall = (i === 0 || i === 4) ? 1.9 : (i % 2 === 0 ? 1.2 : 0.7);
+        const sp = _kd4Blade(tall, i === 0 || i === 4 ? 0.2 : 0.13, 0.08, gold, 3, -0.08);
+        sp.position.set(bx, 0.14, bz);
+        sp.rotation.set(0.08, -a, bx > 0 ? 0.16 : -0.16);
+        crown.add(sp);
       }
-      const gem = new THREE.Mesh(new THREE.OctahedronGeometry(0.36), new THREE.MeshBasicMaterial({ color: 0xff0055 }));
-      gem.position.set(0, 0.25, 1.26);
-      crown.add(gem);
-      head.add(crown);
+      const crownGem = new THREE.Mesh(new THREE.OctahedronGeometry(0.25), new THREE.MeshBasicMaterial({ color: 0xff1f4d }));
+      crownGem.position.set(0, 0.24, 0.76);
+      crown.add(crownGem);
+      const crownGemGlow = _kd4GlowSprite('rgba(255,60,90,0.5)', 0.42, 0.35);
+      crownGemGlow.position.copy(crownGem.position);
+      crown.add(crownGemGlow);
 
-      // ---------- 5. 거대한 양 날개 (펄럭임) ----------
+      // ============================================================
+      // 4. 날개 — 다관절 박쥐/용 날개 (4갈래 손가락 + 톱니 막)
+      // ============================================================
       const wings = [];
+
       function buildWing(side) {
         const root = new THREE.Group();
-        root.position.set(side * 2.8, 2.4, 1.4);
-        root.rotation.x = -0.3; // 날개 면을 살짝 세워 정면에서도 넓게 보이게
+        root.position.set(side * 2.35, 2.5, 1.7);
+        root.rotation.x = -0.06;
 
         const A = new THREE.Vector3(0, 0, 0);
-        const B = new THREE.Vector3(side * 9.5, 3.2, -2.0);
-        const C = new THREE.Vector3(side * 21.0, 5.2, -5.5);
-        const D = new THREE.Vector3(side * 17.0, 0.5, -10.5);
-        const E = new THREE.Vector3(side * 9.5, -1.6, -9.0);
-        const F = new THREE.Vector3(side * 0.8, -1.2, -6.0);
+        const B = new THREE.Vector3(side * 9.4, 3.4, -0.6);
+        const C = new THREE.Vector3(side * 17.6, 4.6, -1.6);
+        const F1 = new THREE.Vector3(side * 21.6, 1.0, -3.6);
+        const F2 = new THREE.Vector3(side * 17.8, -2.0, -4.2);
+        const F3 = new THREE.Vector3(side * 11.2, -3.4, -4.2);
+        const F4 = new THREE.Vector3(side * 4.2, -3.6, -3.6);
+        const T = new THREE.Vector3(side * 0.2, -3.8, -2.0);
 
-        root.add(_boneBetween(A, B, 0.5, boneMat));
-        root.add(_boneBetween(B, C, 0.36, boneMat));
-        root.add(_boneBetween(A, D, 0.24, boneMat));
-        root.add(_boneBetween(A, E, 0.22, boneMat));
-        root.add(_boneBetween(A, F, 0.32, boneMat));
-        root.add(_wingMembrane([A, B, C, D, E, F], membraneMat));
+        // 어깨 → 팔꿈치 → 손목
+        _kd4Seg(root, A, B, 0.62, 0.46, steel, 6);
+        _kd4Seg(root, B, C, 0.46, 0.3, steel, 6);
 
-        // 앞쪽 날개 뼈대의 금빛 발광 라인
-        const edgeMat = new THREE.MeshBasicMaterial({ color: 0xffb703, transparent: true, opacity: 0.9 });
-        root.add(_boneBetween(A, B, 0.16, edgeMat));
-        root.add(_boneBetween(B, C, 0.13, edgeMat));
 
-        // 날개 끝 발톱
-        const claw = new THREE.Mesh(new THREE.ConeGeometry(0.34, 1.8, 5), goldMat);
-        claw.position.copy(C);
-        claw.rotation.z = side * -1.1;
-        root.add(claw);
+        const elbow = new THREE.Mesh(new THREE.OctahedronGeometry(0.68), goldDeep);
+        elbow.position.copy(B);
+        root.add(elbow);
+        const wrist = new THREE.Mesh(new THREE.OctahedronGeometry(0.55), gold);
+        wrist.position.copy(C);
+        root.add(wrist);
 
-        // 날개 마디 금빛 인장
-        const knuckle = new THREE.Mesh(new THREE.SphereGeometry(0.65, 8, 8), goldMat);
-        knuckle.position.copy(B);
-        root.add(knuckle);
+        function panel(P, Q, mat) {
+          const mid = new THREE.Vector3().lerpVectors(P, Q, 0.5);
+          const pull = mid.clone().lerp(C, 0.12);
+          const pos = [
+            C.x, C.y, C.z, P.x, P.y, P.z, pull.x, pull.y, pull.z,
+            C.x, C.y, C.z, pull.x, pull.y, pull.z, Q.x, Q.y, Q.z
+          ];
+          const geo = new THREE.BufferGeometry();
+          geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+          geo.computeVertexNormals();
+          root.add(new THREE.Mesh(geo, mat));
+        }
+
+        // 손가락 뼈 4개
+        [F1, F2, F3, F4].forEach((F, i) => {
+          _kd4Seg(root, C, F, 0.26, 0.07, i % 2 ? steel : hornMat, 5);
+          const claw = _kd4Blade(0.95, 0.13, 0.08, gold, 2, 0.15);
+          claw.position.copy(F);
+          claw.rotation.set(-1.75, 0, side * -0.5);
+          root.add(claw);
+        });
+
+        panel(F1, F2, memA);
+        panel(F2, F3, memB);
+        panel(F3, F4, memA);
+        panel(F4, T, memB);
+        // 몸쪽 막 (팔 뒤쪽 ~ 몸통)
+        const midAT = new THREE.Vector3().lerpVectors(A, T, 0.5).lerp(C, 0.18);
+        const pos2 = [
+          A.x, A.y, A.z, C.x, C.y, C.z, midAT.x, midAT.y, midAT.z,
+          A.x, A.y, A.z, midAT.x, midAT.y, midAT.z, T.x, T.y, T.z
+        ];
+        const geo2 = new THREE.BufferGeometry();
+        geo2.setAttribute('position', new THREE.Float32BufferAttribute(pos2, 3));
+        geo2.computeVertexNormals();
+        root.add(new THREE.Mesh(geo2, memA));
+
+        // 손목 위 발톱
+        const thumb = _kd4Blade(1.25, 0.16, 0.1, gold, 2, 0.25);
+        thumb.position.copy(C);
+        thumb.rotation.set(-0.15, 0, side * 0.95);
+        root.add(thumb);
 
         body.add(root);
         wings.push(root);
@@ -2452,93 +2884,149 @@
       buildWing(1);
       buildWing(-1);
 
-      // ---------- 6. 긴 꼬리 (물결 흔들림 + 황금 꼬리날) ----------
+      // ============================================================
+      // 5. 꼬리 — 길게 가늘어지는 S자 꼬리 + 창날 촉
+      // ============================================================
       const tailSegs = [];
-      let tailParent = new THREE.Group();
-      tailParent.position.set(0, 0.4, -4.8);
-      body.add(tailParent);
-      tailSegs.push(tailParent);
-      for (let i = 0; i < 8; i++) {
-        const seg = new THREE.Group();
-        seg.position.set(0, 0.06, -1.6);
-        const r = Math.max(0.3, 1.45 - i * 0.16);
-        const vert = new THREE.Mesh(new THREE.SphereGeometry(r, 12, 8), i % 2 ? scaleMat2 : scaleMat);
-        vert.scale.set(1.0, 1.0, 1.35);
-        seg.add(vert);
-        const fin = new THREE.Mesh(new THREE.ConeGeometry(Math.max(0.14, 0.44 - i * 0.04), 1.2, 4), goldMat);
-        fin.position.set(0, r * 0.92, 0);
-        fin.rotation.x = -0.35;
-        seg.add(fin);
-        tailParent.add(seg);
-        tailSegs.push(seg);
-        tailParent = seg;
-      }
-      const tailBlade = new THREE.Mesh(new THREE.ConeGeometry(0.95, 3.4, 4), goldMat);
-      tailBlade.position.set(0, 0.1, -1.9);
-      tailBlade.rotation.x = -Math.PI / 2;
-      tailParent.add(tailBlade);
+      const tailRoot = new THREE.Group();
+      tailRoot.position.set(0, -0.8, -4.95);
+      body.add(tailRoot);
+      tailSegs.push(tailRoot);
+      const tailDirs = [
+        new THREE.Vector3(0, 0.18, -1), new THREE.Vector3(0, 0.0, -1),
+        new THREE.Vector3(0, -0.12, -1), new THREE.Vector3(0, -0.2, -1),
+        new THREE.Vector3(0, -0.26, -1), new THREE.Vector3(0, -0.3, -1),
+        new THREE.Vector3(0, -0.34, -1), new THREE.Vector3(0, -0.36, -1),
+        new THREE.Vector3(0, -0.3, -1)
+      ];
+      const tailLen = [1.75, 1.7, 1.65, 1.6, 1.55, 1.5, 1.45, 1.4, 1.35];
+      const tailRad = [1.4, 1.16, 0.95, 0.78, 0.62, 0.48, 0.37, 0.27, 0.19, 0.13];
 
-      // ---------- 7. 네 발 (강철 발톱) ----------
-      [[-2.4, -2.6, 1.25], [2.4, -2.6, 1.25], [-2.1, 3.0, 0.85], [2.1, 3.0, 0.85]].forEach(([x, z, r]) => {
+      let tParent = tailRoot;
+      let tQuat = new THREE.Quaternion();
+      tailDirs.forEach((gd, i) => {
+        const s = new THREE.Group();
+        const inv = tQuat.clone().invert();
+        const localDir = gd.clone().normalize().applyQuaternion(inv);
+        const localUp = new THREE.Vector3(0, 1, 0).applyQuaternion(inv);
+        _kd4Aim(s, localDir, localUp);
+        s.userData.baseQuat = s.quaternion.clone();
+        tQuat.multiply(s.quaternion.clone());
+        const len = tailLen[i];
+        const geo = new THREE.CylinderGeometry(tailRad[i + 1], tailRad[i], len + 0.22, 8, 1);
+        const mesh = new THREE.Mesh(geo, scaleDark);
+        mesh.rotation.x = Math.PI / 2;
+        mesh.position.set(0, 0, len * 0.5);
+        s.add(mesh);
+        if (i < 8) {
+          const fin = _kd4Blade(0.9 - i * 0.08, 0.24, 0.1, hornMat, 3, -0.32);
+          fin.position.set(0, tailRad[i] * 0.8, len * 0.45);
+          fin.rotation.x = -0.55;
+          s.add(fin);
+        }
+        tParent.add(s);
+        const nxt = new THREE.Group();
+        nxt.position.set(0, 0, len);
+        s.add(nxt);
+        tParent = nxt;
+        tailSegs.push(s);
+      });
+
+      // 창날 꼬리촉
+      const tailTip = new THREE.Group();
+      tParent.add(tailTip);
+      const bladeMain = _kd4Blade(3.4, 0.68, 0.14, gold, 4, -0.03);
+      bladeMain.rotation.x = -Math.PI / 2 - 0.04;
+      tailTip.add(bladeMain);
+      [-1, 1].forEach(sx => {
+        const barb = _kd4Blade(1.5, 0.19, 0.09, goldDeep, 3, -0.1);
+        barb.rotation.set(-Math.PI / 2 - 0.45, 0, sx * 0.9);
+        barb.position.set(sx * 0.08, 0, -0.2);
+        tailTip.add(barb);
+      });
+
+      // ============================================================
+      // 6. 네 발 — 각진 다리 + 황금 발톱 (호버링하며 움켜쥔 자세)
+      // ============================================================
+      const legs = [
+        { x: 2.2, y: -1.0, z: 2.6, s: 0.92 },
+        { x: -2.2, y: -1.0, z: 2.6, s: 0.92 },
+        { x: 1.95, y: -0.8, z: -3.1, s: 1.18 },
+        { x: -1.95, y: -0.8, z: -3.1, s: 1.18 }
+      ];
+      legs.forEach(L => {
+        const sx = L.x > 0 ? 1 : -1;
         const leg = new THREE.Group();
-        leg.position.set(x, -1.7, z);
+        leg.position.set(L.x, L.y, L.z);
         body.add(leg);
-        const thigh = new THREE.Mesh(new THREE.CylinderGeometry(r * 0.72, r * 0.5, 3.0, 6), scaleMat2);
-        thigh.rotation.x = 0.18;
-        leg.add(thigh);
-        const shin = new THREE.Mesh(new THREE.CylinderGeometry(r * 0.42, r * 0.28, 2.4, 6), scaleMat2);
-        shin.position.set(0, -2.3, -0.55);
-        shin.rotation.x = -0.5;
-        leg.add(shin);
+        const knee = new THREE.Vector3(sx * 0.5 * L.s, -1.35 * L.s, 0.75 * L.s);
+        const ankle = new THREE.Vector3(sx * 0.62 * L.s, -2.75 * L.s, 0.15 * L.s);
+        _kd4Seg(leg, new THREE.Vector3(0, 0, 0), knee, 1.12 * L.s, 0.66 * L.s, scaleDark, 6);
+        _kd4Seg(leg, knee, ankle, 0.62 * L.s, 0.4 * L.s, scaleDark, 6);
+        const kp = _kd4BoxLike(0.26, 0.22, 0.2, 0.16, 0.36, steel, { y0: 0, y1: 0 });
+        kp.position.copy(knee);
+        kp.rotation.set(0.5, 0, sx * 0.3);
+        leg.add(kp);
+        const foot = _kd4BoxLike(0.32 * L.s, 0.16 * L.s, 0.26 * L.s, 0.12 * L.s, 0.75 * L.s, scaleDark, { y0: 0, y1: 0 });
+        foot.position.copy(ankle);
+        foot.rotation.set(1.35, 0, 0);
+        leg.add(foot);
         for (let c = -1; c <= 1; c++) {
-          const claw = new THREE.Mesh(new THREE.ConeGeometry(0.21, 0.95, 4), goldMat);
-          claw.position.set(c * 0.42, -3.7, -0.5);
-          claw.rotation.x = Math.PI * 0.62;
+          const claw = new THREE.Mesh(new THREE.ConeGeometry(0.1 * L.s, 0.7 * L.s, 4), gold);
+          claw.position.set(ankle.x + c * 0.24 * L.s, ankle.y - 0.3 * L.s, ankle.z + 0.72 * L.s);
+          claw.rotation.set(2.2, 0, c * 0.22);
           leg.add(claw);
         }
       });
 
-      // ---------- 8. 붉은/황금 오라 ----------
-      const aura = new THREE.Mesh(
-        new THREE.SphereGeometry(9.5, 18, 14),
-        new THREE.MeshBasicMaterial({ color: 0xff4400, transparent: true, opacity: 0.05, side: THREE.DoubleSide, depthWrite: false })
-      );
-      aura.position.y = 0.5;
-      aura.scale.set(1.0, 0.9, 1.2);
-      g.add(aura);
-
-      const auraRing = new THREE.Mesh(
-        new THREE.TorusGeometry(9.6, 0.22, 6, 40),
-        new THREE.MeshBasicMaterial({ color: 0xffb703, transparent: true, opacity: 0.32, depthWrite: false })
-      );
-      auraRing.rotation.x = Math.PI / 2;
-      auraRing.position.y = -1.6;
-      g.add(auraRing);
-
+      // ============================================================
+      // 7. 불티 · 조명
+      // ============================================================
       const embers = [];
-      for (let i = 0; i < 14; i++) {
+      for (let i = 0; i < 16; i++) {
         const em = new THREE.Mesh(
-          new THREE.SphereGeometry(0.3, 6, 6),
-          new THREE.MeshBasicMaterial({ color: (i % 3 === 0) ? 0xffd166 : 0xff5a00, transparent: true, opacity: 0.85 })
+          new THREE.OctahedronGeometry(0.2, 0),
+          new THREE.MeshBasicMaterial({ color: (i % 3 === 0) ? 0xffd166 : 0xff5a00, transparent: true, opacity: 0.9 })
         );
-        em.userData.baseAngle = (i / 14) * Math.PI * 2;
-        em.userData.radius = 10 + (i % 4) * 0.8;
-        em.position.set(Math.cos(em.userData.baseAngle) * 10, 0, Math.sin(em.userData.baseAngle) * 7);
+        em.userData.baseAngle = (i / 16) * Math.PI * 2;
+        em.userData.radius = 9.5 + (i % 4) * 0.9;
+        em.position.set(Math.cos(em.userData.baseAngle) * 9.5, 0, Math.sin(em.userData.baseAngle) * 6.5);
         g.add(em);
         embers.push(em);
       }
 
-      const fireLight = new THREE.PointLight(0xff5522, 1.15, 45);
-      fireLight.position.set(0, 3, 3);
+      const auraRing = new THREE.Mesh(
+        new THREE.TorusGeometry(9.2, 0.16, 4, 44),
+        new THREE.MeshBasicMaterial({ color: 0xffb703, transparent: true, opacity: 0.3, depthWrite: false })
+      );
+      auraRing.rotation.x = Math.PI / 2;
+      auraRing.position.y = -2.4;
+      g.add(auraRing);
+
+      const fireLight = new THREE.PointLight(O.light || 0xff5522, 1.4, 50);
+      fireLight.position.set(0, 2.4, 5.0);
       g.add(fireLight);
 
+      const rimLight = new THREE.PointLight(0xffb877, 1.05, 80);
+      rimLight.position.set(0, 10.5, -9);
+      g.add(rimLight);
+      const rimLight2 = new THREE.PointLight(O.light2 || 0xffb066, 1.25, 70);
+      rimLight2.position.set(-8, 7, -4);
+      g.add(rimLight2);
+      const rimLight3 = new THREE.PointLight(O.light2 || 0xff7a2a, 1.0, 70);
+      rimLight3.position.set(8, 6, -4);
+      g.add(rimLight3);
+
+      g.scale.setScalar(O.scale);
       g.userData = {
         body, neck: neckSegs, head, jaw: jawPivot, mouthGlow, eyes, wings, tail: tailSegs,
-        aura, auraRing, embers, mouth: mouthAnchor, crown, fireLight,
-        jawTimer: 0, hoverBase: 5.6
+        aura: null, auraRing, embers, mouth: mouthAnchor, crown, fireLight,
+        rimLight, rimLight2, rimLight3,
+        jawTimer: 0, hoverBase: O.hover, version: 'v4.5', opts: O
       };
       return g;
     }
+
 
     // 🔥 왕드래곤 강림 연출: 옥좌 상공 화염 폭발 + 화염 기둥 + 충격파
     function spawnDragonArrivalFX(pos) {
@@ -2622,16 +3110,29 @@
       const z = playerPos.z + Math.sin(angle) * dist;
 
       if (curStage.isBoss && !activeBoss) {
-        const bossMesh = buildCustomMonster(curStage.realm, true, curStage.bossHp, curStage.name);
-        bossMesh.position.set(x, 0, z);
+        // 🐉 v4.5: 15·20·26 스테이지 보스는 새 3D 드래곤 모델로 등장!
+        const dv = DRAGON_BOSS_VARIANTS[curStage.stage];
+        let bossMesh;
+        if (dv) {
+          bossMesh = buildKingDragon(dv.opts);
+          bossMesh.position.set(x, 30, z);   // 하늘에서 강림
+          spawnDragonArrivalFX(new THREE.Vector3(x, 0, z));
+          AudioEngine.playDragonRoar();
+          flash('goldFlash');
+        } else {
+          bossMesh = buildCustomMonster(curStage.realm, true, curStage.bossHp, curStage.name);
+          bossMesh.position.set(x, 0, z);
+        }
         scene.add(bossMesh);
 
         activeBoss = {
           group: bossMesh,
           hp: curStage.bossHp,
           maxHp: curStage.bossHp,
-          speed: 3.2,
+          speed: dv ? 2.6 : 3.2,
           isBoss: true,
+          isDragon: !!dv,
+          isStageBoss: true,
           name: curStage.name
         };
         enemies.push(activeBoss);
@@ -2641,8 +3142,16 @@
         document.getElementById('bossNameLabel').textContent = curStage.name;
         document.getElementById('bossHpText').textContent = `${activeBoss.hp} / ${activeBoss.maxHp}`;
         document.getElementById('bossHpFill').style.width = '100%';
-        showFloat(`⚠️ WARNING: ${curStage.name} 출현!! ⚠️`);
-        setPet("거대 보스 출현!! 전원 집중 사격!!");
+        if (dv) {
+          document.getElementById('bossHpFill').style.background = 'linear-gradient(90deg, #ff2d00, #ffb703, #ffe066)';
+          const phaseEl0 = document.getElementById('dragonPhaseText');
+          if (phaseEl0) {
+            phaseEl0.style.display = 'block';
+            phaseEl0.textContent = dv.opts.phaseText || '🐉 화염 브레스 · 화염 파동 · 꼬리 강타 주의!!';
+          }
+        }
+        showFloat(dv ? `🐉🔥 ${curStage.name} 강림!! 하늘을 가르는 포효!!` : `⚠️ WARNING: ${curStage.name} 출현!! ⚠️`);
+        setPet(dv ? "진짜 용이 나타났어!! 브레스 조심해!!" : "거대 보스 출현!! 전원 집중 사격!!");
 
       } else if (!curStage.isBoss) {
         const enemyMesh = buildCustomMonster(curStage.realm, false, 0, '');
@@ -2686,9 +3195,15 @@
             AudioEngine.playVictory();
             AudioEngine.playStageClearFanfare();
           }, 700);
-          showFloat("🐉💥 【왕드래곤】 대군주 격파!! 황금 왕관이 부서지고 사탕이 대폭발한다!!");
-          setPet("드래곤을 이겼어!!! 태용이 진짜 전설이다!!!");
-          triggerKingEnding();
+          if (state.currentStageIndex >= STAGES.length - 1) {
+            showFloat("🐉💥 【왕드래곤】 대군주 격파!! 황금 왕관이 부서지고 사탕이 대폭발한다!!");
+            setPet("드래곤을 이겼어!!! 태용이 진짜 전설이다!!!");
+            triggerKingEnding();
+          } else {
+            showFloat(`🐉💥 ${e.name || '드래곤'} 격파!! 사탕 대폭발!! 🚩 STAGE ${state.currentStageIndex + 2}로 진격!!`);
+            setPet("드래곤을 이겼어!! 다음 스테이지로 달려보자!!");
+            setTimeout(advanceStage, 2000);
+          }
         } else {
           spawnCandies(e.group.position, 120 * candyMult);
           showFloat(`🎉 ${e.name} 격파 완료!! 대승리!! 👑`);
@@ -2752,8 +3267,8 @@
 
     function advanceStage() {
       if (state.currentStageIndex >= STAGES.length - 1) {
-        showFloat("🏆 소드 콘티넌트 18스테이지 완전 정복!! 대영웅 탄생!! 👑");
-        setPet("우와아아!! 태용이가 18스테이지 전부 클리어했다!!");
+        showFloat("🏆 소드 콘티넌트 26스테이지 완전 정복!! 소드 대륙 대영웅 탄생!! 👑");
+        setPet("우와아아!! 태용이가 26스테이지 전부 클리어했다!!");
         return;
       }
       state.currentStageIndex++;
@@ -3663,6 +4178,10 @@
         return;
       }
       if (state.fluteSounding) return;
+      if (activeBoss && !activeBoss.isDragon) {
+        showFloat("⚔️ 지금은 스테이지 보스와 싸우는 중이야!! 보스를 먼저 격파해!");
+        return;
+      }
       if (state.fluteKills < 50) {
         showFloat(`⚠️ 몬스터 50마리를 잡아야 피리를 불 수 있어! (현재: ${state.fluteKills}/50)`);
         return;
@@ -3732,7 +4251,10 @@
         const bb = document.getElementById('bossBarWrap');
         if (bb) bb.style.display = 'flex';
         const phaseEl = document.getElementById('dragonPhaseText');
-        if (phaseEl) phaseEl.style.display = 'block';
+        if (phaseEl) {
+          phaseEl.style.display = 'block';
+          phaseEl.textContent = '🐉 화염 브레스 · 화염 파동 · 꼬리 강타 주의!!';
+        }
         document.getElementById('bossNameLabel').textContent = dragonName;
         document.getElementById('bossHpText').textContent = `${activeBoss.hp} / ${activeBoss.maxHp}`;
         document.getElementById('bossHpFill').style.width = '100%';
@@ -4311,6 +4833,9 @@
     }
 
     // 🐉 v4.4 왕드래곤 생동감 애니메이션 — 거대한 날개 펄럭임·목·꼬리·오라·눈 광채
+    const _kd4Eul = new THREE.Euler();
+    const _kd4Q = new THREE.Quaternion();
+    const _kd4Ident = new THREE.Quaternion();
     function animateKingDragon(boss, now, dt) {
       const g = boss.group;
       const ud = g.userData;
@@ -4334,12 +4859,12 @@
         ud.wings[1].rotation.y = -flap * 0.1;
       }
 
-      // 목 물결
+      // 목 물결 (v4.5: 마디 기본 굽힘 quaternion 위에 미세 흔들림을 얹는다)
       if (ud.neck) {
         ud.neck.forEach((seg, i) => {
           if (i === 0) return;
-          seg.rotation.x = Math.sin(t * 1.05 + i * 0.45) * 0.055;
-          seg.rotation.y = Math.sin(t * 0.75 + i * 0.5) * 0.06;
+          _kd4Eul.set(Math.sin(t * 1.05 + i * 0.45) * 0.045, Math.sin(t * 0.75 + i * 0.5) * 0.05, 0);
+          seg.quaternion.copy(seg.userData.baseQuat || _kd4Ident).multiply(_kd4Q.setFromEuler(_kd4Eul));
         });
       }
 
@@ -4355,22 +4880,26 @@
       }
       if (ud.mouthGlow) ud.mouthGlow.visible = (ud.jawTimer > 0);
 
-      // 긴 꼬리 흔들림
+      // 긴 꼬리 흔들림 (v4.5: 기본 S자 굽힘 위에 물결)
       if (ud.tail) {
         ud.tail.forEach((seg, i) => {
           if (i === 0) return;
-          seg.rotation.y = Math.sin(t * 1.25 - i * 0.55) * (0.08 + i * 0.018);
-          seg.rotation.x = Math.sin(t * 0.9 - i * 0.4) * 0.03;
+          _kd4Eul.set(Math.sin(t * 0.9 - i * 0.4) * 0.03, Math.sin(t * 1.25 - i * 0.55) * (0.06 + i * 0.016), 0);
+          seg.quaternion.copy(seg.userData.baseQuat || _kd4Ident).multiply(_kd4Q.setFromEuler(_kd4Eul));
         });
       }
 
       // 황금 왕관 회전 + 눈 광채
       if (ud.crown) ud.crown.rotation.y += dt * 0.6;
       if (ud.eyes) {
-        ud.eyes.forEach((e, i) => {
-          e.scale.setScalar(0.9 + Math.sin(t * 4 + i) * 0.18);
+        const k = 1.0 + Math.sin(t * 4) * 0.1;
+        ud.eyes.forEach((e) => {
+          if (e.userData.baseScale) e.scale.copy(e.userData.baseScale).multiplyScalar(k);
+          else e.scale.setScalar(0.95);
         });
       }
+      if (ud.rimLight) ud.rimLight.intensity = 1.4 + Math.sin(t * 1.7) * 0.35;
+      if (ud.chestLight) ud.chestLight.intensity = 1.3 + Math.abs(Math.sin(t * 3.1)) * 0.7;
 
       // 붉은/황금 오라 맥동
       if (ud.aura) {
@@ -4392,12 +4921,13 @@
         });
       }
       if (ud.fireLight) {
-        ud.fireLight.intensity = 1.0 + Math.abs(Math.sin(t * 3.1)) * 0.8;
+        ud.fireLight.intensity = 1.15 + Math.abs(Math.sin(t * 3.1)) * 0.6;
       }
 
-      // 성채 밖으로 나가지 않게 위치 제한
-      g.position.z = Math.max(-88, Math.min(-20, g.position.z));
-      g.position.x = Math.max(-24, Math.min(24, g.position.x));
+      // 플레이어 주변을 벗어나지 않게 (성채·평원 어디서든 따라온다)
+      const _lim = 75;
+      g.position.z = Math.max(playerPos.z - _lim, Math.min(playerPos.z + _lim, g.position.z));
+      g.position.x = Math.max(playerPos.x - _lim, Math.min(playerPos.x + _lim, g.position.x));
     }
 
     function triggerBossShockwave(pos) {
@@ -5227,6 +5757,126 @@
           camera.position.copy(playerPos);
           camera.rotation.set(cameraPitch, cameraYaw, 0, 'YXZ');
         }
+        // 🧪 v4.5 검증용 카메라 오버라이드 (__scCam 으로만 켜짐, 일반 플레이 영향 없음)
+        if (window.__scCamOverride) {
+          const o = window.__scCamOverride;
+          camera.position.set(o.x, o.y, o.z);
+          camera.lookAt(o.tx, o.ty, o.tz);
+        }
+        // 🧪 v4.5 검증용 카메라 오버라이드 (__scCam 으로만 켜짐, 일반 플레이 영향 없음)
+        if (window.__scCamOverride) {
+          const o = window.__scCamOverride;
+          camera.position.set(o.x, o.y, o.z);
+          camera.lookAt(o.tx, o.ty, o.tz);
+        }
+        // 🧪 v4.5 검증용 카메라 오버라이드 (__scCam 으로만 켜짐, 일반 플레이 영향 없음)
+        if (window.__scCamOverride) {
+          const o = window.__scCamOverride;
+          camera.position.set(o.x, o.y, o.z);
+          camera.lookAt(o.tx, o.ty, o.tz);
+        }
+        // 🧪 v4.5 검증용 카메라 오버라이드 (__scCam 으로만 켜짐, 일반 플레이 영향 없음)
+        if (window.__scCamOverride) {
+          const o = window.__scCamOverride;
+          camera.position.set(o.x, o.y, o.z);
+          camera.lookAt(o.tx, o.ty, o.tz);
+        }
+        // 🧪 v4.5 검증용 카메라 오버라이드 (__scCam 으로만 켜짐, 일반 플레이 영향 없음)
+        if (window.__scCamOverride) {
+          const o = window.__scCamOverride;
+          camera.position.set(o.x, o.y, o.z);
+          camera.lookAt(o.tx, o.ty, o.tz);
+        }
+        // 🧪 v4.5 검증용 카메라 오버라이드 (__scCam 으로만 켜짐, 일반 플레이 영향 없음)
+        if (window.__scCamOverride) {
+          const o = window.__scCamOverride;
+          camera.position.set(o.x, o.y, o.z);
+          camera.lookAt(o.tx, o.ty, o.tz);
+        }
+        // 🧪 v4.5 검증용 카메라 오버라이드 (__scCam 으로만 켜짐, 일반 플레이 영향 없음)
+        if (window.__scCamOverride) {
+          const o = window.__scCamOverride;
+          camera.position.set(o.x, o.y, o.z);
+          camera.lookAt(o.tx, o.ty, o.tz);
+        }
+        // 🧪 v4.5 검증용 카메라 오버라이드 (__scCam 으로만 켜짐, 일반 플레이 영향 없음)
+        if (window.__scCamOverride) {
+          const o = window.__scCamOverride;
+          camera.position.set(o.x, o.y, o.z);
+          camera.lookAt(o.tx, o.ty, o.tz);
+        }
+        // 🧪 v4.5 검증용 카메라 오버라이드 (__scCam 으로만 켜짐, 일반 플레이 영향 없음)
+        if (window.__scCamOverride) {
+          const o = window.__scCamOverride;
+          camera.position.set(o.x, o.y, o.z);
+          camera.lookAt(o.tx, o.ty, o.tz);
+        }
+        // 🧪 v4.5 검증용 카메라 오버라이드 (__scCam 으로만 켜짐, 일반 플레이 영향 없음)
+        if (window.__scCamOverride) {
+          const o = window.__scCamOverride;
+          camera.position.set(o.x, o.y, o.z);
+          camera.lookAt(o.tx, o.ty, o.tz);
+        }
+        // 🧪 v4.5 검증용 카메라 오버라이드 (__scCam 으로만 켜짐, 일반 플레이 영향 없음)
+        if (window.__scCamOverride) {
+          const o = window.__scCamOverride;
+          camera.position.set(o.x, o.y, o.z);
+          camera.lookAt(o.tx, o.ty, o.tz);
+        }
+        // 🧪 v4.5 검증용 카메라 오버라이드 (__scCam 으로만 켜짐, 일반 플레이 영향 없음)
+        if (window.__scCamOverride) {
+          const o = window.__scCamOverride;
+          camera.position.set(o.x, o.y, o.z);
+          camera.lookAt(o.tx, o.ty, o.tz);
+        }
+        // 🧪 v4.5 검증용 카메라 오버라이드 (__scCam 으로만 켜짐, 일반 플레이 영향 없음)
+        if (window.__scCamOverride) {
+          const o = window.__scCamOverride;
+          camera.position.set(o.x, o.y, o.z);
+          camera.lookAt(o.tx, o.ty, o.tz);
+        }
+        // 🧪 v4.5 검증용 카메라 오버라이드 (__scCam 으로만 켜짐, 일반 플레이 영향 없음)
+        if (window.__scCamOverride) {
+          const o = window.__scCamOverride;
+          camera.position.set(o.x, o.y, o.z);
+          camera.lookAt(o.tx, o.ty, o.tz);
+        }
+        // 🧪 v4.5 검증용 카메라 오버라이드 (__scCam 으로만 켜짐, 일반 플레이 영향 없음)
+        if (window.__scCamOverride) {
+          const o = window.__scCamOverride;
+          camera.position.set(o.x, o.y, o.z);
+          camera.lookAt(o.tx, o.ty, o.tz);
+        }
+        // 🧪 v4.5 검증용 카메라 오버라이드 (__scCam 으로만 켜짐, 일반 플레이 영향 없음)
+        if (window.__scCamOverride) {
+          const o = window.__scCamOverride;
+          camera.position.set(o.x, o.y, o.z);
+          camera.lookAt(o.tx, o.ty, o.tz);
+        }
+        // 🧪 v4.5 검증용 카메라 오버라이드 (__scCam 으로만 켜짐, 일반 플레이 영향 없음)
+        if (window.__scCamOverride) {
+          const o = window.__scCamOverride;
+          camera.position.set(o.x, o.y, o.z);
+          camera.lookAt(o.tx, o.ty, o.tz);
+        }
+        // 🧪 v4.5 검증용 카메라 오버라이드 (__scCam 으로만 켜짐, 일반 플레이 영향 없음)
+        if (window.__scCamOverride) {
+          const o = window.__scCamOverride;
+          camera.position.set(o.x, o.y, o.z);
+          camera.lookAt(o.tx, o.ty, o.tz);
+        }
+        // 🧪 v4.5 검증용 카메라 오버라이드 (__scCam 으로만 켜짐, 일반 플레이 영향 없음)
+        if (window.__scCamOverride) {
+          const o = window.__scCamOverride;
+          camera.position.set(o.x, o.y, o.z);
+          camera.lookAt(o.tx, o.ty, o.tz);
+        }
+        // 🧪 v4.5 검증용 카메라 오버라이드 (__scCam 으로만 켜짐, 일반 플레이 영향 없음)
+        if (window.__scCamOverride) {
+          const o = window.__scCamOverride;
+          camera.position.set(o.x, o.y, o.z);
+          camera.lookAt(o.tx, o.ty, o.tz);
+        }
 
 
         // 🐉 v4.4 왕드래곤 생동감 모션 (날개 펄럭·목·꼬리·오라)
@@ -5349,6 +5999,33 @@
       cameraPitch = 0.3;
       blowRoyalFlute();
       return '🪈 왕드래곤 소환 시작';
+    };
+    window.__scErrors = [];
+    window.addEventListener('error', function (e) { window.__scErrors.push(String(e.message || e.error)); });
+    window.addEventListener('unhandledrejection', function (e) { window.__scErrors.push('rejection:' + String(e.reason)); });
+    window.__scStage = function (n) {
+      if (!state.started) startGameSolo();
+      state.currentStageIndex = Math.max(0, Math.min(STAGES.length - 1, (n || 1) - 1));
+      state.stageKills = 0;
+      state.kingSpawned = false;
+      activeBoss = null;
+      const st = STAGES[state.currentStageIndex];
+      buildRealmWorld(st.realm);
+      spawnStageEnemy();
+      return { stage: st.stage, name: st.name, isBoss: st.isBoss, bossDragon: !!(activeBoss && activeBoss.isDragon) };
+    };
+    window.__scCam = function (x, y, z, tx, ty, tz) {
+      if (x === null) { window.__scCamOverride = null; return '카메라 해제'; }
+      window.__scCamOverride = { x: x, y: y, z: z, tx: tx, ty: ty, tz: tz };
+      return '카메라 고정';
+    };
+    window.__scDragonBox = function () {
+      if (!activeBoss || !activeBoss.isDragon) return null;
+      const b = new THREE.Box3().setFromObject(activeBoss.group);
+      return {
+        min: [b.min.x, b.min.y, b.min.z].map(v => +v.toFixed(1)),
+        max: [b.max.x, b.max.y, b.max.z].map(v => +v.toFixed(1))
+      };
     };
     window.__scViewDragon = function (z, pitch, dist) {
       playerPos.set(0, 1.8, (typeof z === 'number') ? z : -46);
