@@ -3413,6 +3413,7 @@
 
       scene.add(g);
       playerMesh = { group: g, armL, armR, legL, legR, head, torso, nameSprite };
+      if (typeof MP !== 'undefined' && MP.enabled) mpUpdateLocalTag();
       if (state.isZombie) zombieReapplyLook();
     }
 
@@ -8070,13 +8071,18 @@
     };
     window.__v47State = function () {
       const names = [];
-      MP.remotePlayers.forEach(function (p) { names.push(p.icon + ' ' + p.name); });
+      const peers = [];
+      MP.remotePlayers.forEach(function (p) {
+        names.push(p.icon + ' ' + p.name);
+        peers.push({ name: p.name, icon: p.icon, isZombie: !!p.isZombie, isOverlord: !!p.isOverlord, crown: !!p.crown });
+      });
       const badge = document.getElementById('mpStatusBadge');
       const list = document.getElementById('mpRosterList');
       return {
         count: mpCount(), max: MP_MAX, full: MP.full,
         myName: MP.myName, myIcon: MP.myIcon,
         names: names,
+        peers: peers,
         badge: badge ? badge.textContent : '(none)',
         badgeShown: badge ? getComputedStyle(badge).display : 'none',
         roster: list ? list.textContent : '',
