@@ -8304,6 +8304,8 @@
         }
         try {
           startGameSolo();
+          // 🛡️ 즉시 입장 직후 화면을 살피는 동안 몬스터에게 얻어맞지 않게 6초 시작 보호
+          state.invulnTime = Math.max(state.invulnTime, 6.0);
         } catch (err) {
           if (window.__scErrors) window.__scErrors.push('instantEnter: ' + String((err && err.message) || err));
           if (modal) modal.style.display = 'flex';
@@ -8329,6 +8331,7 @@
         modalShown: modal ? getComputedStyle(modal).display !== 'none' : false,
         mpBtnShown: btn ? getComputedStyle(btn).display !== 'none' : false,
         playerBuilt: !!playerMesh,
+        invuln: +state.invulnTime.toFixed(1),
         errors: (window.__scErrors || []).slice()
       };
     };
