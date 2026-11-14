@@ -3408,7 +3408,7 @@
       g.add(nameSprite);
 
       scene.add(g);
-      playerMesh = { group: g, armL, armR, legL, legR, head, torso };
+      playerMesh = { group: g, armL, armR, legL, legR, head, torso, nameSprite };
       if (state.isZombie) zombieReapplyLook();
     }
 
@@ -6062,6 +6062,20 @@
     }
 
     // ---------- 5. 방 접속 ----------
+    // 👥 v4.7 내 캐릭터 머리 위 이름표를 고른 역할로 교체
+    function mpUpdateLocalTag() {
+      if (!playerMesh || !playerMesh.nameSprite) return;
+      const spr = playerMesh.nameSprite;
+      const label = (MP.myIcon || '🙂') + ' ' + (MP.myName || '태용');
+      const colorHex = mpHex((MP_ROLE_PRESETS[mpSelectedRole] || MP_ROLE_PRESETS.me).color);
+      const oldTex = spr.material.map;
+      spr.material.map = mpBadgeTexture(label, colorHex);
+      if (oldTex) oldTex.dispose();
+      spr.material.needsUpdate = true;
+      spr.scale.set(1.9, 0.48, 1);
+      spr.material.depthTest = false;
+    }
+
     function initMultiplayer(isHost) {
       MP.enabled = true;
       MP.isHost = isHost;
@@ -6083,6 +6097,7 @@
       const notice = document.getElementById('mpFullNotice');
       if (notice) notice.style.display = 'none';
       mpRefreshRoster();
+      mpUpdateLocalTag();
 
       if (MP.client) { try { MP.client.end(true); } catch (e) {} }
       const topic = 'sword_continent/room/' + MP.roomCode;

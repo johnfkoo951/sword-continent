@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>v4.7 검증 하네스 (5인 멀티 · 난이도 · 좀비 권력자)</title>
+<style>
+  html, body { margin: 0; background: #0b1220; color: #e5e7eb; font-family: ui-monospace, Menlo, monospace; }
+  #wrap { position: relative; }
+  iframe { border: 0; display: block; background: #000; }
+  #panel { position: absolute; top: 0; left: 400px; width: 560px; padding: 10px; font-size: 12px; }
+  pre { white-space: pre-wrap; word-break: break-all; background: #111827; padding: 8px; border-radius: 6px; font-size: 11px; max-height: 92vh; overflow: auto; }
+  b { color: #38bdf8; }
+  .ok { color: #4ade80; } .bad { color: #f87171; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <iframe id="game" width="390" height="844"></iframe>
+  <div id="panel">
+    <b id="meta">-</b>
+    <pre id="out">audit 대기중…</pre>
+  </div>
+</div>
+<script>
+const q = new URLSearchParams(location.search);
+const W = parseInt(q.get('w') || '390', 10);
+const H = parseInt(q.get('h') || '844', 10);
+const MODE = q.get('mode') || '5p';
+const f = document.getElementById('game');
+f.width = W; f.height = H; f.style.width = W + 'px'; f.style.height = H + 'px';
+document.getElementById('panel').style.left = (W + 14) + 'px';
+document.getElementById('meta').textContent = 'iframe ' + W + 'x' + H + ' · mode ' + MODE;
+f.src = '../../index.html?v=' + Date.now();
+
+const SEL = [
+  ['stage', '.hud-badge.stage-badge'], ['candy', '.hud-badge.candy-badge'],
+  ['lv', '#hudLevelWrap'], ['hp', '#hudHpWrap'], ['stamina', '#hudStaminaWrap'],
+  ['pet', '.pet-hud'], ['mp', '#mpStatusBadge'], ['roster', '#mpRosterList'],
+  ['zchip', '#zombieChip'], ['dchip', '#diffChip'],
+  ['shop', '#shopOpenBtn'],
+  ['cam1', '#camToggleBtn'], ['cam2', '#zoomOutBtn'], ['cam3', '#zoomInBtn'], ['cam4', '#turn180Btn'],
+  ['diff', '#diffRow'],
+  ['boss', '#bossBarWrap'],
+  ['skilllabel', '.skill-zone-label'], ['skillrow', '.skill-deck-row'],
+  ['sk1', '#skillBtnSkin'], ['sk2', '#skillBtnMeteor'], ['sk3', '#skillBtnLaser'],
+  ['sk4', '#skillBtnBlizzard'], ['sk5', '#skillBtnHelper'], ['sk6', '#fluteBtn'],
+  ['dash', '#dashBtn'], ['jump', '#jumpBtn'], ['shoot', '#shootBtn'], ['punch', '#punchBtn'],
+  ['joy', '#joystickBase']
+];
+
+function audit(win) {
+  const doc = win.document;
+  const VW = win.innerWidth, VH = win.innerHeight;
+  const items = [];
+  for (const [n, sel] of SEL) {
+    const el = doc.querySelector(sel);
+    if (!el) continue;
+    const cs = win.getComputedStyle(el);
+    const r = el.getBoundingClientRect();
+    if (cs.display === 'none' || cs.visibility === 'hidden' || r.width < 1 || r.height < 1) continue;
+    items.push({ n, el, x: +r.left.toFixed(1), y: +r.top.toFixed(1), w: +r.width.toFixed(1), h: +r.height.toFixed(1) });
+  }
+  const overlaps = [];
+  for (let i = 0; i < items.length; i++) {
+    for (let j = i + 1; j < items.length; j++) {
+      const a = items[i], b = items[j];
+      if (a.el.contains(b.el) || b.el.contains(a.el)) continue;
+      const ox = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x);
+      const oy = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y);
+      if (ox > 0.5 && oy > 0.5) overlaps.push(a.n + 'x' + b.n + '(' + ox.toFixed(1) + 'x' + oy.toFixed(1) + ')');
+    }
+  }
+  const vz = { x: VW * 0.22, y: VH * 0.20, w: VW * 0.56, h: VH * 0.58 };
+  const inCenter = items.filter(a => {
+    const ox = Math.min(a.x + a.w, vz.x + vz.w) - Math.max(a.x, vz.x);
+    const oy = Math.min(a.y + a.h, vz.y + vz.h) - Math.max(a.y, vz.y);
+    return ox > 0.5 && oy > 0.5;
+  }).map(a => a.n);
+  const outOfBounds = items.filter(a => a.x < -0.5 || a.y < -0.5 || a.x + a.w > VW + 0.5 || a.y + a.h > VH + 0.5).map(a => a.n);
+  let mp = null, zb = null;
+  try { mp = win.__v47State(); } catch (e) { mp = 'ERR ' + e; }
+  try { zb = win.__v47ZombieState(); } catch (e) { zb = 'ERR ' + e; }
+  return { viewport: [VW, VH], mode: MODE, overlaps, inCenter, outOfBounds, mp, zombie: zb,
+           jsErrors: (win.__scErrors || []).slice(0, 6) };
+}
+
+f.addEventListener('load', () => {
+  const win = f.contentWindow;
+  setTimeout(() => {
+    try {
+      win.__v47Diff(2);
+      win.__v47Peers(4);
+      if (MODE === 'zombie') win.__v47ZombieNow();
+    } catch (e) { document.getElementById('out').textContent = 'setup error: ' + e; }
+  }, 2200);
+  setTimeout(() => {
+    let r;
+    try { r = audit(win); } catch (e) { r = { error: '' + e }; }
+    document.getElementById('out').textContent = JSON.stringify(r, null, 1);
+    document.title = 'AUDIT ' + (r.viewport || []).join('x') +
+      ' | overlap:' + ((r.overlaps || []).length ? r.overlaps.join(',') : '0') +
+      ' | center:' + ((r.inCenter || []).length ? r.inCenter.join(',') : '0') +
+      ' | out:' + ((r.outOfBounds || []).length ? r.outOfBounds.join(',') : '0') +
+      ' | err:' + ((r.jsErrors || []).length ? r.jsErrors[0] : '0');
+  }, 6200);
+});
+</script>
+</body>
+</html>
