@@ -5,7 +5,7 @@
 > **기획 총괄 (Lead Game Director)**: 구태용 (@kootaeyong4)  
 > **테크니컬 디렉터 & 공동 기획**: 냥냥이 (Pickle AI)  
 > **타깃 플랫폼**: 모바일 웹 (iOS Safari / Android Chrome 최적화, 무설치 인스턴트 WebGL 3D)  
-> **최신 배포 링크**: `https://raw.githack.com/johnfkoo951/sword-continent/6adcafd/index.html`  — brewpage 발행이 2026-11-14 12:5x~13:1x KST에 플랫폼 쪽 *Too many failed attempts* 차단으로 거절되어("Content rejected"), 같은 파일을 GitHub 저장소 CDN(raw.githack, 커밋 고정)으로 먼저 배포했다. 차단 해제 후 brewpage에 다시 올리면 된다.
+> **최신 배포 링크**: `https://raw.githack.com/johnfkoo951/sword-continent/main/index.html`  — brewpage 발행이 2026-11-14 12:5x~13:1x KST에 플랫폼 쪽 *Too many failed attempts* 차단으로 거절되어("Content rejected"), 같은 파일을 GitHub 저장소 CDN(raw.githack, main 브랜치)으로 먼저 배포했다. 차단 해제 후 brewpage에 다시 올리면 된다.
 > **파일**: `games/sword-continent-26stages-kingdoms.html` (v4.7)  
 
 ---
@@ -275,7 +275,7 @@ v4.6은 `remotePlayer` 1명(파트너 메시 1개, 역할 `p1`/`p2` 고정)만 �
 
 
 ## 4. 배포 정보
-- **최신 웹 링크 (v4.7)**: `https://raw.githack.com/johnfkoo951/sword-continent/6adcafd/index.html`  — brewpage 발행이 2026-11-14 12:5x~13:1x KST에 플랫폼 쪽 *Too many failed attempts* 차단으로 거절되어("Content rejected"), 같은 파일을 GitHub 저장소 CDN(raw.githack, 커밋 고정)으로 먼저 배포했다. 차단 해제 후 brewpage에 다시 올리면 된다.
+- **최신 웹 링크 (v4.7)**: `https://raw.githack.com/johnfkoo951/sword-continent/main/index.html`  — brewpage 발행이 2026-11-14 12:5x~13:1x KST에 플랫폼 쪽 *Too many failed attempts* 차단으로 거절되어("Content rejected"), 같은 파일을 GitHub 저장소 CDN(raw.githack, main 브랜치)으로 먼저 배포했다. 차단 해제 후 brewpage에 다시 올리면 된다.
 - **이전 링크**: v4.6 `9k4BnL54uG` / v4.5 `d5rQpQgLyb`
 - v4.4 `DKwiUfQWSI` / v4.3 `https://brewpage.app/api/html/public/mjON3V0iE7` / v3.7 `Hye23cU10a` / v3.5 `O6nNj1IVQl` / v3.0 `jlxxI7zDGx` / v2.5 `lS5wd80X4r`
 - **저장소 백업 타깃**: `johnfkoo951/sword-continent`
