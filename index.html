@@ -737,7 +737,7 @@
     }
     #petSpeech { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 1em; font-weight: 700; color: #a7f3d0; line-height: 1.2; }
 
-    /* 멀티 대기 배지도 좌상단 칩 라인에 (중앙 침범 금지) */
+    /* 👥 v4.7 멀티 배지·접속자 목록 — 좌상단 칩 라인 (중앙 침범 금지) */
     #mpStatusBadge {
       position: static;
       transform: none;
@@ -747,7 +747,167 @@
       font-size: clamp(8px, 2.15vw, 11px);
       margin: 0;
       border-width: 1.5px;
+      border-style: solid;
+      border-color: rgba(56, 189, 248, 0.85);
+      background: rgba(15, 23, 42, 0.82);
+      font-weight: 900;
+      color: #38bdf8;
+      white-space: nowrap;
     }
+    #mpRosterList {
+      display: none;
+      max-width: min(58vw, 260px);
+      padding: 1px 6px;
+      border-radius: 8px;
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid rgba(71, 85, 105, 0.9);
+      font-size: clamp(7px, 1.95vw, 9.5px);
+      font-weight: 800;
+      color: #cbd5e1;
+      line-height: 1.35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* 👥 v4.7 가족 5인 원터치 역할 버튼 */
+    .mp-role-row { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0 2px; }
+    .mp-role {
+      flex: 1 1 calc(33.3% - 5px);
+      padding: 8px 2px;
+      border-radius: 10px;
+      cursor: pointer;
+      background: rgba(30, 41, 59, 0.92);
+      border: 1.5px solid #334155;
+      color: #cbd5e1;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 900;
+      white-space: nowrap;
+      line-height: 1.1;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .mp-role.active {
+      background: linear-gradient(135deg, #0ea5e9, #2563eb);
+      border-color: #7dd3fc;
+      color: #fff;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.65);
+    }
+    .mp-role:active { transform: scale(0.96); }
+
+    /* 🎯 난이도 1렙·2렙·3렙 토글 */
+    #diffRow { align-items: center; }
+    .diff-label {
+      font-size: clamp(7.5px, 2vw, 10px);
+      font-weight: 900;
+      color: #94a3b8;
+      white-space: nowrap;
+      line-height: 1.15;
+    }
+    .diff-btn {
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1.5px solid #475569;
+      background: rgba(15, 23, 42, 0.88);
+      color: #cbd5e1;
+      font-family: inherit;
+      font-size: clamp(8px, 2.15vw, 11px);
+      font-weight: 900;
+      line-height: 1.15;
+      white-space: nowrap;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .diff-btn.active {
+      background: linear-gradient(135deg, #ef4444, #f59e0b);
+      border-color: #fde047;
+      color: #fff;
+      box-shadow: 0 0 9px rgba(239, 68, 68, 0.65);
+    }
+    #diffChip {
+      display: none;
+      padding: 1px 7px;
+      border-radius: 8px;
+      background: rgba(127, 29, 29, 0.9);
+      border: 1.5px solid #f87171;
+      color: #fecaca;
+      font-size: clamp(7.5px, 2vw, 10px);
+      font-weight: 900;
+      white-space: nowrap;
+      line-height: 1.35;
+    }
+
+    /* 🧟 좀비 / 👑 좀비 권력자 HUD 칩 */
+    #zombieChip {
+      display: none;
+      padding: 1px 7px;
+      border-radius: 8px;
+      background: rgba(6, 78, 59, 0.92);
+      border: 1.5px solid #22c55e;
+      color: #bbf7d0;
+      font-size: clamp(7.5px, 2vw, 10px);
+      font-weight: 900;
+      white-space: nowrap;
+      line-height: 1.35;
+    }
+    #zombieChip.overlord {
+      background: linear-gradient(135deg, rgba(76, 29, 149, 0.95), rgba(6, 78, 59, 0.95));
+      border-color: #a855f7;
+      color: #f3e8ff;
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.7);
+    }
+
+    /* 👑🧟 좀비 권력자 각성 배너 */
+    #zombieBanner {
+      position: fixed;
+      left: 50%; top: 16%;
+      transform: translate(-50%, -16px) scale(0.9);
+      z-index: 62;
+      display: none;
+      flex-direction: column;
+      gap: 3px;
+      align-items: center;
+      width: min(90vw, 360px);
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(46, 16, 101, 0.96), rgba(6, 78, 59, 0.96));
+      border: 2px solid #a855f7;
+      box-shadow: 0 0 28px rgba(168, 85, 247, 0.75), inset 0 0 18px rgba(34, 197, 94, 0.35);
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.28s ease, transform 0.28s ease;
+      pointer-events: none;
+    }
+    #zombieBanner.show { display: flex; opacity: 1; transform: translate(-50%, 0) scale(1); }
+    #zombieBanner .zb1 { font-size: 15px; font-weight: 900; color: #f5d0fe; text-shadow: 0 0 12px rgba(34, 197, 94, 0.9); line-height: 1.25; }
+    #zombieBanner .zb2 { font-size: 10.5px; font-weight: 800; color: #bbf7d0; line-height: 1.35; }
+
+    /* 🚫 방 정원 초과 안내 */
+    #mpFullNotice {
+      display: none;
+      position: fixed;
+      left: 50%; top: 12%;
+      transform: translateX(-50%);
+      z-index: 61;
+      flex-direction: column;
+      gap: 7px;
+      align-items: center;
+      width: min(88vw, 330px);
+      padding: 13px;
+      border-radius: 15px;
+      background: rgba(15, 23, 42, 0.97);
+      border: 2px solid #f87171;
+      box-shadow: 0 10px 34px rgba(0, 0, 0, 0.65);
+      text-align: center;
+    }
+    #mpFullNotice .mpfr-title { font-size: 14px; font-weight: 900; color: #fecaca; }
+    #mpFullNotice .mpfr-sub { font-size: 11px; color: #cbd5e1; line-height: 1.45; }
+    #mpFullNotice button {
+      width: 100%; padding: 9px; border-radius: 10px; border: none;
+      font-family: inherit; font-size: 12.5px; font-weight: 900; cursor: pointer; color: #fff;
+    }
+    #mpFullNewRoomBtn { background: linear-gradient(135deg, #0ea5e9, #2563eb); }
+    #mpFullWatchBtn { background: rgba(71, 85, 105, 0.9); border: 1px solid #64748b !important; }
 
     /* 상점 버튼 — 우상단 슬림 */
     .shop-open-btn {
@@ -896,7 +1056,6 @@
 
     <!-- 초기술 버튼 태용이 요청으로 삭제됨 -->
 
-    <div id="mpStatusBadge">👥 2인 멀티플레이 대기중...</div>
     <div id="redFlash" class="screen-flash" style="background: radial-gradient(circle, rgba(239,68,68,0.6) 0%, transparent 80%);"></div>
     <div id="goldFlash" class="screen-flash" style="background: radial-gradient(circle, rgba(255,234,0,0.6) 0%, transparent 80%);"></div>
     <div id="cyanFlash" class="screen-flash" style="background: radial-gradient(circle, rgba(0,245,212,0.6) 0%, transparent 80%);"></div>
@@ -949,7 +1108,10 @@
           <span id="petSpeech">"10대 신급 스킨 뽑아서 보스 부수자!!"</span>
         </div>
 
-        <div id="mpStatusBadge">👥 2인 멀티플레이 대기중...</div>
+        <div id="mpStatusBadge">👥 멀티 1/5명</div>
+        <div id="mpRosterList"></div>
+        <div id="zombieChip">🧟 좀비</div>
+        <div id="diffChip">🎯 2렙 어려움</div>
       </div>
 
       <!-- 👑 보스 HP바 (상단 최상단 중앙 슬림) -->
@@ -979,6 +1141,14 @@
           <button id="zoomOutBtn" class="ctrl-btn">🔍 멀리 (-)</button>
           <button id="zoomInBtn" class="ctrl-btn">🔍 가까이 (+)</button>
           <button id="turn180Btn" class="ctrl-btn">⚡ 180°</button>
+        </div>
+
+        <!-- 🎯 v4.7 난이도 1렙 / 2렙 / 3렙 -->
+        <div class="top-controls" id="diffRow">
+          <span class="diff-label">🎯 난이도</span>
+          <button id="diffBtn1" class="diff-btn">1렙🙂</button>
+          <button id="diffBtn2" class="diff-btn active">2렙🔥</button>
+          <button id="diffBtn3" class="diff-btn">3렙💀</button>
         </div>
       </div>
     </div>
@@ -1050,7 +1220,7 @@
       <div class="modal-card">
         <div style="font-size: 32px; text-align: center;">🗡️ 🏰 👑</div>
         <h1 style="font-size: 20px; font-weight: 900; color: #ffea00; text-align: center;">THE SWORD CONTINENT<br><span style="font-size: 14px; color: #38bdf8;">26스테이지 대원정 & 왕국 성채 & 스파이·도우미</span></h1>
-        <div style="text-align:center; font-size: 10px; font-weight: 800; color: #94a3b8; margin-top: 2px; letter-spacing: 0.3px;">v4.6 · 📱 UI 겹침 0 재배치 + 🐉 용 5방 처치 + 🌸 5대 왕국 꾸밈 업데이트</div>
+        <div style="text-align:center; font-size: 10px; font-weight: 800; color: #94a3b8; margin-top: 2px; letter-spacing: 0.3px;">v4.7 · 👥 가족 최대 5명 멀티 (나·아빠·엄마·삼촌·형) + 📱 UI 겹침 0</div>
         
         <div style="background: rgba(0,0,0,0.35); padding: 10px; border-radius: 12px; font-size: 11.5px; line-height: 1.6; color: #cbd5e1;">
           🗺️ <b>5대 판타지 왕국 & 26스테이지 대원정 오픈!</b><br>
@@ -1066,16 +1236,39 @@
         <button id="startGameBtn" onclick="startGameSolo()" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #0ea5e9, #2563eb); border: none; border-radius: 12px; color: #fff; font-size: 16px; font-weight: 900; cursor: pointer; box-shadow: 0 0 20px rgba(14, 165, 233, 0.6); margin-bottom: 8px;">🚀 솔로 모드 출격!!</button>
 
         <div style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid #38bdf8; border-radius: 14px; padding: 10px; margin-top: 4px;">
-          <div style="font-size: 13px; font-weight: 900; color: #38bdf8; margin-bottom: 3px;">👥 2인 실시간 멀티 (산이 형과 함께!)</div>
-          <div style="font-size: 11px; color: #94a3b8;">같은 방 번호로 폰 2개 접속 시 한 맵에서 만나요!</div>
-          <input type="text" id="mpRoomCodeInput" class="mp-input" value="7794" placeholder="방 번호 입력">
-          <div class="mp-btn-row">
-            <button id="mpHostBtn" class="mp-btn mp-host">👑 1P 태용이 (방 생성)</button>
-            <button id="mpJoinBtn" class="mp-btn mp-join">⚔️ 2P 산이 형 (참여)</button>
+          <div style="font-size: 13px; font-weight: 900; color: #38bdf8; margin-bottom: 2px;">👥 가족 5인 실시간 멀티 (최대 5명!)</div>
+          <div style="font-size: 10.5px; color: #94a3b8; line-height: 1.4;">내 역할을 원터치로 고르고, 같은 방 번호로 폰 5개까지 함께 들어와요!<br>🌟 나(태용) · 👑 아빠 · 💖 엄마 · ⚡ 삼촌 · ⚔️ 형</div>
+          <div class="mp-role-row" id="mpRoleRow">
+            <button class="mp-role active" data-role="me">🌟 나 (태용)</button>
+            <button class="mp-role" data-role="dad">👑 아빠</button>
+            <button class="mp-role" data-role="mom">💖 엄마</button>
+            <button class="mp-role" data-role="uncle">⚡ 삼촌</button>
+            <button class="mp-role" data-role="bro">⚔️ 형</button>
           </div>
+          <input type="text" id="mpNameInput" class="mp-input" value="태용" maxlength="10" placeholder="닉네임 (직접 입력도 가능)">
+          <input type="text" id="mpRoomCodeInput" class="mp-input" value="7794" maxlength="8" inputmode="numeric" placeholder="방 번호 (다 같이 같은 번호)">
+          <div class="mp-btn-row">
+            <button id="mpHostBtn" class="mp-btn mp-host">👑 방 만들기</button>
+            <button id="mpJoinBtn" class="mp-btn mp-join">⚔️ 방 들어가기</button>
+          </div>
+          <div style="font-size: 9.5px; color: #64748b; margin-top: 5px; line-height: 1.4;">💡 방 만든 사람과 같은 방 번호를 넣으면 한 맵에서 만나요. 5명이 꽉 차면 6번째는 관전 모드!</div>
         </div>
 
       </div>
+    </div>
+
+    <!-- 👑🧟 v4.7 좀비 권력자 각성 배너 -->
+    <div id="zombieBanner">
+      <div class="zb1">👑🧟 태용이 좀비 권력자 각성!!</div>
+      <div class="zb2">죽음은 끝이 아니다 — 좀비 군단이 나를 따른다 🧟🧟🧟</div>
+    </div>
+
+    <!-- 🚫 v4.7 방 정원 초과 안내 (6번째 접속) -->
+    <div id="mpFullNotice">
+      <div class="mpfr-title">🚫 방이 꽉 찼어요! (5/5명)</div>
+      <div class="mpfr-sub">지금은 <b>관전 모드</b>로 친구들을 구경할 수 있어요.<br>새 방을 만들면 바로 같이 놀 수 있어요!</div>
+      <button id="mpFullNewRoomBtn">🆕 새 방 만들기 (새 번호)</button>
+      <button id="mpFullWatchBtn">👀 관전으로 계속 보기</button>
     </div>
 
     <!-- UNIFIED SHOP MODAL (WEAPON ARSENAL & 10 SKINS) -->
@@ -1609,6 +1802,36 @@
     };
     let dragonBreathTheme = { c1: 0xff7a00, c2: 0xffd166, flash: 0xffdd66, label: '왕드래곤 화염 브레스' };
 
+    // =====================================================================
+    // 🎯 v4.7 난이도 3단계 (태용이: "난이도를 올려" → "1렙 2랩 3랩")
+    //   1렙 = 상향된 기본, 2렙 = 어려움, 3렙 = 지옥(좀비 변신 각오)
+    // =====================================================================
+    const DIFFICULTIES = {
+      1: { key: 1, label: '1렙', icon: '🙂', name: '일반+',  dmg: 1.0,  speed: 1.0,  spawn: 1.0, boss: 1.0,  maxMobs: 22, hp: 1.0 },
+      2: { key: 2, label: '2렙', icon: '🔥', name: '어려움', dmg: 1.6,  speed: 1.25, spawn: 1.5, boss: 1.35, maxMobs: 28, hp: 1.12 },
+      3: { key: 3, label: '3렙', icon: '💀', name: '지옥',   dmg: 2.5,  speed: 1.45, spawn: 2.2, boss: 1.8,  maxMobs: 34, hp: 1.26 }
+    };
+    let diffLevel = 2;
+    function diffCfg() { return DIFFICULTIES[diffLevel] || DIFFICULTIES[2]; }
+
+    function setDifficulty(level) {
+      const lv = DIFFICULTIES[level] ? level : 2;
+      diffLevel = lv;
+      const cfg = DIFFICULTIES[lv];
+      [1, 2, 3].forEach(function (n) {
+        const b = document.getElementById('diffBtn' + n);
+        if (!b) return;
+        b.classList.toggle('active', n === lv);
+        b.textContent = DIFFICULTIES[n].label + DIFFICULTIES[n].icon;
+      });
+      const chip = document.getElementById('diffChip');
+      if (chip) chip.textContent = '🎯 ' + cfg.label + ' ' + cfg.name;
+      try { localStorage.setItem('sc_diff', String(lv)); } catch (e) {}
+      showFloat('🎯 난이도 ' + cfg.label + ' (' + cfg.name + ' ' + cfg.icon + ') — 몬스터 공격 x' + cfg.dmg + ' · 스폰 x' + cfg.spawn);
+      setPet(cfg.key === 3 ? '지옥 난이도!! 좀비가 될 각오로 싸워!!' : (cfg.key === 2 ? '어려움 난이도! 몰려온다, 조심해!' : '일반 난이도. 한 방에 몰살이다!'));
+      if (cfg.key >= 2) AudioEngine.playBossRoar();
+    }
+
     const STAGES = [
       // 🌿 풀 왕국 (Green Realm) - Stages 1~5
       { stage: 1, realm: 'green', name: '그린하트 대평원 입구', goalKills: 10, isBoss: false, bossHp: 0 },
@@ -1895,7 +2118,14 @@
       currentSkin: 'default',
       unlockedSkins: ['default'],
       treasureFound: false,
-      armoryFound: false
+      armoryFound: false,
+      // 🧟👑 v4.7 좀비 변신 & 좀비 권력자
+      isZombie: false,
+      isOverlord: false,
+      zombieMinions: [],
+      zombieBadge: null,
+      zombieEyes: null,
+      zombieCrown: null
     };
 
 
@@ -2223,6 +2453,8 @@
       realmSkyDome = dome;
     }
 
+    // 🐛 v4.7 수리: _v46DotTex 가 선언 없이 쓰여 ReferenceError → 왕국 장식·플레이어 생성이 중단되던 버그
+    let _v46DotTex = null;
     function _v46DotTexture() {
       if (_v46DotTex) return _v46DotTex;
       const cv = document.createElement('canvas');
@@ -3177,6 +3409,7 @@
 
       scene.add(g);
       playerMesh = { group: g, armL, armR, legL, legR, head, torso };
+      if (state.isZombie) zombieReapplyLook();
     }
 
 
@@ -4180,7 +4413,7 @@
     }
 
     function spawnStageEnemy() {
-      if (!state.started || enemies.length >= 25) return;
+      if (!state.started || enemies.length >= diffCfg().maxMobs) return;
       const curStage = STAGES[state.currentStageIndex];
       if (curStage.isBoss && activeBoss) return;
 
@@ -4244,8 +4477,10 @@
         enemyMesh.position.set(x, 0, z);
         scene.add(enemyMesh);
 
-        const baseHp = 90 + state.currentStageIndex * 25;
-        enemies.push({ group: enemyMesh, hp: baseHp, maxHp: baseHp, speed: 4.2 + state.currentStageIndex * 0.15, isBoss: false });
+        // 🎯 v4.7 난이도 상향: 스테이지가 오를수록 더 단단하고 더 빠르게 몰려온다
+        const baseHp = Math.round((105 + state.currentStageIndex * 32) * diffCfg().hp);
+        const mobSpeed = Math.min(11.5, (4.6 + state.currentStageIndex * 0.22) * diffCfg().speed);
+        enemies.push({ group: enemyMesh, hp: baseHp, maxHp: baseHp, speed: mobSpeed, isBoss: false });
       }
     }
 
@@ -4399,8 +4634,9 @@
     function doMeleeAttack() { if (state.stamina < 6) { showFloat('⚠️ 주먹 스테미나 부족!'); return; } state.stamina = Math.max(0, state.stamina - 6); state.staminaDelay = 0.4; updateHUD();
       AudioEngine.init();
       const wp = WEAPONS[state.currentMeleeWp];
+      if (MP.enabled) sendMP({ t: 'attack', kind: 'melee', name: wp.name });
       const skinCfg = SKINS[state.currentSkin];
-      const dmg = Math.round(wp.dmg * skinCfg.dmgMult);
+      const dmg = Math.round(wp.dmg * skinCfg.dmgMult * zombieDmgMult());
 
       attackCombo = (attackCombo + 1) % 3;
       attackAnim.active = true;
@@ -4460,10 +4696,11 @@
     function doRangedAttack() {
       AudioEngine.init();
       AudioEngine.playShot();
+      if (MP.enabled) sendMP({ t: 'attack', kind: 'shoot', name: '사격' });
       flash('redFlash');
       const wp = WEAPONS[state.currentRangedWp];
       const skinCfg = SKINS[state.currentSkin];
-      const dmg = Math.round(wp.dmg * skinCfg.dmgMult);
+      const dmg = Math.round(wp.dmg * skinCfg.dmgMult * zombieDmgMult());
       const forward = new THREE.Vector3(-Math.sin(cameraYaw), 0, -Math.cos(cameraYaw)).normalize();
 
       spawnParticles(playerPos.clone().addScaledVector(forward, 1.5), 0x38bdf8, 8);
@@ -5198,8 +5435,25 @@
     bindAction('skillBtnHelper', () => castHelperSkill());
     bindAction('fluteBtn', () => blowRoyalFlute());
     bindAction('awakenBtn', () => triggerAwakening());
+    bindAction('diffBtn1', () => setDifficulty(1));
+    bindAction('diffBtn2', () => setDifficulty(2));
+    bindAction('diffBtn3', () => setDifficulty(3));
 
     
+    (function diffBootstrap() {
+      let saved = 2;
+      try { saved = parseInt(localStorage.getItem('sc_diff') || '2', 10); } catch (e) {}
+      diffLevel = DIFFICULTIES[saved] ? saved : 2;
+      [1, 2, 3].forEach(function (n) {
+        const b = document.getElementById('diffBtn' + n);
+        if (!b) return;
+        b.classList.toggle('active', n === diffLevel);
+        b.textContent = DIFFICULTIES[n].label + DIFFICULTIES[n].icon;
+      });
+      const chip = document.getElementById('diffChip');
+      if (chip) { chip.style.display = 'block'; chip.textContent = '🎯 ' + diffCfg().label + ' ' + diffCfg().name; }
+    })();
+
     window.startGameSolo = function() {
       AudioEngine.init();
       state.started = true;
@@ -5224,7 +5478,7 @@
       buildRobloxPlayer(state.currentSkin);
       updateFPViewModel(state.currentSkin, state.currentMeleeWp);
       updateHUD();
-      showFloat(`👑 1P 태용이 방 생성 완료! [방 ${MP.roomCode}] 산이 형 대기중...`);
+      showFloat(`👑 방 ${MP.roomCode} 만들었어! 가족 5명까지 다 들어와~ (${mpCount()}/${MP_MAX}명)`);
     });
 
     bindAction('mpJoinBtn', () => {
@@ -5237,7 +5491,7 @@
       buildRobloxPlayer(state.currentSkin);
       updateFPViewModel(state.currentSkin, state.currentMeleeWp);
       updateHUD();
-      showFloat(`⚔️ 2P 산이 형 방 접속 완료! [방 ${MP.roomCode}]`);
+      showFloat(`⚔️ 방 ${MP.roomCode} 들어왔어! 같이 싸우자~ (${mpCount()}/${MP_MAX}명)`);
     });
 
 
@@ -5432,179 +5686,544 @@
 
 
     // ==========================================
-    // 👑 MASTER ENGINE: MP + BOSS + STAMINA + MOTIONS + LEVEL UP
+    // 👑 MASTER ENGINE: MP(최대 5명) + BOSS + STAMINA + MOTIONS + LEVEL UP
     // ==========================================
+    // 👥 v4.7 — 태용이 "아빠 엄마 삼촌 형 나" 가족 5인이 한 맵에서!
+    const MP_ROLE_PRESETS = {
+      me:    { name: '태용', icon: '🌟', color: 0x38bdf8 },
+      dad:   { name: '아빠', icon: '👑', color: 0x7c3aed },
+      mom:   { name: '엄마', icon: '💖', color: 0xec4899 },
+      uncle: { name: '삼촌', icon: '⚡', color: 0xf59e0b },
+      bro:   { name: '형',   icon: '⚔️', color: 0xef4444 }
+    };
+    const MP_MAX = 5;
+    const MP_TIMEOUT_MS = 7000;
+    const MP_SLOT_COLORS = [0x38bdf8, 0x7c3aed, 0xec4899, 0xf59e0b, 0xef4444];
+    let mpSelectedRole = 'me';
+
     const MP = {
       enabled: false,
       isHost: true,
-      role: 'p1',
-      myName: '태용이',
-      partnerName: '산이 형',
+      myId: 'p' + Math.random().toString(16).slice(2, 10),
+      myName: '태용',
+      myIcon: '🌟',
+      mySkin: 'default',
       roomCode: '7794',
       client: null,
-      partnerMesh: null,
-      partnerPos: new THREE.Vector3(0, 1.8, 0),
-      partnerYaw: 0,
-      partnerHp: 100
+      remotePlayers: new Map(),   // peerId -> { 이름·아이콘·스킨·위치·회전·체력·마지막 패킷 }
+      full: false,
+      toldFull: {},
+      posTimer: null,
+      pruneTimer: null
     };
+
+    function mpCount() { return 1 + MP.remotePlayers.size; }
+    function mpIsFull() { return mpCount() >= MP_MAX; }
+    function mpPeerTag(p) { return p ? ((p.icon || '🙂') + ' ' + (p.name || '친구')) : '친구'; }
+
+    function mpHex(c) { return '#' + (c || 0x38bdf8).toString(16).padStart(6, '0'); }
+
+    // ---------- 0. 가족 역할 원터치 선택 UI ----------
+    (function mpInitRoleUI() {
+      const roleBtns = document.querySelectorAll('.mp-role');
+      const nameInput = document.getElementById('mpNameInput');
+      function applyRole(key) {
+        const r = MP_ROLE_PRESETS[key];
+        if (!r) return;
+        mpSelectedRole = key;
+        roleBtns.forEach(b => b.classList.toggle('active', b.dataset.role === key));
+        if (nameInput) nameInput.value = r.name;
+      }
+      roleBtns.forEach(btn => {
+        btn.addEventListener('pointerdown', (e) => {
+          e.preventDefault();
+          applyRole(btn.dataset.role);
+          try { localStorage.setItem('sc_mp_role', btn.dataset.role); } catch (err) {}
+        });
+        btn.addEventListener('click', (e) => { e.preventDefault(); });
+      });
+      let saved = null;
+      try { saved = localStorage.getItem('sc_mp_role'); } catch (e) {}
+      if (saved && MP_ROLE_PRESETS[saved]) applyRole(saved);
+    })();
+
+    // ---------- 0-1. URL로 새 방 만들기 / 관전 안내 ----------
+    (function mpUrlBootstrap() {
+      try {
+        const q = new URLSearchParams(location.search);
+        const room = q.get('room');
+        if (room) {
+          const el = document.getElementById('mpRoomCodeInput');
+          if (el) el.value = room;
+        }
+        if (q.get('auto') === 'host') {
+          setTimeout(() => {
+            const b = document.getElementById('mpHostBtn');
+            if (b) b.click();
+          }, 900);
+        }
+      } catch (e) {}
+      const newBtn = document.getElementById('mpFullNewRoomBtn');
+      const watchBtn = document.getElementById('mpFullWatchBtn');
+      if (newBtn) newBtn.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        const code = String(Math.floor(1000 + Math.random() * 9000));
+        try {
+          const u = new URL(location.href);
+          u.searchParams.set('room', code);
+          u.searchParams.set('auto', 'host');
+          location.href = u.toString();
+        } catch (err) { location.reload(); }
+      });
+      if (watchBtn) watchBtn.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        const n = document.getElementById('mpFullNotice');
+        if (n) n.style.display = 'none';
+        showFloat('👀 관전 모드 — 친구들이 싸우는 걸 구경해요!');
+      });
+    })();
 
     function sendMP(data) {
       if (!MP.enabled || !MP.client || !MP.client.connected) return;
       try {
-        data.from = MP.role;
+        data.from = MP.myId;
         MP.client.publish(`sword_continent/room/${MP.roomCode}`, JSON.stringify(data));
       } catch (e) {}
     }
 
-    function createPartnerRobloxModel(isPartnerP1) {
-      const g = new THREE.Group();
-      const color = isPartnerP1 ? 0x2563eb : 0xef4444;
-      const name = isPartnerP1 ? '⚡ 태용이 (1P)' : '🔥 산이 형 (2P)';
-
-      const torso = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.65, 0.3), new THREE.MeshStandardMaterial({ color, roughness: 0.3, metalness: 0.2 }));
-      torso.position.y = 0.95; g.add(torso);
-      const head = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.4, 0.4), new THREE.MeshStandardMaterial({ color: 0xffe066, roughness: 0.4 }));
-      head.position.y = 1.5; g.add(head);
-
-      const armL = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.6, 0.2), new THREE.MeshStandardMaterial({ color }));
-      armL.position.set(-0.4, 0.95, 0); g.add(armL);
-      const armR = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.6, 0.2), new THREE.MeshStandardMaterial({ color }));
-      armR.position.set(0.4, 0.95, 0); g.add(armR);
-
-      const legL = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.65, 0.22), new THREE.MeshStandardMaterial({ color: 0x1e293b }));
-      legL.position.set(-0.16, 0.32, 0); g.add(legL);
-      const legR = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.65, 0.22), new THREE.MeshStandardMaterial({ color: 0x1e293b }));
-      legR.position.set(0.16, 0.32, 0); g.add(legR);
-
+    // ---------- 1. 머리 위 이름표 텍스처 ----------
+    function mpBadgeTexture(label, colorHex) {
       const canvas = document.createElement('canvas');
-      canvas.width = 256; canvas.height = 64;
+      canvas.width = 512; canvas.height = 128;
       const c = canvas.getContext('2d');
-      c.fillStyle = isPartnerP1 ? 'rgba(37, 99, 235, 0.9)' : 'rgba(239, 68, 68, 0.9)';
-      c.roundRect(4, 4, 248, 56, 12); c.fill();
-      c.strokeStyle = '#ffffff'; c.lineWidth = 3; c.stroke();
-      c.fillStyle = '#ffffff'; c.font = 'bold 28px -apple-system, sans-serif';
-      c.textAlign = 'center'; c.textBaseline = 'middle';
-      c.fillText(name, 128, 32);
-
-      const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(canvas), transparent: true }));
-      sprite.position.set(0, 2.1, 0);
-      sprite.scale.set(2.0, 0.5, 1);
-      g.add(sprite);
-
-      scene.add(g);
-      return g;
+      c.font = '900 54px -apple-system, "Apple Color Emoji", "Segoe UI Emoji", sans-serif';
+      c.textAlign = 'center';
+      c.textBaseline = 'middle';
+      const tw = c.measureText(label).width;
+      const w = Math.min(496, Math.max(150, tw + 54));
+      const x = (512 - w) / 2;
+      c.beginPath();
+      c.roundRect(x, 12, w, 104, 34);
+      c.fillStyle = 'rgba(2, 6, 23, 0.88)';
+      c.fill();
+      c.lineWidth = 7;
+      c.strokeStyle = colorHex;
+      c.stroke();
+      c.fillStyle = '#ffffff';
+      c.fillText(label, 256, 68);
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.needsUpdate = true;
+      return tex;
     }
 
+    function mpNameTexture(icon, name, colorHex) {
+      return mpBadgeTexture((icon || '🙂') + ' ' + (name || '전사'), colorHex);
+    }
+
+    // 👑 좀비 권력자 왕관 (원격 친구 화면에도 보이도록)
+    function mpBuildCrown() {
+      const crown = new THREE.Group();
+      const band = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.36, 0.16, 8),
+        new THREE.MeshStandardMaterial({ color: 0x4c1d95, metalness: 0.9, roughness: 0.25, emissive: 0x2e1065, emissiveIntensity: 0.8 }));
+      band.position.y = 1.86;
+      crown.add(band);
+      for (let i = 0; i < 5; i++) {
+        const spike = new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.3, 5),
+          new THREE.MeshStandardMaterial({ color: 0x22c55e, emissive: 0x16a34a, emissiveIntensity: 1.0, metalness: 0.6, roughness: 0.3 }));
+        const a = (i / 5) * Math.PI * 2;
+        spike.position.set(Math.cos(a) * 0.27, 2.04, Math.sin(a) * 0.27);
+        crown.add(spike);
+      }
+      const gem = new THREE.Mesh(new THREE.OctahedronGeometry(0.09),
+        new THREE.MeshBasicMaterial({ color: 0xd946ef }));
+      gem.position.set(0, 1.9, 0.36);
+      crown.add(gem);
+      const aura = new THREE.Mesh(new THREE.TorusGeometry(0.95, 0.06, 8, 30),
+        new THREE.MeshBasicMaterial({ color: 0xa855f7, transparent: true, opacity: 0.8 }));
+      aura.rotation.x = Math.PI / 2; aura.position.y = 0.1;
+      crown.add(aura);
+      crown.userData.aura = aura;
+      return crown;
+    }
+
+    // ---------- 2. 원격 가족 캐릭터 3D 모델 ----------
+    function mpBuildPlayerModel(info) {
+      const g = new THREE.Group();
+      const colorHex = (info.color !== undefined) ? info.color : 0x38bdf8;
+      const skinCfg = SKINS[info.skin];
+      const bodyColor = (skinCfg && info.skin && info.skin !== 'default') ? skinCfg.color : colorHex;
+
+      const torsoMat = new THREE.MeshStandardMaterial({ color: bodyColor, roughness: 0.35, metalness: 0.25 });
+      const torso = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.65, 0.3), torsoMat);
+      torso.position.y = 0.95;
+      g.add(torso);
+
+      const head = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.42, 0.42),
+        new THREE.MeshStandardMaterial({ color: 0xffe066, roughness: 0.45 }));
+      head.position.y = 1.52;
+      g.add(head);
+
+      const fc = document.createElement('canvas'); fc.width = 128; fc.height = 128;
+      const fx = fc.getContext('2d');
+      fx.fillStyle = '#ffe066'; fx.fillRect(0, 0, 128, 128);
+      fx.fillStyle = '#111'; fx.fillRect(28, 36, 18, 24); fx.fillRect(82, 36, 18, 24);
+      fx.fillStyle = '#fff'; fx.fillRect(32, 40, 8, 8); fx.fillRect(86, 40, 8, 8);
+      fx.beginPath(); fx.lineWidth = 6; fx.strokeStyle = '#111';
+      fx.arc(64, 80, 22, 0.1 * Math.PI, 0.9 * Math.PI, false); fx.stroke();
+      const face = new THREE.Mesh(new THREE.PlaneGeometry(0.4, 0.4),
+        new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(fc), transparent: true }));
+      face.position.set(0, 1.52, 0.212);
+      g.add(face);
+
+      const armMat = new THREE.MeshStandardMaterial({ color: bodyColor, roughness: 0.35 });
+      const armL = new THREE.Group(); armL.position.set(-0.39, 1.16, 0);
+      const armLM = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.62, 0.2), armMat);
+      armLM.position.y = -0.29; armL.add(armLM); g.add(armL);
+
+      const armR = new THREE.Group(); armR.position.set(0.39, 1.16, 0);
+      const armRM = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.62, 0.2), armMat);
+      armRM.position.y = -0.29; armR.add(armRM);
+      const fist = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.22, 0.22),
+        new THREE.MeshStandardMaterial({ color: 0xffe066, roughness: 0.3 }));
+      fist.position.y = -0.62; armR.add(fist);
+      g.add(armR);
+
+      const legMat = new THREE.MeshStandardMaterial({ color: 0x1f2937, roughness: 0.8 });
+      const legL = new THREE.Group(); legL.position.set(-0.15, 0.62, 0);
+      const legLM = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.62, 0.2), legMat);
+      legLM.position.y = -0.31; legL.add(legLM); g.add(legL);
+      const legR = new THREE.Group(); legR.position.set(0.15, 0.62, 0);
+      const legRM = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.62, 0.2), legMat);
+      legRM.position.y = -0.31; legR.add(legRM); g.add(legR);
+
+      // 발밑 슬롯 링 — 누가 어디 있는지 한눈에
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(0.55, 0.06, 6, 22),
+        new THREE.MeshBasicMaterial({ color: colorHex, transparent: true, opacity: 0.85 }));
+      ring.rotation.x = Math.PI / 2;
+      ring.position.y = 0.06;
+      g.add(ring);
+
+      // 머리 위 이름표 (아이콘 + 이름)
+      const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: mpNameTexture(info.icon, info.name, mpHex(colorHex)),
+        transparent: true
+      }));
+      sprite.position.set(0, 2.28, 0);
+      sprite.scale.set(2.2, 0.55, 1);
+      g.add(sprite);
+
+      g.userData.ring = ring;
+      return { group: g, armR: armR, legL: legL, legR: legR, sprite: sprite, bodyMats: [torsoMat, armMat] };
+    }
+
+    // 🧟 원격 친구 좀비/권력자 모습 실시간 반영
+    function mpPeerZombie(p, isZombie, isOverlord) {
+      if (!p) return;
+      const changed = (!!p.isZombie !== !!isZombie) || (!!p.isOverlord !== !!isOverlord);
+      p.isZombie = !!isZombie;
+      p.isOverlord = !!isOverlord;
+      if (!changed) return;
+      const label = p.isOverlord
+        ? ('👑🧟 좀비 권력자 ' + p.name)
+        : (p.isZombie ? ('🧟 좀비 ' + p.name) : (p.icon + ' ' + p.name));
+      const colHex = p.isOverlord ? '#a855f7' : (p.isZombie ? '#22c55e' : mpHex(p.color));
+      if (p.sprite) {
+        const oldTex = p.sprite.material.map;
+        p.sprite.material.map = mpBadgeTexture(label, colHex);
+        p.sprite.material.needsUpdate = true;
+        if (oldTex) oldTex.dispose();
+        p.sprite.scale.set(p.isOverlord ? 2.9 : (p.isZombie ? 2.4 : 2.2), p.isOverlord ? 0.72 : 0.55, 1);
+      }
+      (p.bodyMats || []).forEach(function (m) {
+        if (m.__origColor === undefined) m.__origColor = m.color.getHex();
+        if (m.emissive && m.__origE === undefined) m.__origE = m.emissive.getHex();
+        m.color.setHex(p.isZombie ? 0x22c55e : m.__origColor);
+        if (m.emissive) m.emissive.setHex(p.isZombie ? 0x14532d : (m.__origE || 0));
+      });
+      if (p.isOverlord && !p.crown && p.mesh) { p.crown = mpBuildCrown(); p.mesh.add(p.crown); }
+      else if (!p.isOverlord && p.crown && p.mesh) { p.mesh.remove(p.crown); p.crown = null; }
+    }
+
+    // ---------- 3. 원격 플레이어 등록 / 정리 ----------
+    function mpAddPeer(info) {
+      if (!info || !info.from) return null;
+      const id = info.from;
+      if (id === MP.myId) return null;
+
+      const existing = MP.remotePlayers.get(id);
+      if (existing) {
+        if (info.name) existing.name = info.name;
+        if (info.icon) existing.icon = info.icon;
+        existing.lastSeen = Date.now();
+        return existing;
+      }
+      if (mpIsFull()) {
+        mpTellFull(id);
+        return null;
+      }
+      const slot = MP.remotePlayers.size + 1;
+      const peer = {
+        id: id,
+        name: info.name || ('전사' + slot),
+        icon: info.icon || '🙂',
+        skin: info.skin || 'default',
+        color: MP_SLOT_COLORS[slot % MP_SLOT_COLORS.length],
+        targetPos: new THREE.Vector3((+info.x) || 0, ((+info.y) || 1.8) - 1.8, (+info.z) || 0),
+        yaw: (+info.yaw) || 0,
+        hp: (typeof info.hp === 'number') ? info.hp : 100,
+        isZombie: !!info.isZombie,
+        isOverlord: !!info.isOverlord,
+        crown: null,
+        sprite: null,
+        bodyMats: [],
+        lastSeen: Date.now(),
+        attackTimer: 0,
+        moving: 0,
+        mesh: null, armR: null, legL: null, legR: null
+      };
+      const built = mpBuildPlayerModel(peer);
+      peer.mesh = built.group;
+      peer.armR = built.armR;
+      peer.legL = built.legL;
+      peer.legR = built.legR;
+      peer.sprite = built.sprite;
+      peer.bodyMats = built.bodyMats || [];
+      peer.mesh.position.copy(peer.targetPos);
+      peer.mesh.rotation.y = peer.yaw;
+      scene.add(peer.mesh);
+      MP.remotePlayers.set(id, peer);
+      mpRefreshRoster();
+      return peer;
+    }
+
+    function mpTellFull(id) {
+      if (MP.toldFull[id]) return;
+      MP.toldFull[id] = true;
+      sendMP({ t: 'full', to: id });
+    }
+
+    function mpRemovePeer(id, quiet) {
+      const p = MP.remotePlayers.get(id);
+      if (!p) return;
+      if (p.mesh) scene.remove(p.mesh);
+      MP.remotePlayers.delete(id);
+      if (!quiet) showFloat('👋 ' + mpPeerTag(p) + ' 님이 나갔어요 (' + mpCount() + '/' + MP_MAX + '명)');
+      mpRefreshRoster();
+    }
+
+    function mpPrunePeers() {
+      const now = Date.now();
+      const gone = [];
+      MP.remotePlayers.forEach((p, id) => {
+        if (now - p.lastSeen > MP_TIMEOUT_MS) gone.push(id);
+      });
+      gone.forEach(function (id) { mpRemovePeer(id, false); });
+    }
+
+    // ---------- 4. HUD 배지 + 접속자 목록 ----------
+    function mpRefreshRoster() {
+      const badge = document.getElementById('mpStatusBadge');
+      const list = document.getElementById('mpRosterList');
+      if (!badge) return;
+      if (!MP.enabled) {
+        badge.style.display = 'none';
+        if (list) list.style.display = 'none';
+        return;
+      }
+      const n = mpCount();
+      badge.style.display = 'block';
+      const col = MP.full ? '#fca5a5' : (n >= MP_MAX ? '#fde047' : '#38bdf8');
+      badge.style.color = col;
+      badge.style.borderColor = col;
+      badge.textContent = MP.full
+        ? ('🚫 정원 초과 ' + MP_MAX + '/' + MP_MAX + ' · 관전')
+        : ('👥 멀티 ' + n + '/' + MP_MAX + '명' + (n >= MP_MAX ? ' · 꽉 참' : ''));
+      if (list) {
+        const parts = [MP.myIcon + ' ' + MP.myName + '(나)'];
+        MP.remotePlayers.forEach(function (p) { parts.push(p.icon + ' ' + p.name); });
+        list.style.display = 'block';
+        list.textContent = parts.join(' · ');
+      }
+    }
+
+    function mpOnRoomFull() {
+      if (MP.full) return;
+      MP.full = true;
+      const n = document.getElementById('mpFullNotice');
+      if (n) n.style.display = 'flex';
+      mpRefreshRoster();
+      showFloat('🚫 방이 꽉 찼어요! (' + MP_MAX + '/' + MP_MAX + '명) 관전 모드예요');
+    }
+
+    function mpAnnounceJoin(p) {
+      showFloat('🎉 ' + mpPeerTag(p) + ' 입장!! (' + mpCount() + '/' + MP_MAX + '명) 같이 싸우자! 🔥');
+      setPet(p.name + ' 왔다!! ' + mpCount() + '명이서 같이 싸운다!');
+      AudioEngine.playStageClearFanfare();
+    }
+
+    // ---------- 5. 방 접속 ----------
     function initMultiplayer(isHost) {
       MP.enabled = true;
       MP.isHost = isHost;
-      MP.role = isHost ? 'p1' : 'p2';
-      MP.myName = isHost ? '태용이' : '산이 형';
-      MP.partnerName = isHost ? '산이 형' : '태용이';
+      MP.full = false;
+      MP.toldFull = {};
+      MP.remotePlayers.forEach(function (p) { if (p.mesh) scene.remove(p.mesh); });
+      MP.remotePlayers.clear();
 
-      const inputVal = document.getElementById('mpRoomCodeInput').value.trim();
+      const role = MP_ROLE_PRESETS[mpSelectedRole] || MP_ROLE_PRESETS.me;
+      const nameEl = document.getElementById('mpNameInput');
+      MP.myIcon = role.icon;
+      MP.myName = (nameEl && nameEl.value.trim()) ? nameEl.value.trim() : role.name;
+      MP.mySkin = state.currentSkin || 'default';
+
+      const codeEl = document.getElementById('mpRoomCodeInput');
+      const inputVal = codeEl ? codeEl.value.trim() : '';
       MP.roomCode = inputVal || '7794';
 
-      MP.partnerMesh = createPartnerRobloxModel(!isHost);
-      MP.partnerMesh.visible = false;
+      const notice = document.getElementById('mpFullNotice');
+      if (notice) notice.style.display = 'none';
+      mpRefreshRoster();
 
-      const badge = document.getElementById('mpStatusBadge');
-      badge.style.display = 'block';
-      badge.textContent = `📡 방 ${MP.roomCode}: 접속 중...`;
-
-      const topic = `sword_continent/room/${MP.roomCode}`;
+      if (MP.client) { try { MP.client.end(true); } catch (e) {} }
+      const topic = 'sword_continent/room/' + MP.roomCode;
       const client = mqtt.connect('wss://broker.emqx.io:8084/mqtt', {
-        clientId: `sc_${MP.role}_${Math.random().toString(16).slice(2, 8)}`,
+        clientId: 'sc_' + MP.myId,
         clean: true,
-        connectTimeout: 6000
+        connectTimeout: 9000,
+        keepalive: 25,
+        reconnectPeriod: 3000
       });
+      MP.client = client;
 
       client.on('connect', () => {
-        MP.client = client;
-        badge.textContent = `📡 방 ${MP.roomCode}: ${MP.myName} 준비 완료! 상대 기다리는 중...`;
         client.subscribe(topic, () => {
-          if (!isHost) sendMP({ t: 'join', role: 'p2' });
-          else sendMP({ t: 'host_ready' });
+          const hello = { t: 'hello', name: MP.myName, icon: MP.myIcon, skin: MP.mySkin };
+          sendMP(hello);
+          setTimeout(function () { sendMP(hello); }, 1300);
         });
       });
 
       client.on('message', (t, payload) => {
-        try {
-          const msg = JSON.parse(payload.toString());
-          handleMPMessage(msg);
-        } catch (e) {}
+        try { handleMPMessage(JSON.parse(payload.toString())); } catch (e) {}
       });
+      client.on('error', function () {});
 
-      setInterval(() => {
-        if (!MP.client || !MP.client.connected) return;
+      if (MP.posTimer) clearInterval(MP.posTimer);
+      MP.posTimer = setInterval(function () {
+        if (!MP.client || !MP.client.connected || MP.full) return;
         sendMP({
           t: 'pos',
-          x: playerPos.x,
-          y: playerPos.y,
-          z: playerPos.z,
-          yaw: cameraYaw,
-          hp: state.hp
+          x: playerPos.x, y: playerPos.y, z: playerPos.z,
+          yaw: cameraYaw, hp: state.hp,
+          isZombie: state.isZombie, isOverlord: state.isOverlord,
+          name: MP.myName, icon: MP.myIcon, skin: MP.mySkin
         });
-      }, 66);
+      }, 70);
+
+      if (MP.pruneTimer) clearInterval(MP.pruneTimer);
+      MP.pruneTimer = setInterval(mpPrunePeers, 1000);
     }
 
+    // ---------- 6. 패킷 처리 ----------
     function handleMPMessage(msg) {
-      if (msg.from === MP.role) return;
+      if (!msg || !msg.from || msg.from === MP.myId) return;
+      const t = msg.t;
 
-      if (msg.t === 'join') {
-        if (MP.isHost) {
-          sendMP({
-            t: 'welcome',
-            stageIdx: state.currentStageIndex,
-            candies: state.candies,
-            level: state.level
-          });
-        }
-        onPartnerConnected();
-      } else if (msg.t === 'welcome' || msg.t === 'host_ready') {
-        if (msg.t === 'welcome') {
-          state.currentStageIndex = msg.stageIdx;
-          state.candies = msg.candies;
-          state.level = msg.level;
-          updateHUD();
-        }
-        onPartnerConnected();
-      } else if (msg.t === 'pos') {
-        if (MP.partnerMesh) {
-          MP.partnerMesh.visible = true;
-          MP.partnerPos.set(msg.x, msg.y - 1.8, msg.z);
-          MP.partnerYaw = msg.yaw;
-          MP.partnerHp = msg.hp;
-        }
-      } else if (msg.t === 'attack') {
-        showFloat(`⚔️ ${MP.partnerName}의 ${msg.name} 공격!!`);
-        AudioEngine.playMeleePunch();
-      } else if (msg.t === 'skill') {
-        showFloat(`🌟 ${MP.partnerName}의 [${msg.name}] 신급 스킬 발동!! 💥`);
-        AudioEngine.playSkillExplosion();
-      } else if (msg.t === 'awaken') {
-        showFloat(`🔥 ${MP.partnerName}의 초각성 발동!! 👑⚡`);
-        AudioEngine.playAwaken();
-      } else if (msg.t === 'dash') {
-        showFloat(`⚡ ${MP.partnerName}의 전광석화 대시!!`);
-        AudioEngine.playDash();
-      } else if (msg.t === 'candy') {
-        gainCandiesAndExp(msg.amount, false);
-      } else if (msg.t === 'boss_slam') {
-        triggerBossShockwave(new THREE.Vector3(msg.x, msg.y, msg.z));
-      } else if (msg.t === 'boss_fireball') {
-        spawnBossFireballs(new THREE.Vector3(msg.x, msg.y, msg.z));
+      if (t === 'hello') {
+        if (MP.full) return;
+        sendMP({
+          t: 'hi', to: msg.from,
+          name: MP.myName, icon: MP.myIcon, skin: MP.mySkin,
+          stageIdx: state.currentStageIndex, candies: state.candies, level: state.level,
+          host: MP.isHost
+        });
+        const had = MP.remotePlayers.has(msg.from);
+        const p = mpAddPeer(msg);
+        if (p && !had) mpAnnounceJoin(p);
+        return;
       }
+
+      // 나에게 온 패킷이 아니면 무시
+      if (msg.to && msg.to !== MP.myId) return;
+
+      if (t === 'hi') {
+        const had = MP.remotePlayers.has(msg.from);
+        const p = mpAddPeer(msg);
+        if (p && !had) {
+          if (msg.host && state.started) {
+            if (typeof msg.stageIdx === 'number' && msg.stageIdx !== state.currentStageIndex) {
+              state.currentStageIndex = msg.stageIdx;
+              buildRealmWorld(STAGES[state.currentStageIndex].realm);
+            }
+            if (typeof msg.candies === 'number') state.candies = msg.candies;
+            if (typeof msg.level === 'number') state.level = msg.level;
+            updateHUD();
+          }
+          mpAnnounceJoin(p);
+        }
+        return;
+      }
+
+      if (t === 'full') { mpOnRoomFull(); return; }
+      if (t === 'bye') { mpRemovePeer(msg.from, false); return; }
+
+      const p = MP.remotePlayers.get(msg.from) || (t === 'pos' ? mpAddPeer(msg) : null);
+
+      if (t === 'pos') {
+        if (!p) return;
+        const nx = (+msg.x) || 0, nz = (+msg.z) || 0, ny = (((+msg.y) || 1.8) - 1.8);
+        const step = Math.hypot(nx - p.targetPos.x, nz - p.targetPos.z);
+        p.moving = step > 0.06 ? Math.min(1, p.moving + 0.5) : Math.max(0, p.moving - 0.15);
+        p.targetPos.set(nx, ny, nz);
+        if (typeof msg.yaw === 'number') p.yaw = msg.yaw;
+        if (typeof msg.hp === 'number') p.hp = msg.hp;
+        if (typeof msg.isZombie !== 'undefined') mpPeerZombie(p, msg.isZombie, msg.isOverlord);
+        return;
+      }
+      if (t === 'zombie') {
+        if (p) {
+          mpPeerZombie(p, true, msg.isOverlord);
+          showFloat(msg.isOverlord
+            ? ('👑🧟 ' + mpPeerTag(p) + ' 좀비 권력자 각성!!')
+            : ('🧟 ' + mpPeerTag(p) + ' 좀비로 부활!!'));
+        }
+        if (!state.isOverlord && mpSelectedRole === 'me') {
+          setTimeout(function () { if (typeof becomeOverlord === 'function') becomeOverlord(true); }, 900);
+        }
+        return;
+      }
+      if (t === 'attack') {
+        if (p) { p.attackTimer = 0.36; showFloat('⚔️ ' + mpPeerTag(p) + '의 ' + (msg.name || '공격') + '!!'); }
+        AudioEngine.playMeleePunch();
+        return;
+      }
+      if (t === 'skill') {
+        if (p) showFloat('🌟 ' + mpPeerTag(p) + '의 [' + (msg.name || '신급 스킬') + '] 발동!! 💥');
+        AudioEngine.playSkillExplosion();
+        return;
+      }
+      if (t === 'awaken') {
+        if (p) showFloat('🔥 ' + mpPeerTag(p) + '의 초각성 발동!! 👑⚡');
+        AudioEngine.playAwaken();
+        return;
+      }
+      if (t === 'dash') {
+        if (p) showFloat('⚡ ' + mpPeerTag(p) + '의 전광석화 대시!!');
+        AudioEngine.playDash();
+        return;
+      }
+      if (t === 'candy') { gainCandiesAndExp(msg.amount, false); return; }
+      if (t === 'boss_slam') { triggerBossShockwave(new THREE.Vector3(msg.x, msg.y, msg.z)); return; }
+      if (t === 'boss_fireball') { spawnBossFireballs(new THREE.Vector3(msg.x, msg.y, msg.z)); return; }
     }
 
-    function onPartnerConnected() {
-      const badge = document.getElementById('mpStatusBadge');
-      badge.style.borderColor = '#06d6a0';
-      badge.style.color = '#06d6a0';
-      badge.textContent = `👥 2인 협동: ${MP.myName} & ${MP.partnerName} 플레이 중! [방 ${MP.roomCode}]`;
-      showFloat(`🎉 ${MP.partnerName} 접속 완료!! 의리의 2인 원정대 결성!! 👥🔥`);
-      AudioEngine.playStageClearFanfare();
-    }
+    // 창 닫으면 바로 알려서 빈자리 만들기
+    window.addEventListener('pagehide', function () {
+      try { if (MP.enabled) sendMP({ t: 'bye' }); } catch (e) {}
+    });
+    window.addEventListener('beforeunload', function () {
+      try { if (MP.enabled) sendMP({ t: 'bye' }); } catch (e) {}
+    });
 
     // ⚡ STAMINA & DASH
     let isDashing = false;
@@ -5708,10 +6327,10 @@
       bossAttackCooldown -= dt;
       if (bossAttackCooldown <= 0) {
         if (activeBoss.isDragon) {
-          bossAttackCooldown = 3.2 + Math.random() * 1.8;
+          bossAttackCooldown = (2.9 + Math.random() * 1.5) / diffCfg().boss;
           runDragonAttack(activeBoss);
         } else {
-        bossAttackCooldown = 4.2 + Math.random() * 2.0;
+        bossAttackCooldown = (3.7 + Math.random() * 1.7) / diffCfg().boss;
 
         const bossPos = activeBoss.group.position.clone();
         const dist = playerPos.distanceTo(bossPos);
@@ -5747,7 +6366,7 @@
           if (isJumping || playerPos.y > 2.3) {
             showFloat("🦘 점프로 지진파 회피 성공!! ✨");
           } else {
-            damagePlayer(20, "보스 대지 강타");
+            damagePlayer(Math.round(32 * diffCfg().boss), "보스 대지 강타");
           }
           sw.hitPlayer = true;
         }
@@ -5766,7 +6385,7 @@
         const hitRadius = fp.radius || 1.8;
         const d = playerPos.distanceTo(fp.mesh.position);
         if (d < hitRadius) {
-          damagePlayer(fp.dmg || 15, fp.label || "보스 화염구");
+          damagePlayer(fp.dmg || Math.round(24 * diffCfg().boss), fp.label || "보스 화염구");
           scene.remove(fp.mesh);
           bossProjectiles.splice(i, 1);
           continue;
@@ -5855,7 +6474,7 @@
           speed: 24 + Math.random() * 6,
           life: 2.8,
           radius: 2.1,
-          dmg: 14,
+          dmg: Math.round(24 * diffCfg().boss),
           label: dragonBreathTheme.label
         });
       }
@@ -5910,7 +6529,7 @@
           if (isJumping || playerPos.y > 2.3) {
             showFloat("🦘 점프로 화염 파동 회피 성공!! ✨");
           } else {
-            damagePlayer(22, "왕드래곤 화염 파동");
+            damagePlayer(Math.round(36 * diffCfg().boss), "왕드래곤 화염 파동");
           }
           w.hit = true;
         }
@@ -6060,20 +6679,243 @@
       }
 
       showFloat(`💥 ${reason} 피격! (-${amount} HP)`);
+      // 🎯 짧은 피격 무적 — 떼로 몰려와도 한 프레임에 녹지 않게
+      if (state.invulnTime <= 0.05) state.invulnTime = 0.32;
       updateHUD();
 
       if (state.hp <= 0) onPlayerDefeated();
     }
 
-    function onPlayerDefeated() {
-      showFloat("💀 쓰러졌다! 2초 후 부활합니다!");
-      state.invulnTime = 3.5;
-      setTimeout(() => {
+    // =====================================================================
+    // 🧟👑 v4.7 좀비 권력자 시스템
+    //   태용이: "그리고 팀으로 죽으면 내가 좀비 권력자야"
+    //   · 쓰러지면 2초 뒤 🧟 좀비로 부활 (초록 피부 · 붉은 안광 · 공격/이동 보너스)
+    //   · 역할 '나 (태용)'은 좀비가 되는 순간 👑🧟 좀비 권력자로 각성
+    //     (다크 퍼플+초록 왕관 · 보라 오라 · 좀비 미니언 3마리 소환 · 아군 좀비 버프)
+    //   · isZombie / isOverlord 가 멀티 패킷으로 전송돼 가족 화면에도 그대로 보인다
+    // =====================================================================
+    const ZOMBIE_GREEN = 0x22c55e;
+    const ZOMBIE_DARK = 0x14532d;
+
+    function zombieDmgMult() {
+      if (state.isOverlord) return 2.0;
+      if (state.isZombie) return 1.5;
+      return 1;
+    }
+    function zombieSpeedMult() {
+      if (state.isOverlord) return 1.4;
+      if (state.isZombie) return 1.2;
+      return 1;
+    }
+    function zombieLabelText(name) {
+      return state.isOverlord ? ('👑🧟 좀비 권력자 ' + (name || '태용')) : ('🧟 좀비 ' + (name || '태용'));
+    }
+
+    function zombieBadgeSprite(label, colorHex, big) {
+      const cv = document.createElement('canvas');
+      cv.width = 512; cv.height = 128;
+      const c = cv.getContext('2d');
+      c.font = '900 50px -apple-system, "Apple Color Emoji", "Segoe UI Emoji", sans-serif';
+      c.textAlign = 'center'; c.textBaseline = 'middle';
+      const tw = c.measureText(label).width;
+      const bw = Math.min(496, Math.max(160, tw + 46));
+      const x = (512 - bw) / 2;
+      c.beginPath(); c.roundRect(x, 12, bw, 104, 32);
+      c.fillStyle = 'rgba(3, 7, 18, 0.93)'; c.fill();
+      c.lineWidth = 8; c.strokeStyle = colorHex; c.stroke();
+      c.fillStyle = '#ffffff';
+      c.fillText(label, 256, 68);
+      const spr = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(cv), transparent: true }));
+      spr.scale.set(big ? 2.9 : 2.2, big ? 0.72 : 0.55, 1);
+      return spr;
+    }
+
+    function zombiePaintGroup(group, on) {
+      if (!group) return;
+      group.traverse(function (o) {
+        if (!o.isMesh || !o.material || !o.material.color) return;
+        if (o.material.userData && o.material.userData.noTint) return;
+        if (o.userData.__origColor === undefined) o.userData.__origColor = o.material.color.getHex();
+        if (o.material.emissive && o.userData.__origEmissive === undefined) o.userData.__origEmissive = o.material.emissive.getHex();
+        o.material.color.setHex(on ? ZOMBIE_GREEN : o.userData.__origColor);
+        if (o.material.emissive) {
+          o.material.emissive.setHex(on ? ZOMBIE_DARK : (o.userData.__origEmissive || 0x000000));
+          o.material.emissiveIntensity = on ? 0.45 : (o.material.__origIntensity !== undefined ? o.material.__origIntensity : 0);
+        }
+      });
+    }
+
+    function zombieRefreshBadge() {
+      if (!playerMesh || !playerMesh.group) return;
+      if (state.zombieBadge) {
+        playerMesh.group.remove(state.zombieBadge);
+        state.zombieBadge = null;
+      }
+      if (!state.isZombie) return;
+      const big = state.isOverlord;
+      const spr = zombieBadgeSprite(zombieLabelText(MP.myName), big ? '#a855f7' : '#22c55e', big);
+      spr.position.set(0, big ? 2.68 : 2.42, 0);
+      playerMesh.group.add(spr);
+      state.zombieBadge = spr;
+    }
+
+    function zombieAddEyes() {
+      if (!playerMesh || !playerMesh.group || state.zombieEyes) return;
+      const g = new THREE.Group();
+      [-0.11, 0.11].forEach(function (x) {
+        const eye = new THREE.Mesh(new THREE.SphereGeometry(0.055, 8, 8),
+          new THREE.MeshBasicMaterial({ color: 0xff2222 }));
+        eye.position.set(x, 1.54, 0.222);
+        eye.material.userData.noTint = true;
+        g.add(eye);
+        const glow = new THREE.PointLight(0xff2222, 0.55, 3.4, 2);
+        glow.position.set(x, 1.54, 0.36);
+        g.add(glow);
+      });
+      playerMesh.group.add(g);
+      state.zombieEyes = g;
+    }
+
+    function zombieAddOverlordGear() {
+      if (!playerMesh || !playerMesh.group || state.zombieCrown) return;
+      const crown = mpBuildCrown();
+      const aura2 = new THREE.Mesh(new THREE.TorusGeometry(0.7, 0.05, 8, 26),
+        new THREE.MeshBasicMaterial({ color: 0x4ade80, transparent: true, opacity: 0.7 }));
+      aura2.rotation.x = Math.PI / 2;
+      aura2.position.y = 0.28;
+      crown.add(aura2);
+      crown.userData.aura2 = aura2;
+      const light = new THREE.PointLight(0xa855f7, 1.6, 9, 2);
+      light.position.set(0, 1.5, 0);
+      crown.add(light);
+      const cape = new THREE.Mesh(new THREE.PlaneGeometry(0.92, 1.15),
+        new THREE.MeshStandardMaterial({ color: 0x2e1065, side: THREE.DoubleSide, roughness: 0.8, emissive: 0x4c1d95, emissiveIntensity: 0.45 }));
+      cape.position.set(0, 1.0, -0.22);
+      cape.rotation.x = 0.12;
+      crown.add(cape);
+      playerMesh.group.add(crown);
+      state.zombieCrown = crown;
+    }
+
+    function zombieReapplyLook() {
+      if (!playerMesh || !playerMesh.group) return;
+      state.zombieBadge = null;
+      state.zombieEyes = null;
+      state.zombieCrown = null;
+      zombiePaintGroup(playerMesh.group, state.isZombie);
+      if (state.isZombie) {
+        zombieAddEyes();
+        zombieRefreshBadge();
+        if (state.isOverlord) zombieAddOverlordGear();
+      }
+    }
+
+    function zombieSpawnMinions(n) {
+      zombieClearMinions();
+      for (let i = 0; i < (n || 3); i++) {
+        const built = mpBuildPlayerModel({ name: '미니언' + (i + 1), icon: '🧟', color: ZOMBIE_GREEN, x: 0, y: 1.8, z: 0 });
+        const grp = built.group;
+        grp.traverse(function (o) {
+          if (o.isMesh && o.material && o.material.color) {
+            o.material.color.setHex(ZOMBIE_GREEN);
+            if (o.material.emissive) o.material.emissive.setHex(ZOMBIE_DARK);
+          }
+        });
+        grp.position.set(playerPos.x + (Math.random() - 0.5) * 3, 0, playerPos.z + (Math.random() - 0.5) * 3);
+        grp.scale.setScalar(0.7);
+        if (built.sprite) built.sprite.scale.set(1.9, 0.48, 1);
+        scene.add(grp);
+        state.zombieMinions.push({
+          mesh: grp, armR: built.armR,
+          off: Math.random() * Math.PI * 2,
+          r: 1.5 + Math.random() * 1.6,
+          bob: Math.random() * 6
+        });
+      }
+    }
+
+    function zombieClearMinions() {
+      state.zombieMinions.forEach(function (m) { if (m.mesh) scene.remove(m.mesh); });
+      state.zombieMinions = [];
+    }
+
+    function zombieHud() {
+      const chip = document.getElementById('zombieChip');
+      if (!chip) return;
+      if (!state.isZombie) { chip.style.display = 'none'; return; }
+      chip.style.display = 'block';
+      chip.classList.toggle('overlord', !!state.isOverlord);
+      chip.textContent = state.isOverlord ? '👑🧟 좀비 권력자 · 공격 x2' : '🧟 좀비 · 공격 x1.5';
+    }
+
+    function zombieShowBanner() {
+      const b = document.getElementById('zombieBanner');
+      if (!b) return;
+      b.classList.add('show');
+      clearTimeout(state.__zombieBannerTimer);
+      state.__zombieBannerTimer = setTimeout(function () { b.classList.remove('show'); }, 4200);
+    }
+
+    // 🧟 2초 뒤 좀비로 부활
+    function zombieRise() {
+      state.hp = state.maxHp;
+      state.invulnTime = 3.0;
+      state.isZombie = true;
+      playerPos.set(0, 1.8, 0);
+      zombieReapplyLook();
+      zombieHud();
+      updateHUD();
+      spawnParticles(playerPos.clone().add(new THREE.Vector3(0, 0.6, 0)), ZOMBIE_GREEN, 30);
+      showFloat('🧟 좀비로 부활!! 공격력 x1.5 · 이동속도 UP!');
+      setPet('🧟 나는 이제 좀비다!! 무섭지 않아!!');
+      AudioEngine.playBossRoar();
+      if (MP.enabled) sendMP({ t: 'zombie', isZombie: true, isOverlord: state.isOverlord, x: playerPos.x, y: playerPos.y, z: playerPos.z });
+      // 역할이 '나 (태용)'이면 권력자로 각성
+      if (mpSelectedRole === 'me' && !state.isOverlord) {
+        setTimeout(function () { becomeOverlord(); }, 900);
+      }
+    }
+
+    // 👑🧟 좀비 권력자 각성
+    function becomeOverlord(auto) {
+      if (state.isOverlord) return;
+      if (!state.isZombie) {
+        state.isZombie = true;
         state.hp = state.maxHp;
-        playerPos.set(0, 1.8, 0);
-        showFloat("✨ 부활 완료! 무적 3초 발동!! 🛡️");
-        updateHUD();
-      }, 2000);
+        zombieReapplyLook();
+      }
+      state.isOverlord = true;
+      zombieReapplyLook();
+      zombieHud();
+      updateHUD();
+      zombieSpawnMinions(3);
+      zombieShowBanner();
+      AudioEngine.playAwaken();
+      showFloat('👑🧟 태용이 좀비 권력자 각성!! 좀비 군단 출격!!');
+      setPet('👑🧟 내가 좀비 권력자다!! 좀비 군단아, 나를 따라와!!');
+      // 보라/초록 섬광
+      const gf = document.getElementById('purpleFlash');
+      if (gf) { gf.style.opacity = '0.8'; setTimeout(function () { gf.style.opacity = '0'; }, 260); }
+      if (window.__scErrors) window.__zombieOverlordAt = Date.now();
+      if (MP.enabled) sendMP({ t: 'zombie', isZombie: true, isOverlord: true, x: playerPos.x, y: playerPos.y, z: playerPos.z });
+    }
+
+    function onPlayerDefeated() {
+      if (state.isZombie) {
+        // 이미 좀비 — 죽지 않고 잠깐 쓰러졌다 다시 일어난다
+        showFloat('💀 잠깐 쓰러졌다!! 2초 뒤 다시 일어난다! 🧟');
+        state.invulnTime = 3.5;
+        setTimeout(function () {
+          state.hp = state.maxHp;
+          playerPos.set(0, 1.8, 0);
+          showFloat('🧟 좀비는 죽지 않는다!! 다시 일어났다!');
+          updateHUD();
+        }, 2000);
+        return;
+      }
+      showFloat('💀 쓰러졌다! 2초 뒤 🧟 좀비로 부활한다!!');
+      state.invulnTime = 3.5;
+      setTimeout(zombieRise, 2000);
     }
 
     
@@ -6661,13 +7503,18 @@
         state.prevX = playerPos.x;
         state.prevZ = playerPos.z;
         enemySpawnTimer += dt;
-        if (enemySpawnTimer >= 1.5) {
+        const spawnEvery = Math.max(0.45, (1.35 - state.currentStageIndex * 0.028) / diffCfg().spawn);
+        if (enemySpawnTimer >= spawnEvery) {
           enemySpawnTimer = 0;
           spawnStageEnemy();
+          // 🎯 웨이브 러시: 스테이지·난이도가 높을수록 한 번에 여러 마리
+          if (state.currentStageIndex >= 8 && Math.random() < 0.35 + (diffLevel - 1) * 0.2) spawnStageEnemy();
+          if (state.currentStageIndex >= 16 && Math.random() < 0.25 + (diffLevel - 1) * 0.22) spawnStageEnemy();
+          if (diffLevel >= 3 && Math.random() < 0.3) spawnStageEnemy();
         }
 
         const skinCfg = SKINS[state.currentSkin];
-        const moveSpeed = 8.5 * skinCfg.speedMult;
+        const moveSpeed = 8.5 * skinCfg.speedMult * zombieSpeedMult();
 
         // 1. Movement
         if (joyMove.x !== 0 || joyMove.y !== 0) {
@@ -7032,8 +7879,8 @@
           if (!e.isBoss && dist < 2.5) {
             e.attackCooldown = (e.attackCooldown || 0) - dt;
             if (e.attackCooldown <= 0) {
-              e.attackCooldown = 0.95; // attacks every ~0.95 sec!
-              damagePlayer(10 + state.currentStageIndex * 2, "몬스터 할퀴기");
+              e.attackCooldown = 0.78; // 🎯 더 사납게 ~0.78초마다 할퀸다
+              damagePlayer(Math.round(Math.min(40, 12 + state.currentStageIndex * 1.8) * diffCfg().dmg), "몬스터 할퀴기");
 
               // Lunge animation
               const lungeDir = playerPos.clone().sub(e.group.position).normalize();
@@ -7088,9 +7935,49 @@
       }
 
       
-      if (MP.partnerMesh && MP.partnerMesh.visible) {
-        MP.partnerMesh.position.lerp(MP.partnerPos, 0.25);
-        MP.partnerMesh.rotation.y = MP.partnerYaw;
+      // 🧟👑 좀비 권력자 연출 — 왕관 오라 회전 · 좀비 미니언 추종
+      if (state.zombieCrown) {
+        const ct = now * 0.001;
+        if (state.zombieCrown.userData.aura) state.zombieCrown.userData.aura.rotation.z = ct * 1.8;
+        if (state.zombieCrown.userData.aura2) state.zombieCrown.userData.aura2.rotation.z = -ct * 2.6;
+      }
+      if (state.zombieMinions.length) {
+        const mt = now * 0.001;
+        state.zombieMinions.forEach(function (m) {
+          const a = mt * 0.85 + m.off;
+          const tx = playerPos.x + Math.cos(a) * m.r;
+          const tz = playerPos.z + Math.sin(a) * m.r;
+          m.mesh.position.x += (tx - m.mesh.position.x) * 0.07;
+          m.mesh.position.z += (tz - m.mesh.position.z) * 0.07;
+          m.mesh.position.y = Math.abs(Math.sin(mt * 4 + m.bob)) * 0.16;
+          m.mesh.rotation.y = a + Math.PI / 2;
+          if (m.armR) m.armR.rotation.x = -1.25 + Math.sin(mt * 6 + m.bob) * 0.4;
+        });
+      }
+
+      // 👥 v4.7 최대 5명 원격 가족 캐릭터 — 부드럽게 따라오고, 뛰고, 공격 모션
+      if (MP.remotePlayers.size) {
+        const tm = now * 0.001;
+        MP.remotePlayers.forEach(function (p) {
+          if (!p.mesh) return;
+          const bob = Math.abs(Math.sin(tm * 9)) * 0.06 * p.moving;
+          p.mesh.position.x += (p.targetPos.x - p.mesh.position.x) * 0.3;
+          p.mesh.position.z += (p.targetPos.z - p.mesh.position.z) * 0.3;
+          p.mesh.position.y += ((p.targetPos.y + bob) - p.mesh.position.y) * 0.3;
+          p.mesh.rotation.y = p.yaw;
+          if (p.attackTimer > 0) {
+            p.attackTimer -= dt;
+            const k = Math.max(0, p.attackTimer) / 0.36;
+            if (p.armR) p.armR.rotation.x = -2.1 * Math.sin(k * Math.PI);
+          } else if (p.armR) {
+            p.armR.rotation.x = Math.sin(tm * 9) * 0.5 * p.moving;
+          }
+          if (p.legL) p.legL.rotation.x = Math.sin(tm * 9) * 0.55 * p.moving;
+          if (p.legR) p.legR.rotation.x = -Math.sin(tm * 9) * 0.55 * p.moving;
+          if (p.mesh.userData && p.mesh.userData.ring) {
+            p.mesh.userData.ring.material.opacity = 0.55 + Math.sin(tm * 3) * 0.25;
+          }
+        });
       }
 
       
@@ -7125,6 +8012,85 @@
       blowRoyalFlute();
       return '🪈 왕드래곤 소환 시작';
     };
+    // =====================================================================
+    // 🧪 v4.7 멀티플레이 검증 훅 (일반 플레이에는 영향 없음)
+    //   window.__v47Peers(4) → 아빠·엄마·삼촌·형 4명 가상 접속시켜 5/5 화면 만들기
+    // =====================================================================
+    window.__v47Peers = function (count) {
+      if (!state.started) startGameSolo();
+      const spots = [
+        { x: -3.6, z: -6.2 },
+        { x: -1.2, z: -8.8 },
+        { x: 1.3, z: -8.4 },
+        { x: 3.7, z: -5.9 }
+      ];
+      const keys = ['dad', 'mom', 'uncle', 'bro'];
+      const n = Math.max(0, Math.min(4, count === undefined ? 4 : count));
+      MP.enabled = true;
+      if (!MP.myName) { MP.myName = '태용'; MP.myIcon = '🌟'; }
+      for (let i = 0; i < n; i++) {
+        const r = MP_ROLE_PRESETS[keys[i]];
+        const sp = spots[i];
+        handleMPMessage({
+          t: 'pos', from: 'test_' + i, name: r.name, icon: r.icon, skin: 'default',
+          x: sp.x, y: 1.8, z: sp.z,
+          yaw: Math.atan2(-sp.x, -sp.z), hp: 100
+        });
+      }
+      mpRefreshRoster();
+      return mpCount();
+    };
+    window.__v47State = function () {
+      const names = [];
+      MP.remotePlayers.forEach(function (p) { names.push(p.icon + ' ' + p.name); });
+      const badge = document.getElementById('mpStatusBadge');
+      const list = document.getElementById('mpRosterList');
+      return {
+        count: mpCount(), max: MP_MAX, full: MP.full,
+        myName: MP.myName, myIcon: MP.myIcon,
+        names: names,
+        badge: badge ? badge.textContent : '(none)',
+        badgeShown: badge ? getComputedStyle(badge).display : 'none',
+        roster: list ? list.textContent : '',
+        models: Array.prototype.filter.call(scene.children, function (o) { return o.userData && o.userData.ring; }).length
+      };
+    };
+    window.__v47FullTest = function () { mpOnRoomFull(); return window.__v47State(); };
+    window.__v47Diff = function (lv) {
+      setDifficulty(lv);
+      const b = document.getElementById('diffBtn' + diffLevel);
+      return { level: diffLevel, cfg: diffCfg(), btn: b ? b.textContent : '', active: b ? b.classList.contains('active') : false };
+    };
+    window.__v47Zombie = function (overlord) {
+      if (!state.started) startGameSolo();
+      zombieRise();
+      if (overlord !== false) setTimeout(function () { becomeOverlord(); }, 950);
+      return true;
+    };
+    window.__v47ZombieNow = function (overlord) {
+      if (!state.started) startGameSolo();
+      state.isZombie = true;
+      becomeOverlord();
+      return window.__v47ZombieState();
+    };
+    window.__v47ZombieState = function () {
+      const chip = document.getElementById('zombieChip');
+      const banner = document.getElementById('zombieBanner');
+      return {
+        isZombie: state.isZombie,
+        isOverlord: state.isOverlord,
+        label: state.isZombie ? zombieLabelText(MP.myName) : '(사람)',
+        chip: chip ? chip.textContent : '',
+        chipShown: chip ? getComputedStyle(chip).display : 'none',
+        bannerShown: banner ? banner.classList.contains('show') : false,
+        minions: state.zombieMinions.length,
+        dmgMult: zombieDmgMult(),
+        speedMult: zombieSpeedMult(),
+        hasBadgeSprite: !!state.zombieBadge,
+        hasCrown: !!state.zombieCrown
+      };
+    };
+
     window.__scErrors = [];
     window.addEventListener('error', function (e) { window.__scErrors.push(String(e.message || e.error)); });
     window.addEventListener('unhandledrejection', function (e) { window.__scErrors.push('rejection:' + String(e.reason)); });
