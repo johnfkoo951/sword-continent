@@ -6807,10 +6807,10 @@
       const light = new THREE.PointLight(0xa855f7, 1.6, 9, 2);
       light.position.set(0, 1.5, 0);
       crown.add(light);
-      const cape = new THREE.Mesh(new THREE.PlaneGeometry(0.92, 1.15),
-        new THREE.MeshStandardMaterial({ color: 0x2e1065, side: THREE.DoubleSide, roughness: 0.8, emissive: 0x4c1d95, emissiveIntensity: 0.45 }));
-      cape.position.set(0, 1.0, -0.22);
-      cape.rotation.x = 0.12;
+      const cape = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.82),
+        new THREE.MeshStandardMaterial({ color: 0x2e1065, side: THREE.DoubleSide, roughness: 0.8, emissive: 0x4c1d95, emissiveIntensity: 0.45, transparent: true, opacity: 0.92 }));
+      cape.position.set(0, 0.9, -0.2);
+      cape.rotation.x = 0.1;
       crown.add(cape);
       playerMesh.group.add(crown);
       state.zombieCrown = crown;
