@@ -657,6 +657,227 @@
       box-shadow: 0 4px 14px rgba(239, 68, 68, 0.5);
     }
 
+    /* ==================================================================
+       📱 v4.6 HUD LAYOUT — 어떤 화면에서도 겹침 0 · 중앙 3D 시야 확보
+       (태용이: "겹쳐진거 화면 방해 안돼게 다른곳에놔")
+       ================================================================== */
+    .hud-top-bar {
+      position: absolute;
+      top: calc(6px + env(safe-area-inset-top, 0px));
+      left: 8px; right: 8px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: start;
+      gap: 6px;
+      z-index: 30;
+      pointer-events: none;
+    }
+    .hud-left { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 3px; min-width: 0; }
+    .hud-right { grid-column: 3; grid-row: 1; display: flex; flex-direction: column; align-items: flex-end; gap: 3px; min-width: 0; }
+    .hud-row { display: flex; align-items: center; gap: 4px; max-width: 100%; }
+    .hud-ico { font-size: clamp(10px, 2.6vw, 15px); line-height: 1; }
+
+    .hud-badge {
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: clamp(8.5px, 2.35vw, 12px);
+      line-height: 1.15;
+      white-space: nowrap;
+      gap: 4px;
+      background: rgba(15, 23, 42, 0.82);
+      border: 1.5px solid rgba(255,255,255,0.16);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.45);
+    }
+    .stage-badge { border-color: rgba(56,189,248,0.85); background: rgba(14,165,233,0.22); }
+    #stageLabel { font-weight: 900; color: #38bdf8; font-size: 1em; }
+    #realmNameText { color: #a5f3fc; font-size: 0.86em; }
+    .candy-badge { border-color: rgba(255,190,11,0.85); background: rgba(120,53,15,0.32); }
+    .candy-count { font-size: 1.1em; font-weight: 900; color: #ffbe0b; text-shadow: 0 0 8px rgba(255,190,11,0.45); }
+
+    /* LV / HP / 스태미나 — 좌상단 슬림 칩 */
+    #hudStatusBar { position: static; display: flex; align-items: center; gap: 3px; flex-wrap: wrap; pointer-events: none; }
+    .hud-stat {
+      display: flex; align-items: center; gap: 4px;
+      background: rgba(15, 23, 42, 0.82);
+      border-width: 1.5px; border-style: solid;
+      border-radius: 9px;
+      padding: 2px 6px;
+      font-size: clamp(8px, 2.2vw, 11.5px);
+      font-weight: 900; line-height: 1.1;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+    .stat-bar {
+      width: clamp(28px, 7.4vw, 72px);
+      height: clamp(6px, 1.5vw, 10px);
+      background: #334155;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.22);
+    }
+    #hudLevelWrap { border-color: #ffd166; color: #ffd166; }
+    #hudHpWrap { border-color: #ef4444; color: #f87171; }
+    #hudStaminaWrap { border-color: #10b981; color: #34d399; }
+    #hpBarFill { width: 100%; height: 100%; background: linear-gradient(90deg,#ef4444,#f87171); transition: width 0.15s ease-out; }
+    #staminaBarFill { width: 100%; height: 100%; background: linear-gradient(90deg,#10b981,#34d399); transition: width 0.1s linear; }
+
+    /* 냥냥이 말풍선 — 좌상단 HUD 아래 작은 한 줄 칩 */
+    .pet-hud {
+      position: static;
+      margin: 0;
+      max-width: min(54vw, 300px);
+      padding: 2px 7px;
+      border-radius: 9px;
+      border: 1.5px solid rgba(16,185,129,0.6);
+      background: rgba(15, 23, 42, 0.8);
+      display: flex; align-items: center; gap: 4px;
+      font-size: clamp(8px, 2.15vw, 10.5px);
+      backdrop-filter: blur(6px);
+      pointer-events: none;
+    }
+    #petSpeech { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 1em; font-weight: 700; color: #a7f3d0; line-height: 1.2; }
+
+    /* 멀티 대기 배지도 좌상단 칩 라인에 (중앙 침범 금지) */
+    #mpStatusBadge {
+      position: static;
+      transform: none;
+      display: none;
+      padding: 2px 8px;
+      border-radius: 9px;
+      font-size: clamp(8px, 2.15vw, 11px);
+      margin: 0;
+      border-width: 1.5px;
+    }
+
+    /* 상점 버튼 — 우상단 슬림 */
+    .shop-open-btn {
+      padding: 3px 9px;
+      border-radius: 10px;
+      font-size: clamp(8.5px, 2.3vw, 12px);
+      gap: 4px;
+      border-width: 1.5px;
+      animation: pulseBtn 2.6s infinite;
+      white-space: nowrap;
+      line-height: 1.15;
+    }
+    .shop-label-short { display: none; }
+
+    /* 카메라 토글 — 상점 아래 슬림 알약 줄 */
+    .top-controls { position: static; transform: none; display: flex; gap: 3px; align-items: center; justify-content: flex-end; pointer-events: auto; }
+    .ctrl-btn { padding: 2px 6px; border-radius: 8px; font-size: clamp(8px, 2.15vw, 11px); line-height: 1.15; white-space: nowrap; font-weight: 800; }
+
+    /* 보스 HP바 — 상단 최상단 중앙 슬림 */
+    .boss-bar-wrap {
+      position: static;
+      transform: none;
+      grid-column: 2; grid-row: 1;
+      justify-self: center;
+      width: clamp(150px, 30vw, 320px);
+      padding: 2px 8px 3px;
+      border-width: 1.5px;
+      border-radius: 9px;
+      margin: 0;
+      gap: 0;
+      box-shadow: 0 0 12px rgba(239,68,68,0.55);
+      background: rgba(0,0,0,0.86);
+    }
+    .boss-bar-top { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 6px; font-size: clamp(7.5px, 2.05vw, 10.5px); font-weight: 900; color: #ffbe0b; margin-bottom: 2px; }
+    .boss-bar-top span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .boss-bar-track { width: 100%; height: clamp(5px, 1.3vw, 9px); background: #222; border-radius: 4px; overflow: hidden; border: 1px solid rgba(239,68,68,0.9); }
+    #bossHpFill { width: 100%; height: 100%; background: linear-gradient(90deg,#ef4444,#ffea00); transition: width 0.1s linear; }
+    #dragonPhaseText { display: none; margin-top: 2px; max-width: 100%; font-size: clamp(6.5px, 1.9vw, 9px); font-weight: 900; color: #ffd166; letter-spacing: 0; text-shadow: 0 0 8px rgba(255,90,0,0.95); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* 우하단: 스킬 덱 + 기본 조작 (한 줄기로 겹침 없이) */
+    .right-bottom-stack {
+      position: absolute;
+      right: 8px;
+      bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+      display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
+      z-index: 32;
+      pointer-events: none;
+    }
+    #skillZoneContainer { position: static; display: flex; flex-direction: column; align-items: flex-end; gap: 3px; pointer-events: auto; }
+    .skill-zone-label {
+      display: flex; align-items: center; gap: 3px;
+      padding: 0 6px;
+      border-radius: 7px;
+      background: rgba(15,23,42,0.85);
+      border: 1px solid rgba(168,85,247,0.7);
+      font-size: clamp(7px, 1.95vw, 10px);
+      font-weight: 900; color: #e9d5ff;
+      line-height: 1.5;
+      box-shadow: 0 0 8px rgba(168,85,247,0.45);
+    }
+    .skill-deck-row {
+      display: flex; gap: clamp(3px, 0.7vw, 6px); align-items: center;
+      padding: 4px;
+      background: rgba(15,23,42,0.8);
+      backdrop-filter: blur(8px);
+      border: 1.5px solid rgba(129,140,248,0.8);
+      border-radius: 12px;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.55);
+    }
+    .skill-deck-btn {
+      width: clamp(34px, 8.8vw, 52px);
+      height: clamp(34px, 8.8vw, 52px);
+      border-radius: clamp(9px, 2.3vw, 14px);
+      border-width: 1.5px;
+      border-style: solid;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer; color: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.45);
+      transition: transform 0.08s, opacity 0.15s;
+      line-height: 1;
+    }
+    .sk-ico { font-size: clamp(13px, 3.6vw, 20px); line-height: 1; }
+    .sk-nm { font-size: clamp(6.5px, 1.85vw, 9px); font-weight: 900; margin-top: 2px; }
+
+    .actions-panel { position: static; right: auto; bottom: auto; display: flex; gap: clamp(5px, 1.4vw, 9px); align-items: flex-end; pointer-events: auto; }
+    .btn-action { line-height: 1; }
+    .btn-action .btn-lbl { font-size: clamp(6.5px, 1.8vw, 9.5px); }
+    .btn-punch { width: clamp(42px, 10vw, 58px); height: clamp(42px, 10vw, 58px); }
+    .btn-shoot { width: clamp(46px, 11.2vw, 66px); height: clamp(46px, 11.2vw, 66px); }
+    .btn-jump { width: clamp(38px, 9vw, 50px); height: clamp(38px, 9vw, 50px); }
+    .btn-dash { width: clamp(38px, 9vw, 52px); height: clamp(38px, 9vw, 52px); }
+
+    /* 조이스틱 — 좌하단 */
+    .joystick-container { left: 8px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+    .joystick-base { width: clamp(72px, 18.5vw, 96px); height: clamp(72px, 18.5vw, 96px); }
+    .joystick-stick { width: 44%; height: 44%; }
+
+    #awakenBtn { right: auto; left: 50%; margin-left: calc(-1 * clamp(29px, 7vw, 34px)); bottom: calc(104px + env(safe-area-inset-bottom, 0px)); }
+
+    /* ---- 폰 세로/좁은 화면: 보스바를 2번째 줄로 내려 중앙 침범 제거 ---- */
+    @media (max-width: 768px) {
+      .hud-top-bar { grid-template-columns: minmax(0, 1fr) auto; }
+      .hud-left { grid-column: 1; grid-row: 1; }
+      .hud-right { grid-column: 2; grid-row: 1; }
+      .boss-bar-wrap { grid-column: 1 / -1; grid-row: 2; justify-self: center; width: min(74vw, 320px); margin-top: 1px; }
+      .top-controls { display: grid; grid-template-columns: auto auto; gap: 3px; justify-items: end; }
+      .shop-label-full { display: none; }
+      .shop-label-short { display: inline; }
+      .pet-hud { max-width: 60vw; }
+    }
+    @media (min-width: 769px) { .shop-label-full { display: inline; } }
+
+    /* ---- 가로 모드(낮은 화면)에서 세로 공간 확보 ---- */
+    @media (max-height: 470px) {
+      .hud-top-bar { top: calc(4px + env(safe-area-inset-top, 0px)); }
+      .hud-left, .hud-right { gap: 2px; }
+      /* 세로 공간이 짧은 가로 모드: 스킬 덱을 3x2로 접고 라벨을 숨겨 중앙 시야 침범 제거 */
+      .skill-zone-label { display: none; }
+      .skill-deck-row { display: grid; grid-template-columns: repeat(3, auto); gap: 3px; padding: 3px; }
+      .right-bottom-stack { bottom: calc(8px + env(safe-area-inset-bottom, 0px)); gap: 4px; }
+      .skill-deck-btn { width: clamp(32px, 6.6vh, 46px); height: clamp(32px, 6.6vh, 46px); }
+      .btn-action .btn-lbl { font-size: clamp(6px, 1.7vh, 9px); }
+      .btn-punch { width: clamp(40px, 12vh, 56px); height: clamp(40px, 12vh, 56px); }
+      .btn-shoot { width: clamp(44px, 13.5vh, 62px); height: clamp(44px, 13.5vh, 62px); }
+      .joystick-base { width: clamp(70px, 21vh, 92px); height: clamp(70px, 21vh, 92px); }
+      .hud-left { min-height: 0; }
+      .pet-hud { position: absolute; top: 52px; right: 0; max-width: min(40vw, 240px); }
+      .hud-left .pet-hud { left: auto; }
+    }
+
 </style>
 </head>
 <body>
@@ -689,139 +910,132 @@
     <div id="touchLookArea" class="touch-look-overlay"></div>
 
 
-    <!-- HUD Top Bar -->
+    <!-- ===================== v4.6 HUD (겹침 0) ===================== -->
     <div class="hud-top-bar">
-      <!-- Stage Info -->
-      <div class="hud-badge stage-badge">
-        <span style="font-size: 16px;">🗺️</span>
-        <span id="stageLabel" style="font-size: 13px; font-weight: 900; color: #38bdf8;">STAGE 1 / 26</span>
-        <span id="realmNameText" style="font-size: 11px; color: #a5f3fc;">(풀 왕국)</span>
-      </div>
-
-      <!-- Candies -->
-      <div class="hud-badge">
-        <span style="font-size: 16px;">🍬</span>
-        <span id="candyCountText" class="candy-count">0</span>
-      </div>
-
-      <!-- Shop Button -->
-      <button id="shopOpenBtn" class="shop-open-btn">
-        <span>🛒</span>
-        <span>상점 (11대 스킨 & 무기 & 스킬)</span>
-      </button>
-    </div>
-
-    <!-- 👑 LEVEL, ❤️ HP, ⚡ STAMINA BARS (뻔히 보이게!) -->
-    <div id="hudStatusBar" style="position: absolute; top: 48px; left: 12px; display: flex; gap: 6px; z-index: 35; pointer-events: none;">
-      <!-- Level Badge -->
-      <div id="hudLevelWrap" style="background: rgba(15, 23, 42, 0.92); border: 2px solid #ffd166; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 900; color: #ffd166; display: flex; align-items: center; gap: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.6);">
-        <span>👑</span>
-        <span id="playerLevelText">LV.1</span>
-      </div>
-
-      <!-- HP Bar -->
-      <div id="hudHpWrap" style="background: rgba(15, 23, 42, 0.92); border: 2px solid #ef4444; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 900; color: #f87171; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.6);">
-        <span>❤️</span>
-        <div style="width: 80px; height: 12px; background: #334155; border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.25);">
-          <div id="hpBarFill" style="width: 100%; height: 100%; background: linear-gradient(90deg, #ef4444, #f87171); transition: width 0.15s ease-out;"></div>
+      <div class="hud-left">
+        <div class="hud-row">
+          <div class="hud-badge stage-badge">
+            <span class="hud-ico">🗺️</span>
+            <span id="stageLabel">STAGE 1 / 26</span>
+            <span id="realmNameText">(풀 왕국)</span>
+          </div>
+          <div class="hud-badge candy-badge">
+            <span class="hud-ico">🍬</span>
+            <span id="candyCountText" class="candy-count">0</span>
+          </div>
         </div>
-        <span id="hpText" style="color: #fca5a5;">100/100</span>
-      </div>
 
-      
-      <!-- 초기술 게이지바 삭제됨 -->
-
-      <!-- Stamina Bar -->
-      <div id="hudStaminaWrap" style="background: rgba(15, 23, 42, 0.92); border: 2px solid #10b981; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 900; color: #34d399; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.6);">
-        <span>⚡</span>
-        <div style="width: 80px; height: 12px; background: #1e293b; border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.25);">
-          <div id="staminaBarFill" style="width: 100%; height: 100%; background: linear-gradient(90deg, #10b981, #34d399); transition: width 0.1s linear;"></div>
+        <!-- 👑 LEVEL / ❤️ HP / ⚡ STAMINA -->
+        <div id="hudStatusBar">
+          <div id="hudLevelWrap" class="hud-stat">
+            <span class="hud-ico">👑</span>
+            <span id="playerLevelText">LV.1</span>
+          </div>
+          <div id="hudHpWrap" class="hud-stat">
+            <span class="hud-ico">❤️</span>
+            <div class="stat-bar"><div id="hpBarFill"></div></div>
+            <span id="hpText">100/100</span>
+          </div>
+          <div id="hudStaminaWrap" class="hud-stat">
+            <span class="hud-ico">⚡</span>
+            <div class="stat-bar"><div id="staminaBarFill"></div></div>
+            <span id="staminaText">100/100</span>
+          </div>
         </div>
-        <span id="staminaText" style="color: #a7f3d0;">100/100</span>
+
+        <!-- 🐱 냥냥이 말풍선 (좌상단 HUD 아래 작게) -->
+        <div class="pet-hud">
+          <span class="hud-ico">🐱</span>
+          <span id="petSpeech">"10대 신급 스킨 뽑아서 보스 부수자!!"</span>
+        </div>
+
+        <div id="mpStatusBadge">👥 2인 멀티플레이 대기중...</div>
+      </div>
+
+      <!-- 👑 보스 HP바 (상단 최상단 중앙 슬림) -->
+      <div id="bossBarWrap" class="boss-bar-wrap">
+        <div class="boss-bar-top">
+          <span id="bossNameLabel">👑 스테이지 보스</span>
+          <span id="bossHpText">1500 / 1500</span>
+        </div>
+        <div class="boss-bar-track">
+          <div id="bossHpFill"></div>
+        </div>
+        <div id="dragonPhaseText">
+          🐉 화염 브레스 · 화염 파동 · 꼬리 강타 주의!!
+        </div>
+      </div>
+
+      <div class="hud-right">
+        <button id="shopOpenBtn" class="shop-open-btn">
+          <span class="hud-ico">🛒</span>
+          <span class="shop-label-full">상점 (11대 스킨 &amp; 무기 &amp; 스킬)</span>
+          <span class="shop-label-short">상점</span>
+        </button>
+
+        <!-- 🎥 카메라 컨트롤 (상점 아래 슬림 알약 줄) -->
+        <div class="top-controls">
+          <button id="camToggleBtn" class="ctrl-btn">👁️ 3인칭</button>
+          <button id="zoomOutBtn" class="ctrl-btn">🔍 멀리 (-)</button>
+          <button id="zoomInBtn" class="ctrl-btn">🔍 가까이 (+)</button>
+          <button id="turn180Btn" class="ctrl-btn">⚡ 180°</button>
+        </div>
       </div>
     </div>
 
+    <!-- 🔮 태용이 기획: 전용 [스킬 쓰는 곳] + 기본 조작 (우하단 한 줄기) -->
+    <div class="right-bottom-stack">
+      <div id="skillZoneContainer">
+        <div class="skill-zone-label">
+          <span>🔮</span>
+          <span>스킬 쓰는 곳</span>
+        </div>
 
-    <!-- Pet Dialogue -->
-    <div class="pet-hud">
-      <span style="font-size: 18px;">🐱</span>
-      <span id="petSpeech" style="font-size: 10.5px; font-weight: 700; color: #a7f3d0; line-height: 1.2;">"10대 신급 스킨 뽑아서 보스 부수자!!"</span>
-    </div>
+        <div class="skill-deck-row">
+          <!-- 1. 스킨 고유 궁극기 -->
+          <button id="skillBtnSkin" class="skill-deck-btn" style="background: linear-gradient(135deg, #1e1b4b, #312e81); border-color: #818cf8;">
+            <span id="grandSkillIcon" class="sk-ico">👊</span>
+            <span id="grandSkillName" class="sk-nm" style="color: #c7d2fe;">필살기</span>
+          </button>
 
-    <!-- Top Camera Controls -->
-    <div class="top-controls">
-      <button id="camToggleBtn" class="ctrl-btn" style="background: rgba(14, 165, 233, 0.4); border-color: #38bdf8;">👁️ 3인칭</button>
-      <button id="zoomOutBtn" class="ctrl-btn">🔍 멀리 (-)</button>
-      <button id="zoomInBtn" class="ctrl-btn">🔍 가까이 (+)</button>
-      <button id="turn180Btn" class="ctrl-btn">⚡ 180°</button>
-    </div>
+          <!-- 2. 메테오 스킬 -->
+          <button id="skillBtnMeteor" class="skill-deck-btn" style="background: linear-gradient(135deg, #4c1d95, #6d28d9); border-color: #c4b5fd;">
+            <span class="sk-ico">☄️</span>
+            <span class="sk-nm" style="color: #ddd6fe;">메테오</span>
+          </button>
 
-    <!-- Boss HP Bar -->
-    <div id="bossBarWrap" class="boss-bar-wrap">
-      <div style="display: flex; justify-content: space-between; width: 100%; font-size: 11px; font-weight: 900; color: #ffbe0b; margin-bottom: 4px;">
-        <span id="bossNameLabel">👑 스테이지 보스</span>
-        <span id="bossHpText">1500 / 1500</span>
+          <!-- 3. 관통 레이저 스킬 -->
+          <button id="skillBtnLaser" class="skill-deck-btn" style="background: linear-gradient(135deg, #0e7490, #0891b2); border-color: #67e8f9;">
+            <span class="sk-ico">⚡</span>
+            <span class="sk-nm" style="color: #a5f3fc;">레이저</span>
+          </button>
+
+          <!-- 4. 블리자드 동결 스킬 -->
+          <button id="skillBtnBlizzard" class="skill-deck-btn" style="background: linear-gradient(135deg, #1e3a8a, #2563eb); border-color: #93c5fd;">
+            <span class="sk-ico">❄️</span>
+            <span class="sk-nm" style="color: #bfdbfe;">블리자드</span>
+          </button>
+
+          <!-- 5. 도우미 냥냥이 스킬 -->
+          <button id="skillBtnHelper" class="skill-deck-btn" style="background: linear-gradient(135deg, #065f46, #059669); border-color: #6ee7b7;">
+            <span class="sk-ico">🤝</span>
+            <span class="sk-nm" style="color: #a7f3d0;">도우미</span>
+          </button>
+
+          <!-- 6. 전설의 피리 국왕 소환 스킬 -->
+          <button id="fluteBtn" class="skill-deck-btn" style="background: linear-gradient(135deg, #78350f, #451a03); border-color: #64748b; opacity: 0.65;">
+            <span class="sk-ico">🪈</span>
+            <span id="fluteBtnText" class="sk-nm" style="color: #fde047;">피리(0/50)</span>
+          </button>
+        </div>
       </div>
-      <div style="width: 100%; height: 10px; background: #222; border-radius: 5px; overflow: hidden; border: 1.5px solid #ef4444;">
-        <div id="bossHpFill" style="width: 100%; height: 100%; background: linear-gradient(90deg, #ef4444, #ffea00); transition: width 0.1s linear;"></div>
+
+      <div class="actions-panel">
+        <button id="dashBtn" class="btn-action btn-dash">⚡<span class="btn-lbl">대시</span></button>
+        <button id="jumpBtn" class="btn-action btn-jump">🦘<span class="btn-lbl">점프</span></button>
+        <button id="shootBtn" class="btn-action btn-shoot">🔫<span id="shootBtnLabel" class="btn-lbl">사격</span></button>
+        <button id="punchBtn" class="btn-action btn-punch">👊<span id="punchBtnLabel" class="btn-lbl">공격</span></button>
       </div>
-      <div id="dragonPhaseText" style="display: none; margin-top: 4px; font-size: 9.5px; font-weight: 900; color: #ffd166; letter-spacing: 0.2px; text-shadow: 0 0 8px rgba(255, 90, 0, 0.95);">
-        🐉 화염 브레스 · 화염 파동 · 꼬리 강타 주의!!
-      </div>
-    </div>
-
-    <!-- 🔮 태용이 기획: 전용 [스킬 쓰는 곳] (SKILL DECK) 패널 -->
-    <div id="skillZoneContainer" style="position: absolute; right: 12px; bottom: 84px; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; z-index: 32; pointer-events: auto;">
-      <div style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid #a855f7; border-radius: 10px; padding: 2px 8px; font-size: 11px; font-weight: 900; color: #e9d5ff; box-shadow: 0 0 12px rgba(168, 85, 247, 0.6); display: flex; align-items: center; gap: 4px;">
-        <span>🔮</span>
-        <span>스킬 쓰는 곳</span>
-      </div>
-
-      <div style="background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(10px); border: 2px solid #818cf8; border-radius: 18px; padding: 6px; display: flex; gap: 6px; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.6), 0 0 16px rgba(129, 140, 248, 0.35);">
-        <!-- 1. 스킨 고유 궁극기 -->
-        <button id="skillBtnSkin" class="skill-deck-btn" style="background: linear-gradient(135deg, #1e1b4b, #312e81); border-color: #818cf8;">
-          <span id="grandSkillIcon" style="font-size: 20px;">👊</span>
-          <span id="grandSkillName" style="font-size: 8.5px; font-weight: 900; color: #c7d2fe;">필살기</span>
-        </button>
-
-        <!-- 2. 메테오 스킬 -->
-        <button id="skillBtnMeteor" class="skill-deck-btn" style="background: linear-gradient(135deg, #4c1d95, #6d28d9); border-color: #c4b5fd;">
-          <span style="font-size: 20px;">☄️</span>
-          <span style="font-size: 8.5px; font-weight: 900; color: #ddd6fe;">메테오</span>
-        </button>
-
-        <!-- 3. 관통 레이저 스킬 -->
-        <button id="skillBtnLaser" class="skill-deck-btn" style="background: linear-gradient(135deg, #0e7490, #0891b2); border-color: #67e8f9;">
-          <span style="font-size: 20px;">⚡</span>
-          <span style="font-size: 8.5px; font-weight: 900; color: #a5f3fc;">레이저</span>
-        </button>
-
-        <!-- 4. 블리자드 동결 스킬 -->
-        <button id="skillBtnBlizzard" class="skill-deck-btn" style="background: linear-gradient(135deg, #1e3a8a, #2563eb); border-color: #93c5fd;">
-          <span style="font-size: 20px;">❄️</span>
-          <span style="font-size: 8.5px; font-weight: 900; color: #bfdbfe;">블리자드</span>
-        </button>
-
-        <!-- 5. 도우미 냥냥이 스킬 -->
-        <button id="skillBtnHelper" class="skill-deck-btn" style="background: linear-gradient(135deg, #065f46, #059669); border-color: #6ee7b7;">
-          <span style="font-size: 20px;">🤝</span>
-          <span style="font-size: 8.5px; font-weight: 900; color: #a7f3d0;">도우미</span>
-        </button>
-
-        <!-- 6. 전설의 피리 국왕 소환 스킬 -->
-        <button id="fluteBtn" class="skill-deck-btn" style="background: linear-gradient(135deg, #78350f, #451a03); border-color: #64748b; opacity: 0.65;">
-          <span style="font-size: 20px;">🪈</span>
-          <span id="fluteBtnText" style="font-size: 8px; font-weight: 900; color: #fde047;">피리(0/50)</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- 기본 조작 액션 패널 (우측 최하단: 주먹, 사격, 점프, 대시) -->
-    <div class="actions-panel" style="position: absolute; right: 14px; bottom: 14px; display: flex; gap: 8px; z-index: 30; pointer-events: auto; align-items: center;">
-      <button id="dashBtn" class="btn-action btn-dash">⚡<span style="font-size: 9px;">대시</span></button>
-      <button id="jumpBtn" class="btn-action btn-jump">🦘<span style="font-size: 9px;">점프</span></button>
-      <button id="shootBtn" class="btn-action btn-shoot">🔫<span id="shootBtnLabel" style="font-size: 11px;">사격</span></button>
-      <button id="punchBtn" class="btn-action btn-punch">👊<span id="punchBtnLabel" style="font-size: 10px;">공격</span></button>
     </div>
 
     <!-- Joystick (Move) -->
@@ -836,7 +1050,7 @@
       <div class="modal-card">
         <div style="font-size: 32px; text-align: center;">🗡️ 🏰 👑</div>
         <h1 style="font-size: 20px; font-weight: 900; color: #ffea00; text-align: center;">THE SWORD CONTINENT<br><span style="font-size: 14px; color: #38bdf8;">26스테이지 대원정 & 왕국 성채 & 스파이·도우미</span></h1>
-        <div style="text-align:center; font-size: 10px; font-weight: 800; color: #94a3b8; margin-top: 2px; letter-spacing: 0.3px;">v4.5 · 🐉 왕드래곤 3D 리모델링(날카로운 제왕룡) 업데이트</div>
+        <div style="text-align:center; font-size: 10px; font-weight: 800; color: #94a3b8; margin-top: 2px; letter-spacing: 0.3px;">v4.6 · 📱 UI 겹침 0 재배치 + 🐉 용 5방 처치 + 🌸 5대 왕국 꾸밈 업데이트</div>
         
         <div style="background: rgba(0,0,0,0.35); padding: 10px; border-radius: 12px; font-size: 11.5px; line-height: 1.6; color: #cbd5e1;">
           🗺️ <b>5대 판타지 왕국 & 26스테이지 대원정 오픈!</b><br>
@@ -845,7 +1059,7 @@
           • 🕵️‍♂️ <b>그림자 시크릿 스파이</b>: 4초 투명 은신 & 등 뒤 백스탭 5배 크리티컬!<br>
           • 🔮 <b>좀비슈터 전설 스킬 상점</b>: 메테오·레이저·블리자드 얼음 동결 구매!<br>
           • 👑 <b>26스테이지 왕을 죽이면 끝!!</b>: 대검왕 격파 시 대망의 엔딩 연출!<br>
-          • 🐉 <b>v4.5 왕드래곤 리모델링</b>: 몹 50마리 처치 → 전설의 피리 🪈 → 어느 스테이지에서든 거대 3D 왕드래곤 강림! 15·20·26 보스도 진짜 용!
+          • 🐉 v4.6 왕드래곤: 몹 50마리 처치 → 전설의 피리 🪈 → 거대 3D 왕드래곤 강림! 기본 공격 <b>5방</b>이면 처치!<br>• 💎⚔️ v4.6 성채 확장: 알현실 좌우에 <b>왕실 보물방</b>·<b>기사단 무기고</b> (걸어 들어가면 보너스 사탕!)<br>• 👻 v4.6 유령 벽 통과: 성벽·방 벽에 막히지 않고 어디든 스윽~ 통과!<br>• 🌸 v4.6 5대 왕국 꾸밈: 꽃밭·벚꽃·얼음 크리스탈·용암·구름 섬 + 왕국별 하늘
         </div>
 
         
@@ -1311,6 +1525,90 @@
         phaseText: '🐉 화염 브레스 · 화염 파동 · 꼬리 강타 주의!!' } }
     };
 
+
+    // =====================================================================
+    // 🐉 v4.6 왕국별 전용 왕드래곤 5종 (태용이: "세계마다 용을 다르게")
+    //    피리를 불면 지금 서 있는 왕국의 드래곤이 강림한다
+    // =====================================================================
+    const REALM_DRAGONS = {
+      green: {
+        name: '🌿 [풀왕국 수호룡] 에메랄드 리프 드래곤',
+        cry: '🌿 숲의 수호룡이 깨어난다!!',
+        bar: 'linear-gradient(90deg, #15803d, #4ade80, #fef08a)',
+        breath: { c1: 0x4ade80, c2: 0xa3e635, flash: 0xd9f99d, label: '에메랄드 잎사귀 브레스' },
+        opts: {
+          scale: 0.9, hover: 4.3, crown: true,
+          body: 0x0f5132, bodyHot: 0x1f8a4c, bodyDark: 0x0a3320, belly: 0x14402b,
+          gold: 0xffd75e, goldDeep: 0xb8860b, horn: 0xe7f5c9, steel: 0x14532d,
+          membraneA: 0x15803d, membraneB: 0x0b3b22,
+          eye: 0x86ffb0, eyeCore: 0xf8ffe0, glow: 'rgba(130,255,180,0.7)',
+          mouthFire: 0x8cff6a,
+          phaseText: '🌿 숲의 브레스 · 덩굴 파동 · 꼬리 강타 주의!!'
+        }
+      },
+      cat: {
+        name: '🐱 [캣왕국 황제룡] 로즈 사쿠라 드래곤',
+        cry: '🐱 벚꽃 황제룡이 하늘을 물들인다!!',
+        bar: 'linear-gradient(90deg, #be185d, #f9a8d4, #fde68a)',
+        breath: { c1: 0xff8ec4, c2: 0xfde68a, flash: 0xffd1e7, label: '로즈 사쿠라 브레스' },
+        opts: {
+          scale: 0.92, hover: 4.4, crown: true,
+          body: 0x8c1a4a, bodyHot: 0xc74a86, bodyDark: 0x5c0f30, belly: 0x6d1a3f,
+          gold: 0xffd166, goldDeep: 0xc084fc, horn: 0xfce7f3, steel: 0x6d28d9,
+          membraneA: 0xd946a6, membraneB: 0x7c1d6f,
+          eye: 0xff9ad2, eyeCore: 0xfff7d0, glow: 'rgba(255,150,220,0.72)',
+          mouthFire: 0xff7ad4,
+          phaseText: '🌸 꽃잎 브레스 · 분홍 파동 · 꼬리 강타 주의!!'
+        }
+      },
+      ice: {
+        name: '❄️ [얼음왕국 군주] 프로스트 크리스탈 드래곤',
+        cry: '❄️ 만년 빙하의 군주가 내려온다!!',
+        bar: 'linear-gradient(90deg, #0284c7, #67e8f9, #e0f2fe)',
+        breath: { c1: 0x7fd4ff, c2: 0xe0f2fe, flash: 0xbfefff, label: '프로스트 냉기 브레스' },
+        opts: {
+          scale: 0.94, hover: 4.5, crown: true,
+          body: 0x1d4a66, bodyHot: 0x3aa3cc, bodyDark: 0x102638, belly: 0x152e3f,
+          gold: 0xdbeafe, goldDeep: 0x7fb2d4, horn: 0xeef6ff, steel: 0x18384c,
+          membraneA: 0x2a7fa8, membraneB: 0x0d2b42,
+          eye: 0xa8ecff, eyeCore: 0xffffff, glow: 'rgba(150,225,255,0.7)',
+          mouthFire: 0x8fe0ff,
+          phaseText: '❄️ 냉기 브레스 · 얼음 파동 · 꼬리 강타 주의!!'
+        }
+      },
+      fire: {
+        name: '🔥 [불왕국 패왕] 인페르노 볼케이노 드래곤',
+        cry: '🔥 용암 패왕이 성채를 태운다!!',
+        bar: 'linear-gradient(90deg, #7f1d1d, #ff5a00, #fde047)',
+        breath: { c1: 0xff5a00, c2: 0xffd166, flash: 0xffb347, label: '볼케이노 용암 브레스' },
+        opts: {
+          scale: 0.97, hover: 4.5, crown: true,
+          body: 0x2a1013, bodyHot: 0x5a1a12, bodyDark: 0x120607, belly: 0x1e0a0c,
+          gold: 0xff8a1f, goldDeep: 0x9c3d05, horn: 0x0f0709, steel: 0x21100f,
+          membraneA: 0xff5a00, membraneB: 0x8a1a00,
+          eye: 0xff5522, eyeCore: 0xffd9a0, glow: 'rgba(255,110,30,0.72)',
+          mouthFire: 0xff4400,
+          phaseText: '🔥 화염 브레스 · 용암 파동 · 꼬리 강타 주의!!'
+        }
+      },
+      sky: {
+        name: '⚡ [천공왕국 지배자] 썬더 골드 드래곤',
+        cry: '⚡ 뇌신의 황금룡이 천둥과 함께 강림한다!!',
+        bar: 'linear-gradient(90deg, #4c1d95, #a78bfa, #fde047)',
+        breath: { c1: 0xffe066, c2: 0xa78bfa, flash: 0xfef9c3, label: '썬더 골드 뇌전 브레스' },
+        opts: {
+          scale: 1.0, hover: 4.6, crown: true,
+          body: 0x6b4b0f, bodyHot: 0xa97c14, bodyDark: 0x3f2a06, belly: 0x5c3d0a,
+          gold: 0xffe066, goldDeep: 0x7c3aed, horn: 0xc4b5fd, steel: 0x4c1d95,
+          membraneA: 0x7c3aed, membraneB: 0x4c1d95,
+          eye: 0xfef08a, eyeCore: 0xffffff, glow: 'rgba(255,230,120,0.75)',
+          mouthFire: 0xfff176,
+          phaseText: '⚡ 뇌전 브레스 · 번개 파동 · 꼬리 강타 주의!!'
+        }
+      }
+    };
+    let dragonBreathTheme = { c1: 0xff7a00, c2: 0xffd166, flash: 0xffdd66, label: '왕드래곤 화염 브레스' };
+
     const STAGES = [
       // 🌿 풀 왕국 (Green Realm) - Stages 1~5
       { stage: 1, realm: 'green', name: '그린하트 대평원 입구', goalKills: 10, isBoss: false, bossHp: 0 },
@@ -1595,7 +1893,9 @@
       currentRangedWp: 'gun_blaster',
       unlockedWeapons: ['fist_basic', 'gun_blaster'],
       currentSkin: 'default',
-      unlockedSkins: ['default']
+      unlockedSkins: ['default'],
+      treasureFound: false,
+      armoryFound: false
     };
 
 
@@ -1695,7 +1995,7 @@
         wallColor = 0x312e81; roofColor = 0x4f46e5; emissiveGlow = 0x818cf8; floorColor = 0x1e1b4b; carpetColor = 0x4338ca;
       }
 
-      const wallMat = new THREE.MeshStandardMaterial({ color: wallColor, roughness: 0.75, metalness: 0.2 });
+      const wallMat = new THREE.MeshStandardMaterial({ color: wallColor, roughness: 0.75, metalness: 0.2, emissive: wallColor, emissiveIntensity: 0.18 });
       const roofMat = new THREE.MeshStandardMaterial({ color: roofColor, roughness: 0.35, metalness: 0.4 });
       const glowMat = new THREE.MeshBasicMaterial({ color: emissiveGlow });
       const floorMat = new THREE.MeshStandardMaterial({ color: floorColor, roughness: 0.65, metalness: 0.25 });
@@ -1755,11 +2055,32 @@
         cg.add(banner);
       });
 
-      // 4. 성채 좌우 외벽 및 4대 모퉁이 요새 탑
+      // 4. 성채 좌우 외벽(가운데 아치 출입구) 및 4대 모퉁이 요새 탑
       [-42, 42].forEach(wx => {
-        const sideWall = new THREE.Mesh(new THREE.BoxGeometry(5, 18, 76), wallMat);
-        sideWall.position.set(wx, 9, -12);
-        cg.add(sideWall);
+        // v4.6: 벽을 세 토막으로 나눠 좌우 방으로 걸어 들어가는 아치문을 뚫었다
+        const segA = new THREE.Mesh(new THREE.BoxGeometry(5, 18, 22), wallMat);
+        segA.position.set(wx, 9, -39);
+        cg.add(segA);
+
+        const segB = new THREE.Mesh(new THREE.BoxGeometry(5, 18, 38), wallMat);
+        segB.position.set(wx, 9, 7);
+        cg.add(segB);
+
+        // 아치 상인방 (아래 12m는 뻥 뚫린 문 — 그냥 걸어 들어가면 된다)
+        const lintel = new THREE.Mesh(new THREE.BoxGeometry(5, 6, 16), wallMat);
+        lintel.position.set(wx, 15, -20);
+        cg.add(lintel);
+
+        // 아치 장식 테두리 + 문 위 문장
+        const archTop = new THREE.Mesh(new THREE.TorusGeometry(7.4, 0.6, 6, 14, Math.PI), goldMat);
+        archTop.position.set(wx, 12.2, -20);
+        archTop.rotation.y = Math.PI / 2;
+        cg.add(archTop);
+
+        const doorGlow = new THREE.Mesh(new THREE.PlaneGeometry(12, 11.4), new THREE.MeshBasicMaterial({ color: emissiveGlow, transparent: true, opacity: 0.12, side: THREE.DoubleSide }));
+        doorGlow.position.set(wx, 6, -20);
+        doorGlow.rotation.y = Math.PI / 2;
+        cg.add(doorGlow);
 
         // 모퉁이 망루 탑
         [24, -48].forEach(tz => {
@@ -1828,10 +2149,750 @@
         });
       }
 
+      // 8. 🚪 v4.6: 알현실 좌우로 이어지는 두 개의 방 (💎 보물방 · ⚔️ 무기고)
+      buildSideRooms(cg, wallMat, roofMat, glowMat, floorMat, goldMat, realm);
+
       // 성채 위치: z = -45 (입구 성문 z = -21, 성 내부 z = -21 ~ -93)
       cg.position.set(0, 0, -45);
       scene.add(cg);
       realmCastle = cg;
+    }
+
+
+    // =====================================================================
+    // 🚪 v4.6 왕실 좌우 방 — 💎 보물방 / ⚔️ 기사단 무기고
+    // (벽 충돌이 없어 어디든 걸어 들어갈 수 있고, 천장은 옛지붕 들보만 두어 시야가 트인다)
+    // =====================================================================
+
+    // =====================================================================
+    // 🌸 v4.6 왕국별 꾸밈 환경 — 저폴리곤 인스턴싱으로 예쁘게, 프레임은 가볍게
+    // =====================================================================
+    let realmAnimated = [];
+    let realmSkyDome = null;
+
+    function _v46Anim(obj, kind, opt) {
+      realmAnimated.push(Object.assign({ obj: obj, kind: kind, phase: Math.random() * 6.28 }, opt || {}));
+      return obj;
+    }
+    function _v46Add(obj) { scene.add(obj); realmDecorations.push(obj); return obj; }
+    function _v46InsideCastle(x, z) {
+      // 성채 · 좌우 방 · 성문 앞 광장 안쪽에는 꾸밈을 두지 않는다
+      return (Math.abs(x) < 90 && z > -100 && z < 32);
+    }
+    function _v46InCorridor(x, z) {
+      // 성문 앞으로 걸어 들어오는 길 — 큰 장식이 카메라를 가리지 않게 비워 둔다
+      return (Math.abs(x) < 20 && z > 6 && z < 135);
+    }
+    function _v46Spot(minR, maxR) {
+      for (let i = 0; i < 16; i++) {
+        const a = Math.random() * Math.PI * 2;
+        const r = minR + Math.random() * (maxR - minR);
+        const x = Math.cos(a) * r, z = Math.sin(a) * r;
+        if (!_v46InsideCastle(x, z) && !_v46InCorridor(x, z)) return [x, z];
+      }
+      return [minR + 26, -minR - 26];
+    }
+    function _v46SkyDome(top, mid, bottom) {
+      if (realmSkyDome) {
+        scene.remove(realmSkyDome);
+        realmSkyDome.material.dispose();
+        realmSkyDome.geometry.dispose();
+        realmSkyDome = null;
+      }
+      // 텍스처 매핑 대신 꼭짓점 색으로 하늘 그라데이션 (위/아래가 뒤집히지 않는다)
+      const geo = new THREE.SphereGeometry(300, 24, 16);
+      const pos = geo.attributes.position;
+      const cTop = new THREE.Color(top);
+      const cMid = new THREE.Color(mid);
+      const cBot = new THREE.Color(bottom);
+      const cols = new Float32Array(pos.count * 3);
+      const tmp = new THREE.Color();
+      for (let i = 0; i < pos.count; i++) {
+        const y = pos.getY(i) / 300;                 // -1 (바닥) ~ 1 (천정)
+        const t = Math.max(0, Math.min(1, (y + 0.02) / 1.02));
+        if (t > 0.55) tmp.copy(cMid).lerp(cTop, (t - 0.55) / 0.45);
+        else tmp.copy(cBot).lerp(cMid, t / 0.55);
+        cols[i * 3] = tmp.r; cols[i * 3 + 1] = tmp.g; cols[i * 3 + 2] = tmp.b;
+      }
+      geo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
+      const dome = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({
+        vertexColors: true, side: THREE.BackSide, fog: false, depthWrite: false
+      }));
+      scene.add(dome);
+      realmDecorations.push(dome);
+      realmSkyDome = dome;
+    }
+
+    function _v46DotTexture() {
+      if (_v46DotTex) return _v46DotTex;
+      const cv = document.createElement('canvas');
+      cv.width = 64; cv.height = 64;
+      const ctx = cv.getContext('2d');
+      const g = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+      g.addColorStop(0, 'rgba(255,255,255,1)');
+      g.addColorStop(0.35, 'rgba(255,255,255,0.85)');
+      g.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(32, 32, 32, 0, Math.PI * 2); ctx.fill();
+      _v46DotTex = new THREE.CanvasTexture(cv);
+      return _v46DotTex;
+    }
+    function _v46Dots(count, rMin, rMax, yMin, yMax, color, size, opacity) {
+      const pos = new Float32Array(count * 3);
+      for (let i = 0; i < count; i++) {
+        const [x, z] = _v46Spot(rMin, rMax);
+        pos[i * 3] = x + (Math.random() - 0.5) * 18;
+        pos[i * 3 + 1] = yMin + Math.random() * (yMax - yMin);
+        pos[i * 3 + 2] = z + (Math.random() - 0.5) * 18;
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+      const mat = new THREE.PointsMaterial({
+        color: color, size: size * 1.8, map: _v46DotTexture(), alphaTest: 0.01,
+        transparent: true, opacity: opacity,
+        blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true
+      });
+      const pts = new THREE.Points(geo, mat);
+      return _v46Add(pts);
+    }
+    function _v46Instances(geo, mat, n, place) {
+      const mesh = new THREE.InstancedMesh(geo, mat, n);
+      const m = new THREE.Matrix4();
+      const q = new THREE.Quaternion();
+      const p = new THREE.Vector3();
+      const sc = new THREE.Vector3();
+      for (let i = 0; i < n; i++) {
+        const o = place(i);
+        p.set(o.x, o.y, o.z);
+        q.setFromEuler(new THREE.Euler(o.rx || 0, o.ry || 0, o.rz || 0));
+        sc.set(o.s || 1, o.sy || o.s || 1, o.s || 1);
+        m.compose(p, q, sc);
+        mesh.setMatrixAt(i, m);
+      }
+      mesh.instanceMatrix.needsUpdate = true;
+      return _v46Add(mesh);
+    }
+
+    function decorateGrass() {
+      _v46SkyDome('#5bbcf5', '#bae6fd', '#e6f7b0');
+      scene.fog.color.setHex(0xbfe6c8);
+      if (scene.fog.density !== undefined) scene.fog.density = 0.0038;
+
+      // 🌳 에메랄드 숲 (가장자리 위주)
+      const trunkMat = new THREE.MeshStandardMaterial({ color: 0x4d2f16, roughness: 0.9 });
+      const leafA = new THREE.MeshStandardMaterial({ color: 0x15803d, roughness: 0.85 });
+      const leafB = new THREE.MeshStandardMaterial({ color: 0x22c55e, roughness: 0.85 });
+      const trees = [];
+      for (let i = 0; i < 34; i++) {
+        const [x, z] = _v46Spot(30, 160);
+        const s = 0.9 + Math.random() * 0.7;
+        trees.push({ x: x, z: z, s: s });
+      }
+      _v46Instances(new THREE.CylinderGeometry(0.7, 1.1, 7, 6), trunkMat, trees.length, i => ({ x: trees[i].x, y: 3.5, z: trees[i].z, s: trees[i].s }));
+      _v46Instances(new THREE.ConeGeometry(3.6, 8, 7), leafA, trees.length, i => ({ x: trees[i].x, y: 8.4 * trees[i].s, z: trees[i].z, s: trees[i].s }));
+      _v46Instances(new THREE.ConeGeometry(2.6, 6, 7), leafB, trees.length, i => ({ x: trees[i].x, y: 12.4 * trees[i].s, z: trees[i].z, s: trees[i].s }));
+
+      // 🌷 꽃밭 (분홍/노랑/파랑) — 인스턴싱 3 draw call
+      const flowerGeo = new THREE.ConeGeometry(0.34, 0.7, 5);
+      [[0xf472b6, 150], [0xfde047, 130], [0x60a5fa, 130], [0xf8fafc, 90]].forEach(pair => {
+        const mat = new THREE.MeshStandardMaterial({ color: pair[0], emissive: pair[0], emissiveIntensity: 0.28, roughness: 0.6 });
+        _v46Instances(flowerGeo, mat, pair[1], () => {
+          const [x, z] = _v46Spot(10, 95);
+          return { x: x, y: 0.35, z: z, s: 0.45 + Math.random() * 0.55, ry: Math.random() * 3 };
+        });
+      });
+
+      // ✨ 반딧불이
+      const flies = _v46Dots(140, 14, 95, 1.6, 12, 0xd9f99d, 0.9, 0.85);
+      _v46Anim(flies, 'spin', { speed: 0.05 });
+    }
+
+    function decorateCat() {
+      _v46SkyDome('#c084fc', '#f9a8d4', '#fde68a');
+      scene.fog.color.setHex(0xf6a8c8);
+      if (scene.fog.density !== undefined) scene.fog.density = 0.0038;
+
+      // 🌸 벚꽃 나무
+      const trunkMat = new THREE.MeshStandardMaterial({ color: 0x6b3410, roughness: 0.9 });
+      const blossomA = new THREE.MeshStandardMaterial({ color: 0xfbcfe8, emissive: 0xf472b6, emissiveIntensity: 0.18, roughness: 0.8 });
+      const blossomB = new THREE.MeshStandardMaterial({ color: 0xe9d5ff, emissive: 0xa855f7, emissiveIntensity: 0.16, roughness: 0.8 });
+      const ctrees = [];
+      for (let i = 0; i < 26; i++) {
+        const [x, z] = _v46Spot(26, 150);
+        ctrees.push({ x: x, z: z, s: 0.9 + Math.random() * 0.8 });
+      }
+      _v46Instances(new THREE.CylinderGeometry(0.6, 1.0, 6.5, 6), trunkMat, ctrees.length, i => ({ x: ctrees[i].x, y: 3.2, z: ctrees[i].z, s: ctrees[i].s }));
+      _v46Instances(new THREE.SphereGeometry(2.7, 8, 6), blossomA, ctrees.length, i => ({ x: ctrees[i].x, y: 7.2 * ctrees[i].s, z: ctrees[i].z, s: ctrees[i].s }));
+      _v46Instances(new THREE.SphereGeometry(1.9, 8, 6), blossomB, ctrees.length, i => ({ x: ctrees[i].x + 1.9 * ctrees[i].s, y: 8.8 * ctrees[i].s, z: ctrees[i].z - 1.0 * ctrees[i].s, s: ctrees[i].s }));
+
+      // 🐱 고양이 석상 4개
+      const stoneMat = new THREE.MeshStandardMaterial({ color: 0xfef3c7, roughness: 0.55, metalness: 0.15 });
+      const pinkGlow = new THREE.MeshBasicMaterial({ color: 0xf472b6 });
+      for (let i = 0; i < 4; i++) {
+        const [x, z] = _v46Spot(30, 70);
+        const g = new THREE.Group();
+        const base = new THREE.Mesh(new THREE.CylinderGeometry(3.2, 3.6, 1.0, 12), stoneMat);
+        base.position.y = 0.5; g.add(base);
+        const body = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 2.0, 3.4, 10), stoneMat);
+        body.position.y = 2.7; g.add(body);
+        const head = new THREE.Mesh(new THREE.SphereGeometry(1.8, 12, 10), stoneMat);
+        head.position.y = 5.2; g.add(head);
+        [-1, 1].forEach(sx => {
+          const ear = new THREE.Mesh(new THREE.ConeGeometry(0.7, 1.5, 4), stoneMat);
+          ear.position.set(sx * 1.0, 6.5, 0);
+          ear.rotation.z = sx * 0.18;
+          g.add(ear);
+        });
+        [-0.55, 0.55].forEach(ex => {
+          const eye = new THREE.Mesh(new THREE.SphereGeometry(0.22, 8, 6), pinkGlow);
+          eye.position.set(ex, 5.3, 1.6);
+          g.add(eye);
+        });
+        const tail = new THREE.Mesh(new THREE.TorusGeometry(1.3, 0.32, 6, 10, Math.PI * 1.2), stoneMat);
+        tail.position.set(1.7, 2.6, -1.0);
+        tail.rotation.set(1.2, 0, 0.4);
+        g.add(tail);
+        g.position.set(x, 0, z);
+        g.rotation.y = Math.random() * Math.PI * 2;
+        _v46Add(g);
+      }
+
+      // 💗 하트·별빛 기둥
+      for (let i = 0; i < 6; i++) {
+        const [x, z] = _v46Spot(28, 80);
+        const g = new THREE.Group();
+        const pillar = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 0.9, 9, 8),
+          new THREE.MeshStandardMaterial({ color: 0xfda4af, roughness: 0.45, metalness: 0.25 }));
+        pillar.position.y = 4.5; g.add(pillar);
+        const heartL = new THREE.Mesh(new THREE.SphereGeometry(0.95, 10, 8), pinkGlow);
+        heartL.position.set(-0.6, 9.4, 0); g.add(heartL);
+        const heartR = heartL.clone(); heartR.position.x = 0.6; g.add(heartR);
+        const tip = new THREE.Mesh(new THREE.ConeGeometry(1.15, 2.0, 8), pinkGlow);
+        tip.position.set(0, 8.3, 0);
+        tip.rotation.z = Math.PI;
+        g.add(tip);
+        const halo = new THREE.Mesh(new THREE.TorusGeometry(1.9, 0.08, 5, 16),
+          new THREE.MeshBasicMaterial({ color: 0xfff1f6 }));
+        halo.position.y = 9.2; halo.rotation.x = Math.PI / 2;
+        g.add(halo);
+        _v46Anim(halo, 'spin', { speed: 0.6, base: 0 });
+        g.position.set(x, 0, z);
+        _v46Add(g);
+      }
+
+      // 🌸 흩날리는 꽃잎
+      const petals = _v46Dots(150, 12, 90, 2, 18, 0xffd1e7, 0.85, 0.8);
+      _v46Anim(petals, 'spin', { speed: -0.035 });
+    }
+
+    function decorateIce() {
+      _v46SkyDome('#08203a', '#1a5b86', '#bfefff');
+      scene.fog.color.setHex(0x2a6f9e);
+      if (scene.fog.density !== undefined) scene.fog.density = 0.0034;
+
+      // 💎 얼음 크리스탈 첨탑
+      const crysMat = new THREE.MeshStandardMaterial({ color: 0x7dd3fc, emissive: 0x38bdf8, emissiveIntensity: 0.55, roughness: 0.08, metalness: 0.4, transparent: true, opacity: 0.9 });
+      const spireMat = new THREE.MeshStandardMaterial({ color: 0xdbeafe, emissive: 0x67e8f9, emissiveIntensity: 0.3, roughness: 0.1, metalness: 0.35, transparent: true, opacity: 0.85 });
+      _v46Instances(new THREE.OctahedronGeometry(1.9, 0), crysMat, 60, () => {
+        const [x, z] = _v46Spot(22, 140);
+        return { x: x, y: 2.2 + Math.random() * 2.5, z: z, s: 0.8 + Math.random() * 1.9, ry: Math.random() * 3, rz: Math.random() * 0.5 };
+      });
+      _v46Instances(new THREE.ConeGeometry(1.5, 11, 5), spireMat, 34, () => {
+        const [x, z] = _v46Spot(26, 150);
+        return { x: x, y: 5.5, z: z, s: 0.7 + Math.random() * 1.4, rz: (Math.random() - 0.5) * 0.24 };
+      });
+
+      // 🪨 눈 덮인 바위
+      const snowRock = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.9, metalness: 0.02 });
+      _v46Instances(new THREE.DodecahedronGeometry(2.4, 0), snowRock, 26, () => {
+        const [x, z] = _v46Spot(18, 120);
+        return { x: x, y: 1.2, z: z, s: 0.7 + Math.random() * 1.6, ry: Math.random() * 3 };
+      });
+
+      // 🌌 오로라 (커튼 3장, 아주 옅게 떠서 회전)
+      for (let i = 0; i < 3; i++) {
+        const cv = document.createElement('canvas');
+        cv.width = 32; cv.height = 128;
+        const g2 = cv.getContext('2d');
+        const grd = g2.createLinearGradient(0, 0, 0, 128);
+        grd.addColorStop(0, 'rgba(125,211,252,0)');
+        grd.addColorStop(0.35, 'rgba(125,211,252,0.55)');
+        grd.addColorStop(0.7, 'rgba(167,139,250,0.35)');
+        grd.addColorStop(1, 'rgba(103,232,249,0)');
+        g2.fillStyle = grd; g2.fillRect(0, 0, 32, 128);
+        const auroraMat = new THREE.MeshBasicMaterial({
+          map: new THREE.CanvasTexture(cv), transparent: true, opacity: 0.55,
+          side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending, fog: false
+        });
+        const curtain = new THREE.Mesh(new THREE.PlaneGeometry(230, 90, 1, 1), auroraMat);
+        curtain.position.set((i - 1) * 70, 78, -160 - i * 20);
+        curtain.rotation.y = (i - 1) * 0.3;
+        _v46Add(curtain);
+        _v46Anim(curtain, 'sway', { speed: 0.22, amp: 0.09, base: 0, y: 78 });
+      }
+
+      // ❄️ 설원 반짝임
+      const sparkle = _v46Dots(200, 8, 120, 1, 16, 0xe0f2fe, 0.75, 0.9);
+      _v46Anim(sparkle, 'spin', { speed: 0.03 });
+    }
+
+    function decorateFire() {
+      _v46SkyDome('#180404', '#5c1108', '#c2410c');
+      scene.fog.color.setHex(0x2a0a08);
+      if (scene.fog.density !== undefined) scene.fog.density = 0.0035;
+
+      // 🌋 용암 웅덩이 & 강 (중앙 전투 지역은 비워 둔다)
+      const lavaMat = new THREE.MeshBasicMaterial({ color: 0xff6a00, transparent: true, opacity: 0.95 });
+      const lavaMat2 = new THREE.MeshBasicMaterial({ color: 0xffe066, transparent: true, opacity: 0.9 });
+      for (let i = 0; i < 6; i++) {
+        const [x, z] = _v46Spot(45, 130);
+        const pool = new THREE.Mesh(new THREE.CircleGeometry(6 + Math.random() * 8, 14), lavaMat);
+        pool.rotation.x = -Math.PI / 2;
+        pool.position.set(x, 0.16, z);
+        _v46Add(pool);
+        _v46Anim(pool.material, 'pulse', { speed: 0.5 + i * 0.1, base: 0.85, amp: 0.12, isMat: true });
+        const ring = new THREE.Mesh(new THREE.RingGeometry(9, 11.5, 18), lavaMat2);
+        ring.rotation.x = -Math.PI / 2;
+        ring.position.set(x, 0.18, z);
+        _v46Add(ring);
+        const core = new THREE.Mesh(new THREE.CircleGeometry(2.4, 10), lavaMat2);
+        core.rotation.x = -Math.PI / 2;
+        core.position.set(x, 0.19, z);
+        _v46Add(core);
+      }
+      for (let i = 0; i < 4; i++) {
+        const [x, z] = _v46Spot(55, 140);
+        const river = new THREE.Mesh(new THREE.BoxGeometry(3.4, 0.12, 60 + Math.random() * 40), lavaMat);
+        river.position.set(x, 0.17, z);
+        river.rotation.y = Math.random() * Math.PI;
+        _v46Add(river);
+      }
+
+      // 🗿 흑요석 기둥
+      const obsMat = new THREE.MeshStandardMaterial({ color: 0x0b0b10, roughness: 0.35, metalness: 0.5, emissive: 0x2b0a0a, emissiveIntensity: 0.35 });
+      _v46Instances(new THREE.CylinderGeometry(1.4, 2.4, 14, 6), obsMat, 30, () => {
+        const [x, z] = _v46Spot(24, 130);
+        return { x: x, y: 7, z: z, s: 0.7 + Math.random() * 1.5, rz: (Math.random() - 0.5) * 0.16 };
+      });
+
+      // 🔥 흩날리는 불꽃 재
+      const embers = _v46Dots(170, 10, 100, 1, 26, 0xffa53c, 1.0, 0.85);
+      _v46Anim(embers, 'spin', { speed: 0.06 });
+    }
+
+    function decorateSky() {
+      _v46SkyDome('#1e0b4d', '#5b21b6', '#fbbf24');
+      scene.fog.color.setHex(0x3b1a78);
+      if (scene.fog.density !== undefined) scene.fog.density = 0.0032;
+
+      // ☁️ 몽글몽글 구름 섬 (떠 있는 푹신한 덩어리)
+      const cloudMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.95, metalness: 0.0, emissive: 0xe0e7ff, emissiveIntensity: 0.22 });
+      _v46Instances(new THREE.SphereGeometry(1, 10, 8), cloudMat, 110, () => {
+        const [x, z] = _v46Spot(30, 165);
+        return { x: x + (Math.random() - 0.5) * 14, y: 16 + Math.random() * 46, z: z + (Math.random() - 0.5) * 14, s: 3 + Math.random() * 6, sy: 2 + Math.random() * 3 };
+      });
+      const islandBase = new THREE.MeshStandardMaterial({ color: 0x7c3aed, roughness: 0.7, metalness: 0.15, emissive: 0x4c1d95, emissiveIntensity: 0.25 });
+      _v46Instances(new THREE.ConeGeometry(7, 9, 7), islandBase, 8, () => {
+        const [x, z] = _v46Spot(60, 160);
+        return { x: x, y: 14 + Math.random() * 24, z: z, rz: Math.PI, s: 0.8 + Math.random() * 0.8 };
+      });
+
+      // 🏛️ 황금 신전 기둥
+      const goldMat2 = new THREE.MeshStandardMaterial({ color: 0xffd700, roughness: 0.25, metalness: 0.9, emissive: 0x7c2d12, emissiveIntensity: 0.2 });
+      _v46Instances(new THREE.CylinderGeometry(1.3, 1.6, 18, 10), goldMat2, 10, () => {
+        const [x, z] = _v46Spot(46, 120);
+        return { x: x, y: 9, z: z, s: 0.8 + Math.random() * 0.7 };
+      });
+      _v46Instances(new THREE.BoxGeometry(4.2, 1.0, 4.2), goldMat2, 10, () => {
+        const [x, z] = _v46Spot(46, 120);
+        return { x: x, y: 18.4, z: z, s: 0.8 + Math.random() * 0.7 };
+      });
+
+      // ⚡ 번개·황금 오라 링 (하늘에서 천천히 회전)
+      for (let i = 0; i < 3; i++) {
+        const ringMat = new THREE.MeshBasicMaterial({ color: i === 1 ? 0xffe066 : 0xc4b5fd, transparent: true, opacity: 0.5, side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending, fog: false });
+        const ring = new THREE.Mesh(new THREE.TorusGeometry(24 + i * 9, 0.5, 6, 40), ringMat);
+        ring.position.set((i - 1) * 30, 52 + i * 12, -90 - i * 24);
+        ring.rotation.x = Math.PI / 2.4;
+        _v46Add(ring);
+        _v46Anim(ring, 'spin', { speed: 0.18 + i * 0.06 });
+      }
+
+      // ✨ 별빛
+      const stars = _v46Dots(140, 40, 170, 30, 90, 0xfde68a, 0.9, 0.9);
+      _v46Anim(stars, 'spin', { speed: 0.02 });
+    }
+
+    function decorateRealm(realm) {
+      // 이전 왕국 꾸밈 애니메이션 정리
+      realmAnimated = [];
+      if (realm === 'cat') decorateCat();
+      else if (realm === 'ice') decorateIce();
+      else if (realm === 'fire') decorateFire();
+      else if (realm === 'sky') decorateSky();
+      else decorateGrass();
+    }
+
+    function updateRealmDecor(now) {
+      if (!realmAnimated.length) return;
+      const t = now * 0.001;
+      for (let i = 0; i < realmAnimated.length; i++) {
+        const a = realmAnimated[i];
+        const o = a.obj;
+        if (!o) continue;
+        if (a.kind === 'spin') {
+          o.rotation.y = (a.base || 0) + t * a.speed;
+        } else if (a.kind === 'sway') {
+          o.rotation.x = (a.base || 0) + Math.sin(t * a.speed + a.phase) * a.amp;
+          if (a.y) o.position.y = a.y + Math.sin(t * a.speed * 0.7 + a.phase) * 3;
+        } else if (a.kind === 'pulse' && a.isMat) {
+          o.opacity = a.base + Math.sin(t * a.speed + a.phase) * a.amp;
+        }
+      }
+    }
+
+    function buildSideRooms(cg, wallMat, roofMat, glowMat, floorMat, goldMat, realm) {
+      const R = 40; // 방 깊이/폭 기준
+      const V = (x, y, z) => new THREE.Vector3(x, y, z);
+      const warmLight = new THREE.PointLight(0xffd166, 1.15, 74, 2);
+      const coolLight = new THREE.PointLight(0xa5f3fc, 0.95, 74, 2);
+
+      // ---------------- 공통: 방 바닥/벽 ----------------
+      [-1, 1].forEach(sx => {
+        const cx = sx * 63;              // 방 중심 x
+        // v4.6: 방은 넓고 낮게 — 벽이 시야를 답답하게 가두지 않도록 13m 높이
+        const floor = new THREE.Mesh(new THREE.BoxGeometry(38, 0.4, 50), floorMat);
+        floor.position.set(cx, 0.1, -20);
+        cg.add(floor);
+
+        // 바닥 카펫 (방 안쪽)
+        const rug = new THREE.Mesh(new THREE.BoxGeometry(sx < 0 ? 14 : 18, 0.08, sx < 0 ? 32 : 36),
+          new THREE.MeshStandardMaterial({ color: sx < 0 ? 0x7c2d12 : 0x1e3a8a, roughness: 0.9, metalness: 0.05 }));
+        rug.position.set(cx, 0.3, -20);
+        cg.add(rug);
+
+        // 바깥 벽 (방 뒤편)
+        const backWall = new THREE.Mesh(new THREE.BoxGeometry(5, 13, 50), wallMat);
+        backWall.position.set(sx * 83.5, 6.5, -20);
+        cg.add(backWall);
+
+        // 앞/뒤 벽
+        const wallN = new THREE.Mesh(new THREE.BoxGeometry(38, 13, 5), wallMat);
+        wallN.position.set(cx, 6.5, 4.5);
+        cg.add(wallN);
+        const wallS = new THREE.Mesh(new THREE.BoxGeometry(38, 13, 5), wallMat);
+        wallS.position.set(cx, 6.5, -44.5);
+        cg.add(wallS);
+
+        // 옛 성 지붕 들보 (하늘은 활짝 열어 두어 답답하지 않게)
+        [-38, -20, -2, 2].forEach(bz => {
+          const beam = new THREE.Mesh(new THREE.BoxGeometry(40, 0.8, 1.5), roofMat);
+          beam.position.set(cx, 12.6, bz);
+          cg.add(beam);
+        });
+
+        // 방 모서리 기둥
+        [cx - 15, cx + 15].forEach(px2 => {
+          [1, -40].forEach(pz2 => {
+            const c = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.5, 12, 10), wallMat);
+            c.position.set(px2, 6, pz2);
+            cg.add(c);
+            const cap = new THREE.Mesh(new THREE.BoxGeometry(3.4, 1.0, 3.4), goldMat);
+            cap.position.set(px2, 12.4, pz2);
+            cg.add(cap);
+          });
+        });
+
+        // 방 조명 샹들리에 (빛나는 보석 + 조명)
+        const lamp = new THREE.Mesh(new THREE.SphereGeometry(1.1, 10, 8), glowMat);
+        lamp.position.set(cx, 9.5, -20);
+        cg.add(lamp);
+        const ring = new THREE.Mesh(new THREE.TorusGeometry(2.6, 0.14, 6, 18), goldMat);
+        ring.position.set(cx, 9.5, -20);
+        ring.rotation.x = Math.PI / 2;
+        cg.add(ring);
+      });
+
+      // ---------------- 💎 좌측: 왕실 보물방 ----------------
+      const TX = -63;
+      // 황금 보물 상자 3개
+      [[TX - 9, -34, 0.3], [TX + 3, -36, -0.2], [TX - 3, -26, 0.1]].forEach(c => {
+        const chest = new THREE.Group();
+        const body = new THREE.Mesh(new THREE.BoxGeometry(5, 3, 3.4),
+          new THREE.MeshStandardMaterial({ color: 0x7c3f13, roughness: 0.55, metalness: 0.35 }));
+        body.position.y = 1.5;
+        chest.add(body);
+        const lid = new THREE.Mesh(new THREE.CylinderGeometry(1.8, 1.8, 5, 12, 1, false, 0, Math.PI),
+          new THREE.MeshStandardMaterial({ color: 0xb45309, roughness: 0.4, metalness: 0.6 }));
+        lid.rotation.z = Math.PI / 2;
+        lid.position.set(0, 3, 0);
+        chest.add(lid);
+        // 금테
+        [-1.6, 1.6].forEach(gx => {
+          const band = new THREE.Mesh(new THREE.BoxGeometry(0.4, 3.1, 3.6), goldMat);
+          band.position.set(gx, 1.5, 0);
+          chest.add(band);
+        });
+        const lock = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.9, 0.4), goldMat);
+        lock.position.set(0, 1.8, 1.8);
+        chest.add(lock);
+        // 상자 위로 새어 나오는 황금 빛
+        const glowBar = new THREE.Mesh(new THREE.BoxGeometry(4.6, 0.16, 3.0),
+          new THREE.MeshBasicMaterial({ color: 0xffe066 }));
+        glowBar.position.set(0, 3.05, 0);
+        chest.add(glowBar);
+        chest.position.set(c[0], 0.2, c[1]);
+        chest.rotation.y = c[2];
+        cg.add(chest);
+      });
+
+      // 보석 더미 (루비/에메랄드/사파이어/다이아)
+      const gemColors = [0xef4444, 0x22c55e, 0x3b82f6, 0xfacc15, 0xa855f7, 0x67e8f9];
+      for (let i = 0; i < 18; i++) {
+        const gc = gemColors[i % gemColors.length];
+        const gem = new THREE.Mesh(new THREE.OctahedronGeometry(0.55 + Math.random() * 0.6),
+          new THREE.MeshStandardMaterial({ color: gc, emissive: gc, emissiveIntensity: 0.45, roughness: 0.15, metalness: 0.5, transparent: true, opacity: 0.92 }));
+        gem.position.set(TX + (Math.random() - 0.5) * 24, 0.6 + Math.random() * 0.5, -20 + (Math.random() - 0.5) * 24);
+        gem.rotation.set(Math.random() * 3, Math.random() * 3, Math.random() * 3);
+        cg.add(gem);
+      }
+
+      // 황금 기둥 2쌍 (문에서 들어오는 시선을 가리지 않게 좌우로)
+      [-72, -54].forEach(px2 => {
+        [-9, -31].forEach(pz3 => {
+          const col = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.9, 10, 12),
+            new THREE.MeshStandardMaterial({ color: 0xffd700, roughness: 0.3, metalness: 0.85 }));
+          col.position.set(px2, 5, pz3);
+          cg.add(col);
+          const orb = new THREE.Mesh(new THREE.SphereGeometry(1.3, 12, 10),
+            new THREE.MeshBasicMaterial({ color: 0xffe066 }));
+          orb.position.set(px2, 10.6, pz3);
+          cg.add(orb);
+          const orbGlow = new THREE.PointLight(0xffd166, 0.55, 24, 2);
+          orbGlow.position.set(px2, 10.6, pz3);
+          cg.add(orbGlow);
+        });
+      });
+
+      // 방 입구 위 휘장
+      const tBanner = new THREE.Mesh(new THREE.PlaneGeometry(7, 4),
+        new THREE.MeshStandardMaterial({ color: 0x7c2d12, side: THREE.DoubleSide, roughness: 0.8 }));
+      tBanner.position.set(-81, 8.5, -20);
+      tBanner.rotation.y = Math.PI / 2;
+      cg.add(tBanner);
+      const tGem = new THREE.Mesh(new THREE.OctahedronGeometry(1.1),
+        new THREE.MeshBasicMaterial({ color: 0x67e8f9 }));
+      tGem.position.set(-80.6, 8.5, -20);
+      cg.add(tGem);
+
+      warmLight.position.set(TX, 9, -20);
+      cg.add(warmLight);
+
+      // ---------------- ⚔️ 우측: 기사단 무기고 / 휴게실 ----------------
+      const AX = 63;
+      // 무기 거치대 3쌍 (빛나는 검 + 방패)
+      [[AX - 12, -34], [AX + 2, -34], [AX - 12, -8], [AX + 2, -8]].forEach(rk => {
+        const rack = new THREE.Group();
+        const post = new THREE.Mesh(new THREE.BoxGeometry(5.4, 0.5, 0.6),
+          new THREE.MeshStandardMaterial({ color: 0x451a03, roughness: 0.85 }));
+        post.position.y = 3.2;
+        rack.add(post);
+        const legL = new THREE.Mesh(new THREE.BoxGeometry(0.5, 3.2, 0.6), new THREE.MeshStandardMaterial({ color: 0x451a03, roughness: 0.85 }));
+        legL.position.set(-2.4, 1.6, 0);
+        rack.add(legL);
+        const legR = legL.clone();
+        legR.position.x = 2.4;
+        rack.add(legR);
+
+        // 검 3자루 (빛나는 날)
+        [-1.7, 0, 1.7].forEach((ox, i) => {
+          const blade = new THREE.Mesh(new THREE.BoxGeometry(0.34, 5.2 - i * 0.5, 0.14),
+            new THREE.MeshStandardMaterial({ color: 0xdbeafe, emissive: 0x7dd3fc, emissiveIntensity: 0.55, metalness: 0.9, roughness: 0.2 }));
+          blade.position.set(ox, 6.4 - i * 0.2, 0.25);
+          rack.add(blade);
+          const guard = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.3, 0.4), goldMat);
+          guard.position.set(ox, 3.85 - i * 0.2, 0.25);
+          rack.add(guard);
+          const grip = new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.17, 1.2, 6),
+            new THREE.MeshStandardMaterial({ color: 0x1c1917, roughness: 0.9 }));
+          grip.position.set(ox, 3.1 - i * 0.2, 0.25);
+          rack.add(grip);
+        });
+
+        // 방패 (기사 문장)
+        const shield = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, 0.28, 12),
+          new THREE.MeshStandardMaterial({ color: 0x1d4ed8, roughness: 0.4, metalness: 0.55 }));
+        shield.rotation.x = Math.PI / 2;
+        shield.position.set(0, 1.6, 1.0);
+        rack.add(shield);
+        const boss = new THREE.Mesh(new THREE.SphereGeometry(0.55, 10, 8), goldMat);
+        boss.position.set(0, 1.6, 1.2);
+        rack.add(boss);
+
+        rack.position.set(rk[0], 0.2, rk[1]);
+        rack.rotation.y = -0.35;
+        cg.add(rack);
+      });
+
+      // 횃불 4개 (벽면)
+      [-36, -22, -8, 4].forEach(tz => {
+        const bracket = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.5, 1.2),
+          new THREE.MeshStandardMaterial({ color: 0x1c1917, metalness: 0.6, roughness: 0.6 }));
+        bracket.position.set(78.6, 8.5, tz);
+        cg.add(bracket);
+        const flame = new THREE.Mesh(new THREE.ConeGeometry(0.6, 1.6, 7),
+          new THREE.MeshBasicMaterial({ color: 0xff9a3c }));
+        flame.position.set(78.0, 9.6, tz);
+        cg.add(flame);
+        const flameCore = new THREE.Mesh(new THREE.ConeGeometry(0.28, 0.9, 6),
+          new THREE.MeshBasicMaterial({ color: 0xfff3c4 }));
+        flameCore.position.set(78.0, 9.6, tz);
+        cg.add(flameCore);
+      });
+
+      // 갑옷 거치대 2개
+      [[AX - 6, -16], [AX + 8, -16]].forEach(a => {
+        const stand = new THREE.Group();
+        const torso = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 0.9, 3.4, 8),
+          new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.9, roughness: 0.3 }));
+        torso.position.y = 3.4;
+        stand.add(torso);
+        const helm = new THREE.Mesh(new THREE.SphereGeometry(0.95, 10, 8),
+          new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.95, roughness: 0.2 }));
+        helm.position.y = 5.6;
+        stand.add(helm);
+        const plume = new THREE.Mesh(new THREE.ConeGeometry(0.3, 1.4, 6),
+          new THREE.MeshBasicMaterial({ color: 0xef4444 }));
+        plume.position.y = 6.6;
+        stand.add(plume);
+        const base = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.4, 2.6),
+          new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.8 }));
+        base.position.y = 1.7;
+        stand.add(base);
+        stand.position.set(a[0], 0.2, a[1]);
+        cg.add(stand);
+      });
+
+      // 왕국 깃발 2개
+      [-1, 1].forEach(fs => {
+        const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 16, 6),
+          new THREE.MeshStandardMaterial({ color: 0x78350f, roughness: 0.7 }));
+        pole.position.set(81 - 2, 8, -30 + fs * 14);
+        cg.add(pole);
+        const flag = new THREE.Mesh(new THREE.PlaneGeometry(5, 3.4),
+          new THREE.MeshStandardMaterial({ color: fs > 0 ? 0x1d4ed8 : 0xb91c1c, side: THREE.DoubleSide, roughness: 0.85 }));
+        flag.position.set(81 - 4.6, 13, -30 + fs * 14);
+        flag.rotation.y = Math.PI / 2;
+        cg.add(flag);
+      });
+
+      // 휴게실 탁자 + 카펫 + 무기고 휘장
+      const table = new THREE.Group();
+      const top = new THREE.Mesh(new THREE.CylinderGeometry(3.4, 3.4, 0.5, 12),
+        new THREE.MeshStandardMaterial({ color: 0x7c2d12, roughness: 0.6 }));
+      top.position.y = 2.6;
+      table.add(top);
+      const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.7, 2.4, 8),
+        new THREE.MeshStandardMaterial({ color: 0x451a03, roughness: 0.85 }));
+      leg.position.y = 1.2;
+      table.add(leg);
+      const drink = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 0.9, 8),
+        new THREE.MeshBasicMaterial({ color: 0xfacc15 }));
+      drink.position.set(1.2, 3.3, 0.4);
+      table.add(drink);
+      table.position.set(AX, 0.2, -22);
+      cg.add(table);
+
+      const aBanner = new THREE.Mesh(new THREE.PlaneGeometry(8, 4.6),
+        new THREE.MeshStandardMaterial({ color: 0x1e3a8a, side: THREE.DoubleSide, roughness: 0.8 }));
+      aBanner.position.set(81, 9, -20);
+      aBanner.rotation.y = Math.PI / 2;
+      cg.add(aBanner);
+      const aBoss = new THREE.Mesh(new THREE.CircleGeometry(1.5, 16), goldMat);
+      aBoss.position.set(78.2, 9, -20);
+      aBoss.rotation.y = Math.PI / 2;
+      cg.add(aBoss);
+
+      coolLight.position.set(AX, 9, -20);
+      cg.add(coolLight);
+    }
+
+
+    // =====================================================================
+    // 👻 v4.6 유령 벽 통과 — 성벽·방 벽에 막히지 않고 그냥 지나간다
+    //    (월드 외곽 경계만 그대로 유지)
+    // =====================================================================
+    const GHOST_WALL_SEGS = [
+      // 성채 좌우 외벽 (아치문 포함)
+      [[-42, -95], [-42, -21]], [[42, -95], [42, -21]],
+      // 앞 성벽 (성문 좌우)
+      [[-42, -21], [-9, -21]], [[9, -21], [42, -21]],
+      // 뒤 궁전 벽
+      [[-43, -93], [43, -93]],
+      // 💎 보물방 벽
+      [[-81, -90], [-81, -42]], [[-81, -42], [-45, -42]], [[-45, -90], [-81, -90]],
+      // ⚔️ 무기고 벽
+      [[81, -90], [81, -42]], [[81, -42], [45, -42]], [[45, -90], [81, -90]]
+    ];
+    let ghostWallCooldown = 0;
+
+    function _segCross(ax, az, bx, bz, cx, cz, dx, dz) {
+      const d1 = (bx - ax) * (cz - az) - (bz - az) * (cx - ax);
+      const d2 = (bx - ax) * (dz - az) - (bz - az) * (dx - ax);
+      const d3 = (dx - cx) * (az - cz) - (dz - cz) * (ax - cx);
+      const d4 = (dx - cx) * (bz - cz) - (dz - cz) * (bx - cx);
+      return ((d1 > 0 && d2 < 0) || (d1 < 0 && d2 > 0)) && ((d3 > 0 && d4 < 0) || (d3 < 0 && d4 > 0));
+    }
+
+    function ghostWallPassFX(wx, wz) {
+      showFloat('👻 벽 통과!! 유령처럼 스윽~ 들어간다!');
+      setPet('👻 벽 뚫기 성공!! 이 성은 어디든 걸어 들어갈 수 있어!');
+      // 플레이어를 잠깐 반투명 유령으로
+      if (playerMesh && playerMesh.group) {
+        const mats = [];
+        playerMesh.group.traverse(o => {
+          if (o.material && o.material.opacity !== undefined) {
+            if (o.material.userData.__ghostOrig === undefined) o.material.userData.__ghostOrig = o.material.opacity;
+            o.material.transparent = true;
+            o.material.opacity = 0.35;
+            mats.push(o.material);
+          }
+        });
+        setTimeout(() => {
+          mats.forEach(m => { m.opacity = (m.userData.__ghostOrig !== undefined) ? m.userData.__ghostOrig : 1; m.transparent = false; });
+          if (playerMesh && playerMesh.group) playerMesh.group.traverse(o => {
+            if (o.material && o.material.userData.__ghostOrig === 1) o.material.transparent = true;
+          });
+        }, 380);
+      }
+      // 유령 연기
+      const puffMat = new THREE.MeshBasicMaterial({ color: 0xe0f2fe, transparent: true, opacity: 0.75 });
+      for (let i = 0; i < 12; i++) {
+        const puff = new THREE.Mesh(new THREE.SphereGeometry(0.5 + Math.random() * 0.6, 6, 5), puffMat.clone());
+        puff.position.set(wx + (Math.random() - 0.5) * 1.6, 1 + Math.random() * 2.4, wz + (Math.random() - 0.5) * 1.6);
+        scene.add(puff);
+        particles.push({
+          mesh: puff,
+          vel: new THREE.Vector3((Math.random() - 0.5) * 3.5, 2 + Math.random() * 3, (Math.random() - 0.5) * 3.5),
+          life: 1.5
+        });
+      }
+    }
+
+    function checkGhostWallPass() {
+      if (ghostWallCooldown > 0) return;
+      const px = playerPos.x, pz = playerPos.z;
+      const ox = state.prevX, oz = state.prevZ;
+      if (ox === undefined || oz === undefined) { state.prevX = px; state.prevZ = pz; return; }
+      if (Math.abs(px - ox) < 0.001 && Math.abs(pz - oz) < 0.001) return;
+      for (let i = 0; i < GHOST_WALL_SEGS.length; i++) {
+        const sgm = GHOST_WALL_SEGS[i];
+        if (_segCross(ox, oz, px, pz, sgm[0][0], sgm[0][1], sgm[1][0], sgm[1][1])) {
+          ghostWallCooldown = 1.8;
+          ghostWallPassFX((ox + px) / 2, (oz + pz) / 2);
+          break;
+        }
+      }
     }
 
     function buildRealmWorld(realm) {
@@ -1844,36 +2905,50 @@
       let fogColor = 0x082515;
 
       if (realm === 'fire') {
-        groundColor = 0x2b0d0d;
-        fogColor = 0x240606;
-        ambientLight.color.setHex(0xff7733);
-        dirLight.color.setHex(0xffaa55);
+        groundColor = 0x1a0806;
+        fogColor = 0x2a0a08;
+        ambientLight.color.setHex(0xff8855);
+        ambientLight.intensity = 0.42;
+        dirLight.color.setHex(0xffb066);
+        dirLight.intensity = 0.7;
       } else if (realm === 'ice') {
-        groundColor = 0xcfe2f3;
-        fogColor = 0x0c2138;
-        ambientLight.color.setHex(0xa5d8ff);
+        groundColor = 0xdcecf8;
+        fogColor = 0x123b5c;
+        ambientLight.color.setHex(0xbfe6ff);
+        ambientLight.intensity = 0.62;
         dirLight.color.setHex(0xffffff);
+        dirLight.intensity = 0.9;
       } else if (realm === 'cat') {
-        groundColor = 0x065f46;
-        fogColor = 0x033025;
-        ambientLight.color.setHex(0xfef08a);
-        dirLight.color.setHex(0x34d399);
+        groundColor = 0x0b6b4f;
+        fogColor = 0x6b2340;
+        ambientLight.color.setHex(0xffe6f2);
+        ambientLight.intensity = 0.7;
+        dirLight.color.setHex(0xffc2a1);
+        dirLight.intensity = 0.85;
       } else if (realm === 'sky') {
         groundColor = 0x1e1b4b;
-        fogColor = 0x0f172a;
-        ambientLight.color.setHex(0xc7d2fe);
-        dirLight.color.setHex(0xa5b4fc);
+        fogColor = 0x2a1a5e;
+        ambientLight.color.setHex(0xd8d0ff);
+        ambientLight.intensity = 0.62;
+        dirLight.color.setHex(0xffe066);
+        dirLight.intensity = 0.85;
       } else {
-        groundColor = 0x14361b;
-        fogColor = 0x082515;
+        groundColor = 0x1f5c2e;
+        fogColor = 0x2a6b3d;
         ambientLight.color.setHex(0xffffff);
-        dirLight.color.setHex(0xa7f3d0);
+        ambientLight.intensity = 0.7;
+        dirLight.color.setHex(0xd9f99d);
+        dirLight.intensity = 0.95;
       }
 
       scene.background.setHex(fogColor);
       scene.fog.color.setHex(fogColor);
       scene.fog.near = 70;
       scene.fog.far = 450; // Vast open visibility!
+      // v4.6: 왕국별 안개 밀도 — 멀리까지 또렷하게 보이도록 옅게
+      if (scene.fog.density !== undefined) {
+        scene.fog.density = (realm === 'cat') ? 0.007 : (realm === 'sky' ? 0.005 : 0.006);
+      }
 
       // 🌍 나라를 크게 (650m x 650m 초광활한 왕국 필드)
       const gGeo = new THREE.PlaneGeometry(650, 650, 48, 48);
@@ -1884,6 +2959,11 @@
 
       // 🏰 각각 맵에 웅장한 왕국 대성채 건축!
       buildRealmCastle(realm);
+
+      // 🌸 v4.6: 왕국별 꾸밈 환경 (하늘 그라데이션 + 꽃/나무/결정/용암/구름)
+      state.treasureFound = false;
+      state.armoryFound = false;
+      decorateRealm(realm);
 
       // SKY: Giant Legendary Continent Sword
       const swordGroup = new THREE.Group();
@@ -3112,6 +4192,10 @@
       if (curStage.isBoss && !activeBoss) {
         // 🐉 v4.5: 15·20·26 스테이지 보스는 새 3D 드래곤 모델로 등장!
         const dv = DRAGON_BOSS_VARIANTS[curStage.stage];
+        if (dv) {
+          const rd = REALM_DRAGONS[curStage.realm];
+          if (rd) dragonBreathTheme = rd.breath;
+        }
         let bossMesh;
         if (dv) {
           bossMesh = buildKingDragon(dv.opts);
@@ -3125,10 +4209,12 @@
         }
         scene.add(bossMesh);
 
+        // 🐉 v4.6: 드래곤은 5방에 시원하게 처치 (태용이 "용을 5방에 처치")
+        const stageDragonHp = dv ? (500 + curStage.stage * 50) : curStage.bossHp;
         activeBoss = {
           group: bossMesh,
-          hp: curStage.bossHp,
-          maxHp: curStage.bossHp,
+          hp: stageDragonHp,
+          maxHp: stageDragonHp,
           speed: dv ? 2.6 : 3.2,
           isBoss: true,
           isDragon: !!dv,
@@ -4225,14 +5311,18 @@
         flash('goldFlash');
 
         const curStage = STAGES[state.currentStageIndex];
-        const dragonName = '🐉 [왕드래곤] 붉은비늘 대군주';
-        const dragonHp = 7000 + state.currentStageIndex * 600;
+        // 🐉 v4.6: 지금 왕국의 전용 드래곤이 강림한다
+        const realmDragon = REALM_DRAGONS[curStage.realm] || REALM_DRAGONS.green;
+        const dragonName = realmDragon.name;
+        dragonBreathTheme = realmDragon.breath;
+        // 🐉 v4.6: 500(+스테이지 보정) → 기본 공격/사격 5방에 처치
+        const dragonHp = 500 + state.currentStageIndex * 50;
 
         // 성채 안쪽 황금 옥좌 앞 단상(z = -74) 위로 거대 드래곤 강림!!
         const spawnPos = new THREE.Vector3(0, 0, -74);
         spawnDragonArrivalFX(spawnPos);
 
-        const dragonMesh = buildKingDragon();
+        const dragonMesh = buildKingDragon(realmDragon.opts);
         dragonMesh.position.set(spawnPos.x, 32, spawnPos.z); // 하늘에서 급강하
         scene.add(dragonMesh);
 
@@ -4253,15 +5343,15 @@
         const phaseEl = document.getElementById('dragonPhaseText');
         if (phaseEl) {
           phaseEl.style.display = 'block';
-          phaseEl.textContent = '🐉 화염 브레스 · 화염 파동 · 꼬리 강타 주의!!';
+          phaseEl.textContent = realmDragon.opts.phaseText || '🐉 브레스 · 파동 · 꼬리 강타 주의!!';
         }
         document.getElementById('bossNameLabel').textContent = dragonName;
         document.getElementById('bossHpText').textContent = `${activeBoss.hp} / ${activeBoss.maxHp}`;
         document.getElementById('bossHpFill').style.width = '100%';
-        document.getElementById('bossHpFill').style.background = 'linear-gradient(90deg, #ff2d00, #ffb703, #ffe066)';
+        document.getElementById('bossHpFill').style.background = realmDragon.bar;
 
-        showFloat("🐉🔥 【왕드래곤】 대군주 강림!! 하늘을 태우는 포효와 함께 옥좌 위로 내려앉는다!!");
-        setPet("우와!! 진짜 거대한 드래곤이다!! 브레스 조심해!!");
+        showFloat(`${realmDragon.cry} 기본 공격 5방이면 처치!!`);
+        setPet(`${dragonName} 강림!! 브레스 조심해!!`);
         updateHUD();
       }, 1200);
     }
@@ -4754,7 +5844,7 @@
         dir.normalize();
 
         const geom = new THREE.SphereGeometry(0.85, 10, 10);
-        const mat = new THREE.MeshBasicMaterial({ color: (i % 2 === 0) ? 0xff7a00 : 0xffd166 });
+        const mat = new THREE.MeshBasicMaterial({ color: (i % 2 === 0) ? dragonBreathTheme.c1 : dragonBreathTheme.c2 });
         const fb = new THREE.Mesh(geom, mat);
         fb.position.copy(origin);
         scene.add(fb);
@@ -4766,14 +5856,14 @@
           life: 2.8,
           radius: 2.1,
           dmg: 14,
-          label: '왕드래곤 화염 브레스'
+          label: dragonBreathTheme.label
         });
       }
 
       // 입 앞 화염 섬광
       const flashMesh = new THREE.Mesh(
         new THREE.SphereGeometry(1.5, 10, 10),
-        new THREE.MeshBasicMaterial({ color: 0xffdd66, transparent: true, opacity: 0.6 })
+        new THREE.MeshBasicMaterial({ color: dragonBreathTheme.flash, transparent: true, opacity: 0.6 })
       );
       flashMesh.position.copy(origin);
       scene.add(flashMesh);
@@ -5472,6 +6562,13 @@
       const isCrit = !isSkill && (Math.random() < 0.35);
       if (isCrit) finalDmg = Math.floor(finalDmg * 1.8);
 
+      // 🐉 v4.6: 드래곤은 한 방에 최소 20% 체력이 깎여 정확히 5방에 처치된다
+      // (기본 공격 · 사격 · 필살기 모두 적용, HP바/데미지 팝업은 실제 수치 그대로 표시)
+      if (e.isDragon) {
+        const fiveHitFloor = Math.ceil(e.maxHp / 5);
+        if (finalDmg < fiveHitFloor) finalDmg = fiveHitFloor;
+      }
+
       e.hp -= finalDmg;
       spawnDamageNumber(e.group.position, finalDmg, isCrit, isSkill);
 
@@ -5560,6 +6657,9 @@
           }
         });
         if (state.invulnTime > 0) state.invulnTime -= dt;
+        if (ghostWallCooldown > 0) ghostWallCooldown -= dt;
+        state.prevX = playerPos.x;
+        state.prevZ = playerPos.z;
         enemySpawnTimer += dt;
         if (enemySpawnTimer >= 1.5) {
           enemySpawnTimer = 0;
@@ -5588,6 +6688,30 @@
             }
           } else if (playerPos.z >= -19) {
             state.insideCastle = false;
+          }
+
+          // 👻 v4.6 유령 벽 통과 감지 (벽에 막히지 않고 스윽~ 통과)
+          checkGhostWallPass();
+
+          // 💎 좌측 보물방 / ⚔️ 우측 무기고 첫 발견 보상
+          if (playerPos.z < -44 && playerPos.z > -88) {
+            if (playerPos.x < -46) {
+              if (!state.treasureFound) {
+                state.treasureFound = true;
+                showFloat('💎 왕실 보물방 발견! 황금 상자에서 보너스 사탕이 쏟아진다!!');
+                setPet('보물방이다!! 사탕 잔뜩 챙겨!!');
+                AudioEngine.playCandy();
+                spawnCandies(new THREE.Vector3(-63, 2, -65), 40);
+              }
+            } else if (playerPos.x > 46) {
+              if (!state.armoryFound) {
+                state.armoryFound = true;
+                showFloat('⚔️ 기사단 무기고 발견! 전설의 검과 방패가 빛난다!!');
+                setPet('무기고다!! 진짜 빛나는 검이다!!');
+                AudioEngine.playAwaken();
+                spawnCandies(new THREE.Vector3(63, 2, -65), 40);
+              }
+            }
           }
 
           if (playerMesh) {
@@ -5978,6 +7102,7 @@
           camera.position.z += (Math.random() - 0.5) * cameraShake * 1.5;
         }
 
+      updateRealmDecor(now);
       renderer.render(scene, camera);
     }
 
@@ -6013,6 +7138,18 @@
       buildRealmWorld(st.realm);
       spawnStageEnemy();
       return { stage: st.stage, name: st.name, isBoss: st.isBoss, bossDragon: !!(activeBoss && activeBoss.isDragon) };
+    };
+    window.__scPos = function (x, z, yaw) {
+      playerPos.set(x, 1.8, z);
+      if (typeof yaw === 'number') cameraYaw = yaw;
+      return '이동 ' + x + ',' + z;
+    };
+    window.__scRooms = function () {
+      // 좌우 방 존재 확인용 요약 (검증 전용)
+      const box = new THREE.Box3();
+      let n = 0;
+      if (realmCastle) realmCastle.traverse(o => { if (o.isMesh) n++; });
+      return { castleMeshes: n };
     };
     window.__scCam = function (x, y, z, tx, ty, tz) {
       if (x === null) { window.__scCamOverride = null; return '카메라 해제'; }
