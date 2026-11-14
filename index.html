@@ -6200,11 +6200,12 @@
         return;
       }
       if (t === 'zombie') {
-        if (p) {
-          mpPeerZombie(p, true, msg.isOverlord);
+        const zp = p || mpAddPeer(msg);
+        if (zp) {
+          mpPeerZombie(zp, true, msg.isOverlord);
           showFloat(msg.isOverlord
-            ? ('👑🧟 ' + mpPeerTag(p) + ' 좀비 권력자 각성!!')
-            : ('🧟 ' + mpPeerTag(p) + ' 좀비로 부활!!'));
+            ? ('👑🧟 ' + mpPeerTag(zp) + ' 좀비 권력자 각성!!')
+            : ('🧟 ' + mpPeerTag(zp) + ' 좀비로 부활!!'));
         }
         if (!state.isOverlord && mpSelectedRole === 'me') {
           setTimeout(function () { if (typeof becomeOverlord === 'function') becomeOverlord(true); }, 900);
@@ -6890,7 +6891,7 @@
       showFloat('🧟 좀비로 부활!! 공격력 x1.5 · 이동속도 UP!');
       setPet('🧟 나는 이제 좀비다!! 무섭지 않아!!');
       AudioEngine.playBossRoar();
-      if (MP.enabled) sendMP({ t: 'zombie', isZombie: true, isOverlord: state.isOverlord, x: playerPos.x, y: playerPos.y, z: playerPos.z });
+      if (MP.enabled) sendMP({ t: 'zombie', isZombie: true, isOverlord: state.isOverlord, x: playerPos.x, y: playerPos.y, z: playerPos.z, name: MP.myName, icon: MP.myIcon, skin: MP.mySkin });
       // 역할이 '나 (태용)'이면 권력자로 각성
       if (mpSelectedRole === 'me' && !state.isOverlord) {
         setTimeout(function () { becomeOverlord(); }, 900);
@@ -6918,7 +6919,7 @@
       const gf = document.getElementById('purpleFlash');
       if (gf) { gf.style.opacity = '0.8'; setTimeout(function () { gf.style.opacity = '0'; }, 260); }
       if (window.__scErrors) window.__zombieOverlordAt = Date.now();
-      if (MP.enabled) sendMP({ t: 'zombie', isZombie: true, isOverlord: true, x: playerPos.x, y: playerPos.y, z: playerPos.z });
+      if (MP.enabled) sendMP({ t: 'zombie', isZombie: true, isOverlord: true, x: playerPos.x, y: playerPos.y, z: playerPos.z, name: MP.myName, icon: MP.myIcon, skin: MP.mySkin });
     }
 
     function onPlayerDefeated() {
