@@ -797,6 +797,7 @@
 
     /* 🎯 난이도 1렙·2렙·3렙 토글 */
     #diffRow { align-items: center; }
+    @media (max-width: 470px) { .diff-label { display: none; } }
     .diff-label {
       font-size: clamp(7.5px, 2vw, 10px);
       font-weight: 900;
@@ -8043,6 +8044,7 @@
       const n = Math.max(0, Math.min(4, count === undefined ? 4 : count));
       MP.enabled = true;
       if (!MP.myName) { MP.myName = '태용'; MP.myIcon = '🌟'; }
+      mpUpdateLocalTag();
       for (let i = 0; i < n; i++) {
         const r = MP_ROLE_PRESETS[keys[i]];
         const sp = spots[i];
